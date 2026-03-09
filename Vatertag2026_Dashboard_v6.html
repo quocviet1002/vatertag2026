@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vatertag 2026 — Campaign Command Center</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07101f;--s1:#0c1a2e;--s2:#0f2040;--s3:#162844;
+  --bd:#1d3354;--bd2:#243d62;
+  --t1:#e8f0fe;--t2:#94afd4;--t3:#4a6d94;--t4:#1a2e48;
+  --blue:#4d8ef5;--green:#22d07a;--red:#f05252;--orange:#f5922d;
+  --purple:#9b72f5;--cyan:#25d4e7;--yellow:#f5c842;
+  --actual:#f5c842;--actual-bg:#f5c84210;--actual-bd:#f5c84240;
+  --font:'DM Sans',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+body{background:var(--bg);color:var(--t1);font-family:var(--font);font-size:13px;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--s1)}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:99px}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{opacity:0}
+
+/* ── HEADER ── */
+.hdr{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.hdr-title h1{font-size:15px;font-weight:700;color:var(--t1)}
+.hdr-title p{font-size:10px;color:var(--t3);margin-top:2px}
+.hdr-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tbadge{padding:6px 12px;border-radius:7px;font-size:11px;font-weight:700;text-align:center;white-space:nowrap}
+.thit{background:#052e1688;border:1px solid #16a34a55;color:#4ade80}
+.tmiss{background:#450a0a88;border:1px solid #ef444455;color:#f87171}
+.ibox{background:var(--s2);border:1.5px solid var(--bd);border-radius:8px;padding:5px 10px;min-width:100px;transition:border-color .15s;cursor:text}
+.ibox:focus-within{border-color:var(--blue)}
+.ibox label{font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.07em;text-transform:uppercase;display:block;margin-bottom:2px}
+.ibox .ir{display:flex;align-items:baseline;gap:3px}
+.ibox input{background:transparent;border:none;outline:none;font-size:15px;font-weight:700;color:var(--t1);font-family:var(--mono);width:80px}
+.ibox .u{font-size:11px;color:var(--t3);font-weight:600}
+.ibox.accent{border-color:#22d07a55}
+.ibox.accent label{color:var(--green)}
+
+/* ── ROAS PANEL ── */
+.roas-panel{background:var(--s1);border-bottom:1px solid var(--bd);padding:7px 18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rp-lbl{font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
+.ri{display:flex;align-items:center;gap:6px;background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:4px 9px}
+.ri-ph{font-size:9px;font-weight:700;white-space:nowrap}
+.ri input{background:transparent;border:none;outline:none;font-size:13px;font-weight:700;color:var(--t1);font-family:var(--mono);width:40px;text-align:right}
+.ri .u{font-size:10px;color:var(--t3)}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
+.kpi{background:var(--s1);padding:12px 16px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.kb::before{background:var(--blue)}.kpi.kg::before{background:var(--green)}
+.kpi.ky::before{background:var(--yellow)}.kpi.kc::before{background:var(--cyan)}.kpi.kp::before{background:var(--purple)}.kpi.ko::before{background:var(--orange)}
+.kpi-lbl{font-size:10px;color:var(--t3);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.kpi-val{font-size:20px;font-weight:700;font-family:var(--mono);line-height:1}
+.kpi-sub{font-size:10px;color:var(--t3);margin-top:3px}
+
+/* ── MAIN ── */
+.main{padding:13px 18px;display:flex;flex-direction:column;gap:11px}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:13px 15px}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:7px}
+.ct{font-size:10px;font-weight:700;color:var(--t2);letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+
+/* ── CHART ── */
+.chart-wrap{height:230px;position:relative}
+.ld-row{display:flex;gap:12px;flex-wrap:wrap}
+.ld{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--t3)}
+.ld-ln{width:22px;height:0;border-top:2px dashed currentColor}
+select{background:var(--s2);border:1px solid var(--bd);color:var(--t2);padding:4px 8px;border-radius:6px;font-size:10px;outline:none;cursor:pointer;font-family:var(--font)}
+
+/* ── RULES ── */
+.rules-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.rule-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.rc{background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:8px 10px}
+.rc-ph{font-size:10px;font-weight:700;margin-bottom:4px}
+.rc-ph small{font-size:8px;color:var(--t3);display:block;margin-top:1px}
+.rc-rule{font-size:10px;color:var(--t3);line-height:1.6}
+.rc-rule b{color:var(--t2)}
+.scale-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.sr{background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:9px 11px}
+.sr-pct{font-size:13px;font-weight:700;font-family:var(--mono);margin-bottom:3px}
+.sr-desc{font-size:10px;color:var(--t3);line-height:1.5}
+
+/* ── TABLE ── */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead tr{border-bottom:2px solid var(--bd)}
+th{padding:7px 7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+th.ah{color:var(--actual);background:var(--actual-bg);border-left:1px solid var(--actual-bd)}
+td{padding:5px 7px;border-bottom:1px solid #1d335422;vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,.013)}
+.td-dt{color:var(--t2);font-weight:600;font-size:11px}
+.td-ph{font-size:9px;color:var(--t3);margin-top:1px;display:flex;align-items:center;gap:3px}
+.phdot{width:5px;height:5px;border-radius:50%;display:inline-block;flex-shrink:0}
+.mono{font-family:var(--mono);font-weight:600}
+.ff-badge{display:inline-block;font-size:8px;font-weight:700;color:#f59e0b;background:#f59e0b15;border:1px solid #f59e0b30;border-radius:4px;padding:1px 4px;margin-top:2px}
+
+/* ── EDITABLE CELLS ── */
+.ec input{background:var(--s2);border:1px solid var(--bd);border-radius:5px;padding:3px 6px;color:var(--t1);font-family:var(--mono);font-size:11px;font-weight:700;width:72px;outline:none;text-align:right;transition:border-color .15s}
+.ec input:focus{border-color:var(--blue);background:#1e3a8a18}
+.ec input.manual{border-color:#9b72f566;color:#c4b5fd}
+.ec input.act-inp{border-color:var(--actual-bd);color:var(--actual);background:var(--actual-bg)}
+.ec input.act-inp:focus{border-color:var(--actual);background:#f5c84218}
+.ec input.act-inp::placeholder{color:#f5c84244;font-weight:400}
+
+/* ── PILLS ── */
+.pill{padding:2px 7px;border-radius:99px;font-family:var(--mono);font-size:10px;font-weight:700;min-width:52px;text-align:center;display:inline-block}
+.pg{background:#14532d;color:#86efac}
+.pb{background:#1e3a8a;color:#93c5fd}
+.py{background:#713f12;color:#fde68a}
+.po{background:#7c2d12;color:#fdba74}
+.pr{background:#7f1d1d;color:#fca5a5}
+.roas-tiny{font-size:9px;color:var(--t3);margin-top:1px;font-family:var(--mono)}
+
+/* ── PROFIT ── */
+.pos{color:var(--green);font-family:var(--mono);font-weight:700}
+.neg{color:var(--red);font-family:var(--mono);font-weight:700}
+.sub-v{font-size:9px;color:var(--t3);display:block;margin-top:1px}
+.delta-pos{color:var(--green);font-size:9px;font-family:var(--mono);display:block}
+.delta-neg{color:var(--red);font-size:9px;font-family:var(--mono);display:block}
+
+/* ── SUMMARY ── */
+.sum-row{background:var(--s2);border-top:2px solid var(--bd2)}
+.sum-row td{color:var(--t1);font-weight:700;font-family:var(--mono);font-size:11px}
+
+/* ── TABS & BTNS ── */
+.ptabs{display:flex;gap:5px;flex-wrap:wrap}
+.ptab{padding:4px 10px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);cursor:pointer;font-size:10px;font-weight:600;color:var(--t3);transition:all .15s;white-space:nowrap}
+.ptab.act{color:#fff}
+.rbtn{padding:5px 10px;background:var(--s2);border:1px solid var(--bd);border-radius:6px;color:var(--t3);cursor:pointer;font-size:10px;font-weight:600;font-family:var(--font);transition:all .15s}
+.rbtn:hover{background:var(--bd);color:var(--t1)}
+.rbtn.danger{border-color:#ef444433;color:#f87171}
+.rbtn.danger:hover{background:#7f1d1d44;color:#fca5a5}
+
+/* ── SYNC BADGE ── */
+.sync-badge{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
+.sync-ok{color:#22d07a;border-color:#22d07a44}
+.sync-err{color:#f5c842;border-color:#f5c84244}
+.sync-load{color:#4d8ef5;border-color:#4d8ef544}
+/* ── ACTUAL LEGEND ── */
+.actual-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--actual);background:var(--actual-bg);border:1px solid var(--actual-bd);border-radius:6px;padding:4px 10px}
+
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
+<div class="hdr">
+  <div class="hdr-title">
+    <h1>🃏 Vatertag 2026 — Campaign Command Center</h1>
+    <p>06 Mar → 14 May 2026 · 70 ngày · EUR/USD 1.16 · Ô vàng = Actual (sync Google Sheets ☁️)</p>
+  </div>
+  <div class="hdr-right">
+    <div id="tbadge" class="tbadge tmiss">❌ BELOW $30K</div>
+    <div class="ibox accent">
+      <label>💰 Tổng Spent Ads</label>
+      <div class="ir"><span class="u">€</span>
+        <input type="number" id="i-total" value="50000" min="5000" max="300000" step="1000" oninput="onTotalChange()">
+      </div>
+    </div>
+    <div class="ibox">
+      <label>AOV</label>
+      <div class="ir"><span class="u">€</span>
+        <input type="number" id="i-aov" value="37.5" min="10" max="100" step="0.5" oninput="recalc()">
+      </div>
+    </div>
+    <div class="ibox">
+      <label>Gross Margin</label>
+      <div class="ir">
+        <input type="number" id="i-gm" value="70" min="10" max="95" step="1" oninput="recalc()">
+        <span class="u">%</span>
+      </div>
+    </div>
+    <div class="ibox">
+      <label>Biến phí khác</label>
+      <div class="ir">
+        <input type="number" id="i-var" value="5" min="0" max="30" step="0.5" oninput="recalc()">
+        <span class="u">%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ROAS PER PHASE ══════════════════════════════════════════════════ -->
+<div class="roas-panel">
+  <span class="rp-lbl">ROAS theo phase →</span>
+  <div class="ri" style="border-color:#3b82f644">
+    <span class="ri-ph" style="color:#3b82f6">🌱 Warm-up</span>
+    <input type="number" id="r-warm"   value="2.0"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <span class="u">x</span>
+  </div>
+  <div class="ri" style="border-color:#f9731644">
+    <span class="ri-ph" style="color:#f97316">🔥 Accel</span>
+    <input type="number" id="r-accel"  value="2.3"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <span class="u">x</span>
+  </div>
+  <div class="ri" style="border-color:#a855f744">
+    <span class="ri-ph" style="color:#a855f7">⚡ Peak</span>
+    <input type="number" id="r-peak"   value="2.6"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <span class="u">x</span>
+  </div>
+  <div class="ri" style="border-color:#ef444444">
+    <span class="ri-ph" style="color:#ef4444">🚨 Sprint</span>
+    <input type="number" id="r-sprint" value="2.8"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <span class="u">x</span>
+  </div>
+  <div class="ri" style="border-color:#f59e0b44">
+    <span class="ri-ph" style="color:#f59e0b">📦 Post-CO</span>
+    <input type="number" id="r-post"   value="1.8"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <span class="u">x</span>
+  </div>
+</div>
+
+<!-- ══ KPI STRIP ════════════════════════════════════════════════════════ -->
+<div class="kpi-strip">
+  <div class="kpi kb">
+    <div class="kpi-lbl">💰 Tổng chi Ads</div>
+    <div class="kpi-val" id="k-spend" style="color:#60a5fa">€0</div>
+    <div class="kpi-sub" id="k-spend-s">Forecast · — ngày có spend</div>
+  </div>
+  <div class="kpi kc">
+    <div class="kpi-lbl">📈 Tổng doanh thu</div>
+    <div class="kpi-val" id="k-rev" style="color:#67e8f9">€0</div>
+    <div class="kpi-sub" id="k-rev-s">— orders dự kiến</div>
+  </div>
+  <div class="kpi kg">
+    <div class="kpi-lbl">✅ Net Profit</div>
+    <div class="kpi-val" id="k-profit">€0</div>
+    <div class="kpi-sub" id="k-profit-s">Net margin: 0%</div>
+  </div>
+  <div class="kpi ky">
+    <div class="kpi-lbl">📊 % Ads trung bình</div>
+    <div class="kpi-val" id="k-adpct" style="color:#fcd34d">0%</div>
+    <div class="kpi-sub" id="k-roas-s">ROAS tb: 0x</div>
+  </div>
+  <div class="kpi kp">
+    <div class="kpi-lbl">🤖 API Cost</div>
+    <div class="kpi-val" id="k-api" style="color:#c4b5fd">€0</div>
+    <div class="kpi-sub" id="k-api-s">—</div>
+  </div>
+  <div class="kpi ko">
+    <div class="kpi-lbl">📈 ROAS</div>
+    <div class="kpi-val" id="k-roas" style="color:#fdba74">0x</div>
+    <div class="kpi-sub" id="k-roas2-s">Revenue / Ads Spend</div>
+  </div>
+</div>
+
+<!-- ══ MAIN ══════════════════════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- CHART -->
+  <div class="card">
+    <div class="ch">
+      <div class="ct">📊 Biểu đồ Daily — Spend / Revenue / Net Profit (nét đứt)</div>
+      <div class="ld-row">
+        <div class="ld"><div class="ld-ln" style="color:#f97316"></div>Spend</div>
+        <div class="ld"><div class="ld-ln" style="color:#4d8ef5"></div>Revenue</div>
+        <div class="ld"><div class="ld-ln" style="color:#22d07a"></div>Net Profit</div>
+      </div>
+    </div>
+    <div class="chart-wrap"><canvas id="main-chart"></canvas></div>
+  </div>
+
+  <!-- RULES ROW -->
+  <div class="rules-row">
+    <div class="card">
+      <div class="ch"><div class="ct">⚙️ Rule tăng giảm Budget theo Phase</div></div>
+      <div class="rule-grid">
+        <div class="rc">
+          <div class="rc-ph" style="color:#64748b">🔧 Prep<small>06/03–30/03</small></div>
+          <div class="rc-rule">Budget = <b>€0</b><br>Không chạy ads<br>Chuẩn bị creative</div>
+        </div>
+        <div class="rc">
+          <div class="rc-ph" style="color:#3b82f6">🌱 Warm-up<small>31/03–15/04</small></div>
+          <div class="rc-rule">Start <b>€200</b><br>Tăng <b>+5%/ngày</b><br>Pixel học dần</div>
+        </div>
+        <div class="rc">
+          <div class="rc-ph" style="color:#f97316">🔥 Accel<small>16/04–28/04</small></div>
+          <div class="rc-rule">Nối Warm-up<br>Tăng <b>+12%/ngày</b><br>range 10–15%</div>
+        </div>
+        <div class="rc">
+          <div class="rc-ph" style="color:#a855f7">⚡ Peak<small>29/04–02/05</small></div>
+          <div class="rc-rule">Nối Accel<br>Tăng <b>+17%/ngày</b><br>range 15–20%</div>
+        </div>
+        <div class="rc">
+          <div class="rc-ph" style="color:#ef4444">🚨 Sprint<small>03/05–08/05</small></div>
+          <div class="rc-rule">2 ngày <b>Giữ</b><br>3 ngày <b>−15%</b><br>Ngày 6: <b>−50%</b></div>
+        </div>
+        <div class="rc">
+          <div class="rc-ph" style="color:#f59e0b">📦 Post-CO<small>09/05–14/05</small></div>
+          <div class="rc-rule">Nối Sprint<br>Giảm <b>−15%/ngày</b><br>⚠️ Fulfill only</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">📏 Smart Scale Reference</div></div>
+      <div class="scale-grid">
+        <div class="sr">
+          <div class="sr-pct" style="color:var(--green)">% Ads ≤ 35%</div>
+          <div class="sr-desc">ROAS &gt; 2.86x<br><span style="color:var(--t2)">Hiệu quả cao</span></div>
+        </div>
+        <div class="sr">
+          <div class="sr-pct" style="color:var(--blue)">% Ads 35–42%</div>
+          <div class="sr-desc">ROAS 2.38–2.86x<br><span style="color:var(--t2)">Ổn định, tốt</span></div>
+        </div>
+        <div class="sr">
+          <div class="sr-pct" style="color:var(--yellow)">% Ads 42–50%</div>
+          <div class="sr-desc">ROAS 2.0–2.38x<br><span style="color:var(--t2)">Chấp nhận được</span></div>
+        </div>
+        <div class="sr">
+          <div class="sr-pct" style="color:var(--red)">% Ads &gt; 50%</div>
+          <div class="sr-desc">ROAS &lt; 2.0x<br><span style="color:var(--t2)">Cần kiểm tra</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA TABLE -->
+  <div class="card">
+    <div class="ch">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="ct">📋 Dữ liệu từng ngày</div>
+        <div class="actual-legend">✏️ Ô vàng = Actual</div>
+        <div id="sync-badge" class="sync-badge sync-load">⏳ Đang tải...</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <div class="ptabs" id="ptabs">
+          <div class="ptab act" onclick="filterPhase('ALL',this)">Tất cả</div>
+          <div class="ptab" onclick="filterPhase('WARM',this)">🌱 Warm-up</div>
+          <div class="ptab" onclick="filterPhase('ACCEL',this)">🔥 Accel</div>
+          <div class="ptab" onclick="filterPhase('PEAK',this)">⚡ Peak</div>
+          <div class="ptab" onclick="filterPhase('SPRINT',this)">🚨 Sprint</div>
+          <div class="ptab" onclick="filterPhase('POST',this)">📦 Post-CO</div>
+        </div>
+        <button class="rbtn" onclick="resetForecast()">↺ Reset Forecast</button>
+        <button class="rbtn danger" onclick="clearActual()">🗑 Xóa Actual</button>
+      </div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Ngày</th>
+            <th>Revenue<br>Forecast</th>
+            <th class="ah">Revenue<br>Actual ✏️</th>
+            <th>Budget<br>Forecast</th>
+            <th class="ah">Budget<br>Actual ✏️</th>
+            <th>API Cost<br>Forecast</th>
+            <th class="ah">API Cost<br>Actual ✏️</th>
+            <th>Orders<br>(tự tính)</th>
+            <th style="min-width:82px">% Spent Ads</th>
+            <th>POAS (€)<br>Rev−Bud−API</th>
+            <th>Net Profit<br>% Margin</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+        <tfoot>
+          <tr class="sum-row">
+            <td>📊 TỔNG/TB</td>
+            <td id="s-revf">—</td>
+            <td id="s-reva">—</td>
+            <td id="s-budf">—</td>
+            <td id="s-buda">—</td>
+            <td id="s-apif">—</td>
+            <td id="s-apia">—</td>
+            <td id="s-ord">—</td>
+            <td id="s-pct">—</td>
+            <td id="s-poas">—</td>
+            <td id="s-np">—</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  PHASES
+// ══════════════════════════════════════════════════════
+const PHASES=[
+  {id:'PREP',  label:'🔧 Prep',    color:'#64748b', sd:'2026-03-06',ed:'2026-03-30',factor:null},
+  {id:'WARM',  label:'🌱 Warm-up', color:'#3b82f6', sd:'2026-03-31',ed:'2026-04-15',factor:1.15},
+  {id:'ACCEL', label:'🔥 Accel',   color:'#f97316', sd:'2026-04-16',ed:'2026-04-28',factor:1.00},
+  {id:'PEAK',  label:'⚡ Peak',    color:'#a855f7', sd:'2026-04-29',ed:'2026-05-02',factor:1.00},
+  {id:'SPRINT',label:'🚨 Sprint',  color:'#ef4444', sd:'2026-05-03',ed:'2026-05-08',factor:0.90},
+  {id:'POST',  label:'📦 Post-CO', color:'#f59e0b', sd:'2026-05-09',ed:'2026-05-14',factor:0.85,ff:true},
+];
+
+// ══════════════════════════════════════════════════════
+//  BUILD DATE LIST
+// ══════════════════════════════════════════════════════
+function buildDates(){
+  const dates=[],start=new Date(2026,2,6),end=new Date(2026,4,14);
+  for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){
+    const iso=d.toISOString().slice(0,10);
+    const ph=PHASES.find(p=>iso>=p.sd&&iso<=p.ed)||PHASES[0];
+    dates.push({
+      idx:dates.length,iso,
+      ds:d.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'}),
+      dow:['CN','T2','T3','T4','T5','T6','T7'][d.getDay()],
+      phase:ph.id,phDef:ph
+    });
+  }
+  return dates;
+}
+const DATES=buildDates();
+const N=DATES.length;
+
+// ══════════════════════════════════════════════════════
+//  BUILD DEFAULT BUDGETS
+// ══════════════════════════════════════════════════════
+function buildBudgets(total){
+  const raw=new Array(N).fill(0);
+  const gi=ph=>DATES.findIndex(d=>d.phase===ph);
+  const gc=ph=>DATES.filter(d=>d.phase===ph).length;
+  const wS=gi('WARM'),wN=gc('WARM');
+  const aS=gi('ACCEL'),aN=gc('ACCEL');
+  const pS=gi('PEAK'),pN=gc('PEAK');
+  const sS=gi('SPRINT'),sN=gc('SPRINT');
+  const oS=gi('POST'),oN=gc('POST');
+  let b=200;
+  for(let i=0;i<wN;i++){raw[wS+i]=b;b*=1.05;}
+  b=raw[wS+wN-1];
+  for(let i=0;i<aN;i++){b*=1.12;raw[aS+i]=b;}
+  b=raw[aS+aN-1];
+  for(let i=0;i<pN;i++){b*=1.17;raw[pS+i]=b;}
+  b=raw[pS+pN-1];
+  for(let i=0;i<sN;i++){
+    if(i<2)raw[sS+i]=b;
+    else if(i<5){b*=0.85;raw[sS+i]=b;}
+    else raw[sS+i]=b*0.5;
+  }
+  b=raw[sS+sN-1];
+  for(let i=0;i<oN;i++){b*=0.85;raw[oS+i]=b;}
+  const sum=raw.reduce((s,v)=>s+v,0);
+  const sc=sum>0?total/sum:1;
+  return raw.map(v=>Math.round(v*sc));
+}
+
+// ══════════════════════════════════════════════════════
+//  GOOGLE SHEETS SYNC
+// ══════════════════════════════════════════════════════
+const GS_URL='https://script.google.com/macros/s/AKfycbxWHZMiUjm3woCI7V-sY5TDTP3R4HhMh1lNw8Sbo6Myg85mPAG_L6vjNAE4BWhUzakblg/exec';
+const LS_KEY='vt2026_actual';
+
+function setSyncBadge(state,msg){
+  const el=document.getElementById('sync-badge');
+  if(!el)return;
+  el.className='sync-badge sync-'+state;
+  const icon={ok:'☁️ ',err:'⚠️ ',load:'⏳ '}[state]||'';
+  el.textContent=icon+msg;
+}
+
+// ── localStorage fallback ─────────────────────────────
+function saveLocalCache(){
+  const d={};
+  for(let i=0;i<N;i++){
+    const iso=DATES[i].iso;
+    if(budActual[i]!=null||revActual[i]!=null||apiActual[i]!=null){
+      d[iso]={};
+      if(budActual[i]!=null)d[iso].ba=budActual[i];
+      if(revActual[i]!=null)d[iso].ra=revActual[i];
+      if(apiActual[i]!=null)d[iso].aa=apiActual[i];
+    }
+  }
+  try{localStorage.setItem(LS_KEY,JSON.stringify(d));}catch(e){}
+}
+
+function loadLocalCache(){
+  try{
+    const d=JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+    for(let i=0;i<N;i++){
+      const iso=DATES[i].iso;
+      if(d[iso]){
+        budActual[i]=d[iso].ba!=null?+d[iso].ba:null;
+        revActual[i]=d[iso].ra!=null?+d[iso].ra:null;
+        apiActual[i]=d[iso].aa!=null?+d[iso].aa:null;
+      }
+    }
+    return true;
+  }catch(e){return false;}
+}
+
+// ── Load từ Sheets ────────────────────────────────────
+async function loadActualFromSheets(){
+  setSyncBadge('load','Đang tải...');
+  try{
+    const res=await fetch(GS_URL+'?action=read');
+    const json=await res.json();
+    if(!json.ok)throw new Error('API error');
+    const d=json.data||{};
+    for(let i=0;i<N;i++){
+      const iso=DATES[i].iso;
+      if(d[iso]){
+        budActual[i]=d[iso].ba!=null?+d[iso].ba:null;
+        revActual[i]=d[iso].ra!=null?+d[iso].ra:null;
+        apiActual[i]=d[iso].aa!=null?+d[iso].aa:null;
+      }
+    }
+    saveLocalCache();
+    setSyncBadge('ok','Đã đồng bộ');
+    recalc();
+  }catch(e){
+    loadLocalCache();
+    setSyncBadge('err','Dùng cache local');
+    recalc();
+    console.error('GS load error',e);
+  }
+}
+
+// ── Ghi lên Sheets ────────────────────────────────────
+async function saveActual(idx,field,value){
+  saveLocalCache(); // lưu local ngay lập tức
+  setSyncBadge('load','Đang lưu...');
+  const date=DATES[idx].iso;
+  const val=value==null?'':value;
+  try{
+    const res=await fetch(`${GS_URL}?action=write&date=${date}&field=${field}&value=${val}`);
+    const json=await res.json();
+    if(!json.ok)throw new Error('Write error');
+    setSyncBadge('ok','Đã lưu ☁️ '+date);
+  }catch(e){
+    setSyncBadge('err','Cache local ✓ — Sheets lỗi');
+    console.error('GS save error',e);
+  }
+}
+
+function initActualFromStorage(){
+  loadLocalCache(); // load cache ngay, Sheets load sau
+}
+
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
+let budFcst    = buildBudgets(50000);
+let revFcstOvr = new Array(N).fill(null); // null = auto (BudF×ROAS)
+let revFcstMan = new Array(N).fill(false);
+let budActual  = new Array(N).fill(null);
+let revActual  = new Array(N).fill(null);
+let apiActual  = new Array(N).fill(null);
+let curFilter  = 'ALL';
+let mainChart  = null;
+initActualFromStorage();
+
+// ══════════════════════════════════════════════════════
+//  INPUTS
+// ══════════════════════════════════════════════════════
+function getInp(){
+  return{
+    aov: +document.getElementById('i-aov').value  ||37.5,
+    gm:  +document.getElementById('i-gm').value/100||0.65,
+    varC:+document.getElementById('i-var').value/100||0.05,
+    roas:{
+      PREP:0,
+      WARM:  +document.getElementById('r-warm').value  ||2.0,
+      ACCEL: +document.getElementById('r-accel').value ||2.3,
+      PEAK:  +document.getElementById('r-peak').value  ||2.6,
+      SPRINT:+document.getElementById('r-sprint').value||2.8,
+      POST:  +document.getElementById('r-post').value  ||1.8,
+    }
+  };
+}
+function onTotalChange(){
+  const t=+document.getElementById('i-total').value||50000;
+  budFcst=buildBudgets(t);
+  revFcstOvr=new Array(N).fill(null);
+  revFcstMan=new Array(N).fill(false);
+  recalc();
+}
+
+// ══════════════════════════════════════════════════════
+//  CALC PER DAY
+// ══════════════════════════════════════════════════════
+function calcDay(idx,inp){
+  const ph=DATES[idx].phase;
+  const roas=inp.roas[ph]||0;
+  const bF=budFcst[idx];
+  const bA=budActual[idx];
+
+  // Revenue Forecast: manual override or auto
+  const revFauto=bF>0&&roas>0?bF*roas:0;
+  const revF=revFcstMan[idx]&&revFcstOvr[idx]!=null?revFcstOvr[idx]:revFauto;
+
+  // Revenue Actual
+  const revA=revActual[idx];
+
+  // Which budget and revenue to use for profit calc
+  const budUse = bA!=null ? bA : bF;
+  const revUse = revA!=null ? revA : revF;
+
+  // Orders (always from revUse / AOV)
+  const orders = inp.aov>0 ? revUse/inp.aov : 0;
+
+  const gp  = revUse*inp.gm;
+  const vc  = revUse*inp.varC;
+  // API Cost: Actual if entered, else 5% of revUse
+  const apiF  = revUse*0.05;
+  const apiA  = apiActual[idx];
+  const apiUse= apiA!=null ? apiA : apiF;
+  const np  = gp-budUse-apiUse-vc;
+  const adPct = revUse>0 ? budUse/revUse : 0;
+  const nmg   = revUse>0 ? np/revUse : 0;
+
+  const poas = revUse - budUse - apiUse;
+  return{bF,bA,revF,revA,budUse,revUse,orders,gp,vc,apiF,apiA,apiUse,poas,np,adPct,nmg,roas,
+         revFman:revFcstMan[idx]};
+}
+
+// ══════════════════════════════════════════════════════
+//  PILL COLOR
+// ══════════════════════════════════════════════════════
+function pillCls(adPct,phase,avgAdPct){
+  const ph=PHASES.find(p=>p.id===phase);
+  if(!ph||!ph.factor||!avgAdPct||adPct===0)return '';
+  const bench=avgAdPct*ph.factor;
+  if(adPct<=bench*0.88)return 'pg';
+  if(adPct<=bench)     return 'pb';
+  if(adPct<=bench*1.08)return 'py';
+  if(adPct<=bench*1.18)return 'po';
+  return 'pr';
+}
+
+// ══════════════════════════════════════════════════════
+//  FORMATTERS
+// ══════════════════════════════════════════════════════
+const fe=v=>'€'+Math.round(v).toLocaleString('de-DE');
+const fp=v=>(v*100).toFixed(1)+'%';
+const fn=v=>Math.round(v).toLocaleString('de-DE');
+
+// ══════════════════════════════════════════════════════
+//  RECALC
+// ══════════════════════════════════════════════════════
+function recalc(){
+  const inp=getInp();
+  const rows=DATES.map((d,i)=>({...d,...calcDay(i,inp)}));
+
+  const totBF  =rows.reduce((s,r)=>s+r.bF,0);
+  const totBA  =rows.filter(r=>r.bA!=null).reduce((s,r)=>s+r.bA,0);
+  const totRevU=rows.reduce((s,r)=>s+r.revUse,0);
+  const totRevF=rows.reduce((s,r)=>s+r.revF,0);
+  const totOrd =rows.reduce((s,r)=>s+r.orders,0);
+  const totNP  =rows.reduce((s,r)=>s+r.np,0);
+  const totBU  =rows.reduce((s,r)=>s+r.budUse,0);
+  const avgAdPct=totRevU>0?totBU/totRevU:0;
+  const avgRoas =totBU>0?totRevU/totBU:0;
+  const nmgTot  =totRevU>0?totNP/totRevU:0;
+  const npUSD   =totNP*1.16;
+
+  const totApiF =rows.reduce((s,r)=>s+r.apiF,0);
+  const totApiA =rows.filter(r=>r.apiA!=null).reduce((s,r)=>s+r.apiA,0);
+  const cntApiA =rows.filter(r=>r.apiA!=null).length;
+
+  const cntBA=rows.filter(r=>r.bA!=null).length;
+  document.getElementById('k-spend').textContent = fe(totBF);
+  document.getElementById('k-spend-s').textContent= rows.filter(r=>r.bF>0).length+' ngày có spend'
+    +(cntBA>0?' · actual '+cntBA+' ngày: '+fe(totBA):'');
+  document.getElementById('k-rev').textContent    = fe(totRevU);
+  document.getElementById('k-rev-s').textContent  = fn(totOrd)+' orders';
+  document.getElementById('k-profit').textContent = fe(totNP);
+  document.getElementById('k-profit').style.color = totNP>=0?'#4ade80':'#f87171';
+  document.getElementById('k-profit-s').textContent='Net margin: '+fp(nmgTot);
+  document.getElementById('k-adpct').textContent  = fp(avgAdPct);
+  document.getElementById('k-roas-s').textContent = 'ROAS tb: '+avgRoas.toFixed(2)+'x';
+  document.getElementById('k-api').textContent    = fe(totApiF);
+  document.getElementById('k-api-s').textContent  = cntApiA>0?'actual '+cntApiA+' ngày: '+fe(totApiA):'Forecast = Rev × 5%';
+  document.getElementById('k-roas').textContent   = avgRoas.toFixed(2)+'x';
+  document.getElementById('k-roas2-s').textContent= fe(totRevU)+' / '+fe(totBU);
+
+  const hit=npUSD>=30000;
+  const tb=document.getElementById('tbadge');
+  tb.className='tbadge '+(hit?'thit':'tmiss');
+  tb.textContent=(hit?'✅ ':'❌ ')+fe(totNP)+' (~$'+Math.round(npUSD/1000)+'K)';
+
+  renderTable(rows,avgAdPct,inp);
+  updateSummary(rows,avgAdPct);
+  updateChart(rows);
+}
+
+// ══════════════════════════════════════════════════════
+//  RENDER TABLE
+// ══════════════════════════════════════════════════════
+function renderTable(rows,avgAdPct,inp){
+  const filt=curFilter==='ALL'
+    ?rows.filter(r=>r.phase!=='PREP')
+    :rows.filter(r=>r.phase===curFilter);
+
+  document.getElementById('tbody').innerHTML=filt.map(r=>{
+    const pc=pillCls(r.adPct,r.phase,avgAdPct);
+    const ph=r.phDef;
+    const hs=r.bF>0||r.bA!=null;
+    const sign=r.np>=0?'+':'';
+    const pcls=r.np>=0?'pos':'neg';
+    const roas=inp.roas[r.phase]||0;
+    const bench=ph.factor&&avgAdPct?(avgAdPct*ph.factor*100).toFixed(1)+'%':'';
+
+    // deltas for actual vs forecast
+    const dBud=r.bA!=null?(r.bA-r.bF):null;
+    const dRev=r.revA!=null?(r.revA-r.revF):null;
+    const dBHtml=dBud!=null?`<span class="${dBud>=0?'delta-pos':'delta-neg'}">${dBud>=0?'+':''}${fe(dBud)}</span>`:'';
+    const dRHtml=dRev!=null?`<span class="${dRev>=0?'delta-pos':'delta-neg'}">${dRev>=0?'+':''}${fe(dRev)}</span>`:'';
+
+    return`<tr>
+      <td>
+        <div class="td-dt">${r.ds} <span style="color:var(--t3);font-size:9px">${r.dow}</span></div>
+        <div class="td-ph"><span class="phdot" style="background:${ph.color}"></span>${ph.label}${ph.ff?'<span class="ff-badge">⚠️ FULFILL</span>':''}</div>
+      </td>
+      <td class="ec"><input type="number" value="${hs?Math.round(r.revF):''}" min="0" max="999999" step="1"
+        class="${r.revFman?'manual':''}" placeholder="—"
+        onchange="setRevFcst(${r.idx},this.value)"></td>
+      <td class="ec" style="border-left:1px solid var(--actual-bd)">
+        <input type="number" value="${r.revA!=null?Math.round(r.revA):''}" min="0" max="999999" step="1"
+          class="act-inp" placeholder="—" onchange="setRevActual(${r.idx},this.value)">
+        ${dRHtml}
+      </td>
+      <td class="ec"><input type="number" value="${r.bF}" min="0" max="20000" step="50"
+        onchange="setBudFcst(${r.idx},this.value)"></td>
+      <td class="ec" style="border-left:1px solid var(--actual-bd)">
+        <input type="number" value="${r.bA!=null?Math.round(r.bA):''}" min="0" max="20000" step="50"
+          class="act-inp" placeholder="—" onchange="setBudActual(${r.idx},this.value)">
+        ${dBHtml}
+      </td>
+      <td class="mono" style="color:#a78bfa">${hs?fe(r.apiF):'—'}</td>
+      <td class="ec" style="border-left:1px solid var(--actual-bd)">
+        <input type="number" value="${r.apiA!=null?Math.round(r.apiA):''}" min="0" max="99999" step="1"
+          class="act-inp" placeholder="—" onchange="setApiActual(${r.idx},this.value)">
+        ${r.apiA!=null?`<span class="${(r.apiA-r.apiF)<=0?'delta-pos':'delta-neg'}">${(r.apiA-r.apiF)<=0?'':'+'} ${fe(r.apiA-r.apiF)}</span>`:''}
+      </td>
+      <td class="mono" style="color:#a78bfa">${hs?r.orders.toFixed(1):'—'}</td>
+      <td>
+        ${hs?`<span class="pill ${pc}" title="Bench: ${bench}">${fp(r.adPct)}</span>
+        <div class="roas-tiny">ROAS: ${roas.toFixed(2)}x${bench?' · bench: '+bench:''}</div>`
+        :'<span style="color:var(--t4)">—</span>'}
+      </td>
+      <td class="mono" style="color:${hs?(r.poas>=0?'#22d07a':'#f05252'):'var(--t4)'}">${hs?fe(r.poas):'—'}</td>
+      <td>
+        <span class="${hs?pcls:''}">${hs?sign+fe(r.np):'—'}</span>
+        <span class="sub-v">${hs?fp(r.nmg):''}</span>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  SUMMARY
+// ══════════════════════════════════════════════════════
+function updateSummary(rows,avgAdPct){
+  const f=curFilter==='ALL'?rows.filter(r=>r.phase!=='PREP'):rows.filter(r=>r.phase===curFilter);
+  const tBF=f.reduce((s,r)=>s+r.bF,0);
+  const tBA=f.filter(r=>r.bA!=null).reduce((s,r)=>s+r.bA,0);
+  const tRF=f.reduce((s,r)=>s+r.revF,0);
+  const tRA=f.filter(r=>r.revA!=null).reduce((s,r)=>s+r.revA,0);
+  const tRU=f.reduce((s,r)=>s+r.revUse,0);
+  const tO =f.reduce((s,r)=>s+r.orders,0);
+  const tGP  =f.reduce((s,r)=>s+r.gp,0);
+  const tPOAS=f.reduce((s,r)=>s+r.poas,0);
+  const tNP  =f.reduce((s,r)=>s+r.np,0);
+  const tApiF=f.reduce((s,r)=>s+r.apiF,0);
+  const tApiA=f.filter(r=>r.apiA!=null).reduce((s,r)=>s+r.apiA,0);
+  const tBU=f.reduce((s,r)=>s+r.budUse,0);
+  const tpct=tRU>0?tBU/tRU:0;
+  const ph=curFilter==='ALL'?'ACCEL':curFilter;
+  const pc=pillCls(tpct,ph,avgAdPct);
+  document.getElementById('s-budf').textContent=fe(tBF);
+  document.getElementById('s-buda').textContent=f.some(r=>r.bA!=null)?fe(tBA):'—';
+  document.getElementById('s-revf').textContent=fe(tRF);
+  document.getElementById('s-reva').textContent=f.some(r=>r.revA!=null)?fe(tRA):'—';
+  document.getElementById('s-ord').textContent =fn(tO);
+  document.getElementById('s-pct').innerHTML   =`<span class="pill ${pc}">${fp(tpct)}</span>`;
+  document.getElementById('s-apif').textContent=fe(tApiF);
+  document.getElementById('s-apia').textContent=f.some(r=>r.apiA!=null)?fe(tApiA):'—';
+  document.getElementById('s-poas').textContent=fe(tPOAS);
+  document.getElementById('s-np').innerHTML    =`<span class="${tNP>=0?'pos':'neg'}">${(tNP>=0?'+':'')+fe(tNP)}</span><span class="sub-v">${fp(tRU>0?tNP/tRU:0)}</span>`;
+}
+
+// ══════════════════════════════════════════════════════
+//  CHART — daily dashed
+// ══════════════════════════════════════════════════════
+function updateChart(rows){
+  const show=rows.filter(r=>r.phase!=='PREP');
+  const labels=show.map(r=>r.ds);
+  const spArr =show.map(r=>r.budUse);
+  const rvArr =show.map(r=>Math.round(r.revUse));
+  const npArr =show.map(r=>Math.round(r.np));
+
+  const ds=[
+    {label:'Spend',    data:spArr,borderColor:'#f97316',backgroundColor:'transparent',borderDash:[5,4],tension:0,pointRadius:0,borderWidth:2},
+    {label:'Revenue',  data:rvArr,borderColor:'#4d8ef5',backgroundColor:'transparent',borderDash:[5,4],tension:0,pointRadius:0,borderWidth:2},
+    {label:'Net Profit',data:npArr,borderColor:'#22d07a',backgroundColor:'transparent',borderDash:[5,4],tension:0,pointRadius:0,borderWidth:2},
+  ];
+
+  if(mainChart){
+    mainChart.data.labels=labels;
+    mainChart.data.datasets=ds;
+    mainChart.update('none');
+    return;
+  }
+  const ctx=document.getElementById('main-chart').getContext('2d');
+  mainChart=new Chart(ctx,{
+    type:'line',data:{labels,datasets:ds},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:{duration:120},
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,
+          titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+          callbacks:{label:c=>`${c.dataset.label}: €${Math.round(c.parsed.y).toLocaleString('de-DE')}`}
+        }
+      },
+      scales:{
+        x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9},maxTicksLimit:24,maxRotation:45}},
+        y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:v=>'€'+(Math.abs(v)>=1000?(v/1000).toFixed(0)+'K':v)},grace:'5%'}
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  SETTERS
+// ══════════════════════════════════════════════════════
+function setBudFcst(idx,val){
+  budFcst[idx]=Math.max(0,Math.round(+val||0));
+  document.getElementById('i-total').value=budFcst.reduce((s,v)=>s+v,0);
+  recalc();
+}
+function setBudActual(idx,val){
+  const v=parseFloat(val);
+  budActual[idx]=(isNaN(v)||val==='')?null:Math.max(0,v);
+  saveActual(idx,'ba',budActual[idx]);
+  recalc();
+}
+function setRevFcst(idx,val){
+  const v=parseFloat(val);
+  if(isNaN(v)||val===''){revFcstOvr[idx]=null;revFcstMan[idx]=false;}
+  else{revFcstOvr[idx]=Math.max(0,v);revFcstMan[idx]=true;}
+  recalc();
+}
+function setRevActual(idx,val){
+  const v=parseFloat(val);
+  revActual[idx]=(isNaN(v)||val==='')?null:Math.max(0,v);
+  saveActual(idx,'ra',revActual[idx]);
+  recalc();
+}
+function setApiActual(idx,val){
+  const v=parseFloat(val);
+  apiActual[idx]=(isNaN(v)||val==='')?null:Math.max(0,v);
+  saveActual(idx,'aa',apiActual[idx]);
+  recalc();
+}
+
+// ══════════════════════════════════════════════════════
+//  FILTER / RESET
+// ══════════════════════════════════════════════════════
+function filterPhase(ph,el){
+  curFilter=ph;
+  document.querySelectorAll('.ptab').forEach(t=>{t.classList.remove('act');t.style.borderColor='';t.style.color='';});
+  el.classList.add('act');
+  const pd=PHASES.find(p=>p.id===ph);
+  if(pd){el.style.borderColor=pd.color;el.style.color=pd.color;}
+  else{el.style.borderColor='#64748b';el.style.color='#94a3b8';}
+  const inp=getInp();
+  const rows=DATES.map((d,i)=>({...d,...calcDay(i,inp)}));
+  const tBU=rows.reduce((s,r)=>s+r.budUse,0),tRU=rows.reduce((s,r)=>s+r.revUse,0);
+  renderTable(rows,tRU>0?tBU/tRU:0,inp);
+  updateSummary(rows,tRU>0?tBU/tRU:0);
+}
+function resetForecast(){
+  const t=+document.getElementById('i-total').value||50000;
+  budFcst=buildBudgets(t);
+  revFcstOvr=new Array(N).fill(null);
+  revFcstMan=new Array(N).fill(false);
+  recalc();
+}
+function clearActual(){
+  if(!confirm('Xóa toàn bộ dữ liệu Actual trên Google Sheets?'))return;
+  budActual=new Array(N).fill(null);
+  revActual=new Array(N).fill(null);
+  apiActual=new Array(N).fill(null);
+  // Ghi '' cho tất cả ngày có data
+  try{localStorage.removeItem(LS_KEY);}catch(e){}
+  // Xóa trên Sheets
+  for(let i=0;i<N;i++){
+    const iso=DATES[i].iso;
+    fetch(`${GS_URL}?action=write&date=${iso}&field=ba&value=`).catch(()=>{});
+    fetch(`${GS_URL}?action=write&date=${iso}&field=ra&value=`).catch(()=>{});
+    fetch(`${GS_URL}?action=write&date=${iso}&field=aa&value=`).catch(()=>{});
+  }
+  recalc();
+}
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+recalc();
+loadActualFromSheets();
+</script>
+</body>
+</html>
