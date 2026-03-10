@@ -159,7 +159,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div class="ibox accent">
       <label>💰 Tổng Spent Ads</label>
       <div class="ir"><span class="u">€</span>
-        <input type="number" id="i-total" value="50000" min="5000" max="300000" step="1000" oninput="onTotalChange()">
+        <input type="number" id="i-total" value="70000" min="5000" max="300000" step="1000" oninput="onTotalChange()">
       </div>
     </div>
     <div class="ibox">
@@ -190,27 +190,27 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <span class="rp-lbl">ROAS theo phase →</span>
   <div class="ri" style="border-color:#3b82f644">
     <span class="ri-ph" style="color:#3b82f6">🌱 Warm-up</span>
-    <input type="number" id="r-warm"   value="2.0"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <input type="number" id="r-warm"   value="1.8"  min="0.5" max="8" step="0.05" oninput="recalc()">
     <span class="u">x</span>
   </div>
   <div class="ri" style="border-color:#f9731644">
     <span class="ri-ph" style="color:#f97316">🔥 Accel</span>
-    <input type="number" id="r-accel"  value="2.3"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <input type="number" id="r-accel"  value="2.1"  min="0.5" max="8" step="0.05" oninput="recalc()">
     <span class="u">x</span>
   </div>
   <div class="ri" style="border-color:#a855f744">
     <span class="ri-ph" style="color:#a855f7">⚡ Peak</span>
-    <input type="number" id="r-peak"   value="2.6"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <input type="number" id="r-peak"   value="2.4"  min="0.5" max="8" step="0.05" oninput="recalc()">
     <span class="u">x</span>
   </div>
   <div class="ri" style="border-color:#ef444444">
     <span class="ri-ph" style="color:#ef4444">🚨 Sprint</span>
-    <input type="number" id="r-sprint" value="2.8"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <input type="number" id="r-sprint" value="2.6"  min="0.5" max="8" step="0.05" oninput="recalc()">
     <span class="u">x</span>
   </div>
   <div class="ri" style="border-color:#f59e0b44">
     <span class="ri-ph" style="color:#f59e0b">📦 Post-CO</span>
-    <input type="number" id="r-post"   value="1.8"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <input type="number" id="r-post"   value="2.0"  min="0.5" max="8" step="0.05" oninput="recalc()">
     <span class="u">x</span>
   </div>
 </div>
@@ -276,7 +276,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
         </div>
         <div class="rc">
           <div class="rc-ph" style="color:#3b82f6">🌱 Warm-up<small>31/03–15/04</small></div>
-          <div class="rc-rule">Start <b>€200</b><br>Tăng <b>+5%/ngày</b><br>Pixel học dần</div>
+          <div class="rc-rule">Start <b>€200</b><br>Tăng <b>+8%/ngày</b><br>Pixel học dần</div>
         </div>
         <div class="rc">
           <div class="rc-ph" style="color:#f97316">🔥 Accel<small>16/04–28/04</small></div>
@@ -427,7 +427,7 @@ function buildBudgets(total){
   const sS=gi('SPRINT'),sN=gc('SPRINT');
   const oS=gi('POST'),oN=gc('POST');
   let b=200;
-  for(let i=0;i<wN;i++){raw[wS+i]=b;b*=1.05;}
+  for(let i=0;i<wN;i++){raw[wS+i]=b;b*=1.08;}
   b=raw[wS+wN-1];
   for(let i=0;i<aN;i++){b*=1.12;raw[aS+i]=b;}
   b=raw[aS+aN-1];
@@ -540,7 +540,7 @@ function initActualFromStorage(){
 // ══════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════
-let budFcst    = buildBudgets(50000);
+let budFcst    = buildBudgets(70000);
 let revFcstOvr = new Array(N).fill(null); // null = auto (BudF×ROAS)
 let revFcstMan = new Array(N).fill(false);
 let budActual  = new Array(N).fill(null);
@@ -560,16 +560,16 @@ function getInp(){
     varC:+document.getElementById('i-var').value/100||0.05,
     roas:{
       PREP:0,
-      WARM:  +document.getElementById('r-warm').value  ||2.0,
-      ACCEL: +document.getElementById('r-accel').value ||2.3,
-      PEAK:  +document.getElementById('r-peak').value  ||2.6,
-      SPRINT:+document.getElementById('r-sprint').value||2.8,
-      POST:  +document.getElementById('r-post').value  ||1.8,
+      WARM:  +document.getElementById('r-warm').value  ||1.8,
+      ACCEL: +document.getElementById('r-accel').value ||2.1,
+      PEAK:  +document.getElementById('r-peak').value  ||2.4,
+      SPRINT:+document.getElementById('r-sprint').value||2.6,
+      POST:  +document.getElementById('r-post').value  ||2.0,
     }
   };
 }
 function onTotalChange(){
-  const t=+document.getElementById('i-total').value||50000;
+  const t=+document.getElementById('i-total').value||70000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
@@ -874,7 +874,7 @@ function filterPhase(ph,el){
   updateSummary(rows,tRU>0?tBU/tRU:0);
 }
 function resetForecast(){
-  const t=+document.getElementById('i-total').value||50000;
+  const t=+document.getElementById('i-total').value||70000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
