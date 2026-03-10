@@ -398,7 +398,9 @@ const PHASES=[
 function buildDates(){
   const dates=[],start=new Date(2026,2,6),end=new Date(2026,4,14);
   for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){
-    const iso=d.toISOString().slice(0,10);
+    // GMT+1 (Germany/DACH market)
+    const gmt1=new Date(d.getTime()+60*60*1000);
+    const iso=gmt1.getUTCFullYear()+'-'+String(gmt1.getUTCMonth()+1).padStart(2,'0')+'-'+String(gmt1.getUTCDate()).padStart(2,'0');
     const ph=PHASES.find(p=>iso>=p.sd&&iso<=p.ed)||PHASES[0];
     dates.push({
       idx:dates.length,iso,
