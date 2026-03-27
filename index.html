@@ -156,14 +156,14 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <div class="hdr">
   <div class="hdr-title">
     <h1>🃏 Vatertag 2026 — Campaign Command Center</h1>
-    <p>06 Mar → 14 May 2026 · 70 ngày · EUR/USD 1.16 · Ô vàng = Actual (sync Google Sheets ☁️)</p>
+    <p>06 Mar → 14 May 2026 · EUR/USD 1.16 · Ô vàng = Actual (sync Google Sheets ☁️)</p>
   </div>
   <div class="hdr-right">
     <div id="tbadge" class="tbadge tmiss">❌ BELOW $30K</div>
     <div class="ibox accent">
       <label>💰 Tổng Spent Ads</label>
       <div class="ir"><span class="u">€</span>
-        <input type="number" id="i-total" value="70000" min="5000" max="300000" step="1000" oninput="onTotalChange()">
+        <input type="number" id="i-total" value="120000" min="5000" max="300000" step="1000" oninput="onTotalChange()">
       </div>
     </div>
     <div class="ibox">
@@ -275,15 +275,15 @@ tr:hover td{background:rgba(255,255,255,.013)}
       <div class="ch"><div class="ct">⚙️ Rule tăng giảm Budget theo Phase</div></div>
       <div class="rule-grid">
         <div class="rc">
-          <div class="rc-ph" style="color:#64748b">🔧 Prep<small>06/03–30/03</small></div>
+          <div class="rc-ph" style="color:#64748b">🔧 Prep<small>06/03–24/03</small></div>
           <div class="rc-rule">Budget = <b>€0</b><br>Không chạy ads<br>Chuẩn bị creative</div>
         </div>
         <div class="rc">
-          <div class="rc-ph" style="color:#3b82f6">🌱 Warm-up<small>31/03–15/04</small></div>
+          <div class="rc-ph" style="color:#3b82f6">🌱 Warm-up<small>25/03–15/04</small></div>
           <div class="rc-rule">Start <b>€200</b><br>Pixel học dần</div>
           <div class="rc-inp-row">
             <span class="rc-inp-lbl">Tăng</span>
-            <input type="number" id="rate-warm" class="rc-inp" value="8" min="1" max="30" step="0.5" oninput="onRateChange()">
+            <input type="number" id="rate-warm" class="rc-inp" value="5" min="1" max="30" step="0.5" oninput="onRateChange()">
             <span class="rc-inp-lbl">%/ngày</span>
           </div>
         </div>
@@ -301,7 +301,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
           <div class="rc-rule">Nối Accel</div>
           <div class="rc-inp-row">
             <span class="rc-inp-lbl">Tăng</span>
-            <input type="number" id="rate-peak" class="rc-inp" value="17" min="1" max="30" step="0.5" oninput="onRateChange()">
+            <input type="number" id="rate-peak" class="rc-inp" value="16" min="1" max="30" step="0.5" oninput="onRateChange()">
             <span class="rc-inp-lbl">%/ngày</span>
           </div>
         </div>
@@ -403,8 +403,8 @@ tr:hover td{background:rgba(255,255,255,.013)}
 //  PHASES
 // ══════════════════════════════════════════════════════
 const PHASES=[
-  {id:'PREP',  label:'🔧 Prep',    color:'#64748b', sd:'2026-03-06',ed:'2026-03-30',factor:null},
-  {id:'WARM',  label:'🌱 Warm-up', color:'#3b82f6', sd:'2026-03-31',ed:'2026-04-15',factor:1.15},
+  {id:'PREP',  label:'🔧 Prep',    color:'#64748b', sd:'2026-03-06',ed:'2026-03-24',factor:null},
+  {id:'WARM',  label:'🌱 Warm-up', color:'#3b82f6', sd:'2026-03-25',ed:'2026-04-15',factor:1.15},
   {id:'ACCEL', label:'🔥 Accel',   color:'#f97316', sd:'2026-04-16',ed:'2026-04-28',factor:1.00},
   {id:'PEAK',  label:'⚡ Peak',    color:'#a855f7', sd:'2026-04-29',ed:'2026-05-02',factor:1.00},
   {id:'SPRINT',label:'🚨 Sprint',  color:'#ef4444', sd:'2026-05-03',ed:'2026-05-08',factor:0.90},
@@ -562,7 +562,7 @@ function initActualFromStorage(){
 // ══════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════
-let budFcst    = buildBudgets(70000);
+let budFcst    = buildBudgets(120000);
 let revFcstOvr = new Array(N).fill(null); // null = auto (BudF×ROAS)
 let revFcstMan = new Array(N).fill(false);
 let budActual  = new Array(N).fill(null);
@@ -591,14 +591,14 @@ function getInp(){
   };
 }
 function onTotalChange(){
-  const t=+document.getElementById('i-total').value||70000;
+  const t=+document.getElementById('i-total').value||120000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
   recalc();
 }
 function onRateChange(){
-  const t=+document.getElementById('i-total').value||70000;
+  const t=+document.getElementById('i-total').value||120000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
@@ -903,7 +903,7 @@ function filterPhase(ph,el){
   updateSummary(rows,tRU>0?tBU/tRU:0);
 }
 function resetForecast(){
-  const t=+document.getElementById('i-total').value||70000;
+  const t=+document.getElementById('i-total').value||120000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
