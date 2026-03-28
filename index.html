@@ -163,7 +163,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div class="ibox accent">
       <label>💰 Tổng Spent Ads</label>
       <div class="ir"><span class="u">€</span>
-        <input type="number" id="i-total" value="120000" min="5000" max="300000" step="1000" oninput="onTotalChange()">
+        <input type="number" id="i-total" value="250000" min="5000" max="300000" step="1000" oninput="onTotalChange()">
       </div>
     </div>
     <div class="ibox">
@@ -301,7 +301,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
           <div class="rc-rule">Nối Accel</div>
           <div class="rc-inp-row">
             <span class="rc-inp-lbl">Tăng</span>
-            <input type="number" id="rate-peak" class="rc-inp" value="16" min="1" max="30" step="0.5" oninput="onRateChange()">
+            <input type="number" id="rate-peak" class="rc-inp" value="15" min="1" max="30" step="0.5" oninput="onRateChange()">
             <span class="rc-inp-lbl">%/ngày</span>
           </div>
         </div>
@@ -562,7 +562,7 @@ function initActualFromStorage(){
 // ══════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════
-let budFcst    = buildBudgets(120000);
+let budFcst    = buildBudgets(250000);
 let revFcstOvr = new Array(N).fill(null); // null = auto (BudF×ROAS)
 let revFcstMan = new Array(N).fill(false);
 let budActual  = new Array(N).fill(null);
@@ -591,14 +591,14 @@ function getInp(){
   };
 }
 function onTotalChange(){
-  const t=+document.getElementById('i-total').value||120000;
+  const t=+document.getElementById('i-total').value||250000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
   recalc();
 }
 function onRateChange(){
-  const t=+document.getElementById('i-total').value||120000;
+  const t=+document.getElementById('i-total').value||250000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
@@ -903,7 +903,7 @@ function filterPhase(ph,el){
   updateSummary(rows,tRU>0?tBU/tRU:0);
 }
 function resetForecast(){
-  const t=+document.getElementById('i-total').value||120000;
+  const t=+document.getElementById('i-total').value||250000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
