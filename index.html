@@ -148,10 +148,52 @@ tr:hover td{background:rgba(255,255,255,.013)}
 /* ── ACTUAL LEGEND ── */
 .actual-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--actual);background:var(--actual-bg);border:1px solid var(--actual-bd);border-radius:6px;padding:4px 10px}
 
+
+/* ── NAV TABS ── */
+.nav{background:var(--s1);border-bottom:2px solid var(--bd);padding:0 18px;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:100}
+.nav-brand{font-size:13px;font-weight:700;color:var(--t2);padding:11px 0;border-right:1px solid var(--bd);padding-right:18px;margin-right:4px}
+.nav-tab{padding:11px 18px;font-size:12px;font-weight:600;color:var(--t3);cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px;margin-bottom:-2px}
+.nav-tab:hover{color:var(--t2)}
+.nav-tab.active{color:var(--t1);border-bottom-color:var(--blue)}
+/* ── PAGE SWITCH ── */
+.page{display:none}.page.active{display:block}
+/* ── SP PAGE ── */
+.sp-hdr{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.sp-hdr h1{font-size:15px;font-weight:700}
+.sp-hdr p{font-size:10px;color:var(--t3);margin-top:2px}
+.sp-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
+.filter-bar{background:var(--s1);border-bottom:1px solid var(--bd);padding:0 18px;display:flex;align-items:center;gap:8px;height:44px;overflow-x:auto}
+.filter-bar::-webkit-scrollbar{height:3px}
+.flbl{font-size:10px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;white-space:nowrap;margin-right:2px}
+.fpill{padding:4px 12px;border-radius:20px;border:1px solid var(--bd);background:transparent;color:var(--t3);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap;flex-shrink:0}
+.fpill:hover{background:var(--s2);color:var(--t2)}
+.fpill.act{background:#4d8ef520;border-color:var(--blue);color:var(--blue)}
+.fsep{width:1px;height:18px;background:var(--bd);flex-shrink:0}
+.sp-main{padding:13px 18px;display:flex;flex-direction:column;gap:11px}
+.sp-chart-wrap{height:220px;position:relative}
+.sp-tw{overflow-x:auto}
+.sp-tw table{width:100%;border-collapse:collapse;font-size:11px}
+.sp-tw thead th{padding:7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--s1);border-bottom:2px solid var(--bd)}
+.sp-tw thead th.ah{color:var(--actual);background:#131f32;border-left:1px solid var(--actual-bd)}
+.sp-tw td{padding:5px 7px;border-bottom:1px solid #1d335422;vertical-align:middle}
+.sp-tw tr:hover td{background:rgba(255,255,255,.013)}
+.sp-sum td{background:var(--s2);border-top:2px solid var(--bd2);color:var(--t1);font-weight:700;font-family:var(--mono);font-size:11px}
+.sp-sync{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
+.sp-sync.ok{color:#22d07a;border-color:#22d07a44}.sp-sync.err{color:#f5c842;border-color:#f5c84244}.sp-sync.load{color:#4d8ef5;border-color:#4d8ef544}
+.ro-cell{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--t3)}
 </style>
 </head>
 <body>
 
+<!-- ══ NAV ══ -->
+<div class="nav">
+  <div class="nav-brand">🃏 Hamyso</div>
+  <div class="nav-tab active" id="tab1" onclick="switchTab(1)">📋 Campaign Forecast</div>
+  <div class="nav-tab" id="tab2" onclick="switchTab(2)">📊 Store Performance</div>
+</div>
+
+<!-- ══ PAGE 1 — CAMPAIGN FORECAST ══ -->
+<div id="page1" class="page active">
 <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
 <div class="hdr">
   <div class="hdr-title">
@@ -397,6 +439,121 @@ tr:hover td{background:rgba(255,255,255,.013)}
   </div>
 
 </div>
+
+</div><!-- /page1 -->
+
+<!-- ══ PAGE 2 — STORE PERFORMANCE ══ -->
+<div id="page2" class="page">
+
+<!-- SP HEADER -->
+<div class="sp-hdr">
+  <div>
+    <h1>📊 Store Performance 2026</h1>
+    <p>01 Jan → 31 Dec 2026 · Tự động từ Facebook + Google Ads · Ô vàng = nhập tay</p>
+  </div>
+  <div class="hdr-right">
+    <div class="ibox"><label>Gross Margin</label><div class="ir"><input type="number" id="sp-gm" value="70" min="10" max="95" step="1" oninput="spRecalc()"><span class="u">%</span></div></div>
+    <div class="ibox"><label>Biến phí khác</label><div class="ir"><input type="number" id="sp-var" value="5" min="0" max="30" step="0.5" oninput="spRecalc()"><span class="u">%</span></div></div>
+  </div>
+</div>
+
+<!-- SP KPI -->
+<div class="sp-kpi">
+  <div class="kpi kb"><div class="kpi-lbl">💰 Tổng Spent</div><div class="kpi-val" id="sp-k-spent" style="color:#60a5fa">€0</div><div class="kpi-sub" id="sp-k-spent-s">FB + GG</div></div>
+  <div class="kpi kc"><div class="kpi-lbl">📈 Tổng Revenue</div><div class="kpi-val" id="sp-k-rev" style="color:#67e8f9">€0</div><div class="kpi-sub" id="sp-k-rev-s">— orders</div></div>
+  <div class="kpi kg"><div class="kpi-lbl">✅ Net Profit</div><div class="kpi-val" id="sp-k-np">€0</div><div class="kpi-sub" id="sp-k-np-s">margin: 0%</div></div>
+  <div class="kpi ky"><div class="kpi-lbl">📊 ROAS thực tế</div><div class="kpi-val" id="sp-k-roas" style="color:#fcd34d">0x</div><div class="kpi-sub" id="sp-k-roas-s">Rev / Spent</div></div>
+  <div class="kpi ko"><div class="kpi-lbl">💵 Profit (USD)</div><div class="kpi-val" id="sp-k-usd" style="color:#fdba74">$0</div><div class="kpi-sub" id="sp-k-usd-s">× 1.16</div></div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="flbl">📅</span>
+  <div class="fpill act" id="spf-all"  onclick="spSetFilter('all')">Tất cả</div>
+  <div class="fpill"     id="spf-today" onclick="spSetFilter('today')">Hôm nay</div>
+  <div class="fpill"     id="spf-yest"  onclick="spSetFilter('yest')">Yesterday</div>
+  <div class="fsep"></div>
+  <div class="fpill"     id="spf-7d"   onclick="spSetFilter('7d')">Last 7 Days</div>
+  <div class="fpill"     id="spf-14d"  onclick="spSetFilter('14d')">Last 14 Days</div>
+  <div class="fpill"     id="spf-30d"  onclick="spSetFilter('30d')">Last 30 Days</div>
+  <div class="fsep"></div>
+  <div class="fpill"     id="spf-mtd"  onclick="spSetFilter('mtd')">This Month</div>
+  <div class="fpill"     id="spf-lm"   onclick="spSetFilter('lm')">Last Month</div>
+  <div class="fpill"     id="spf-ytd"  onclick="spSetFilter('ytd')">YTD</div>
+</div>
+
+<!-- SP MAIN -->
+<div class="sp-main">
+  <!-- Chart -->
+  <div class="card">
+    <div class="ch">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div class="ct">📈 Biểu đồ Profit</div>
+        <div class="ld-row">
+          <div class="ld"><div class="ld-ln" style="color:#22d07a"></div>Daily</div>
+          <div class="ld"><div class="ld-ln" style="color:#4d8ef5;border-top-style:solid"></div>Lũy kế</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:4px">
+        <div class="ptab act" id="sp-btn-daily" onclick="spSetChart('daily')">Daily</div>
+        <div class="ptab" id="sp-btn-cumul" onclick="spSetChart('cumul')">Lũy kế</div>
+        <div class="ptab" id="sp-btn-both"  onclick="spSetChart('both')">Cả 2</div>
+      </div>
+    </div>
+    <div class="sp-chart-wrap"><canvas id="sp-chart"></canvas></div>
+  </div>
+
+  <!-- Table -->
+  <div class="card">
+    <div class="ch">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="ct">📋 Dữ liệu từng ngày <span id="sp-range-lbl" style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px"></span></div>
+        <div class="actual-legend">✏️ Ô vàng = nhập tay · 🔒 Spent tự động từ Ads</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <div id="sp-sync-badge" class="sp-sync load">⏳ Đang tải...</div>
+        <button class="rbtn" onclick="spLoadFromSheets()">🔄 Refresh</button>
+      </div>
+    </div>
+    <div class="sp-tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Ngày</th>
+            <th class="ah">Revenue ✏️</th>
+            <th>FB Spent 🔒</th>
+            <th>GG Spent 🔒</th>
+            <th>Total Spent</th>
+            <th class="ah">API Cost ✏️</th>
+            <th class="ah">Orders ✏️</th>
+            <th>AOV</th>
+            <th>ROAS</th>
+            <th>POAS (€)</th>
+            <th>Net Profit<br>% Margin</th>
+          </tr>
+        </thead>
+        <tbody id="sp-tbody"></tbody>
+        <tfoot>
+          <tr class="sp-sum">
+            <td>📊 TỔNG/TB</td>
+            <td id="sp-s-rev">—</td>
+            <td id="sp-s-fb">—</td>
+            <td id="sp-s-gg">—</td>
+            <td id="sp-s-spent">—</td>
+            <td id="sp-s-api">—</td>
+            <td id="sp-s-ord">—</td>
+            <td id="sp-s-aov">—</td>
+            <td id="sp-s-roas">—</td>
+            <td id="sp-s-poas">—</td>
+            <td id="sp-s-np">—</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div><!-- /page2 -->
 
 <script>
 // ══════════════════════════════════════════════════════
@@ -931,6 +1088,315 @@ function clearActual(){
 // ══════════════════════════════════════════════════════
 recalc();
 loadActualFromSheets();
+
+// ══════════════════════════════════════════════════════
+//  TAB SWITCH
+// ══════════════════════════════════════════════════════
+function switchTab(n){
+  document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('active',i===n-1));
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',i===n-1));
+  if(n===2&&!spInited){spInit();}
+}
+
+// ══════════════════════════════════════════════════════
+//  STORE PERFORMANCE — STATE
+// ══════════════════════════════════════════════════════
+const SP_GS_URL = 'https://script.google.com/macros/s/AKfycbw9NtBnN00HYE6sLZLcHBJkJ7NwUyX1YQNdQQ9veIGgNmO70caD0uazIpaIZ398cJp_/exec';
+const SP_LS_KEY = 'hamyso_store_2026';
+let spInited = false;
+let spChartMode = 'daily';
+let spFilterMode = 'all';
+let spChart = null;
+
+// Build all dates 01/01 → 31/12/2026
+function spBuildDates(){
+  const dates=[], today=spTodayISO();
+  for(let d=new Date(2026,0,1);d<=new Date(2026,11,31);d.setDate(d.getDate()+1)){
+    const iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    dates.push({idx:dates.length,iso,
+      ds:d.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'}),
+      dow:['CN','T2','T3','T4','T5','T6','T7'][d.getDay()],
+      month:d.getMonth(),
+      isToday:iso===today, isFuture:iso>today});
+  }
+  return dates;
+}
+function spTodayISO(){
+  const d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+let SP_DATES=[];
+let SP_N=0;
+let spRevA=[], spFbA=[], spGgA=[], spApiA=[], spOrdA=[];
+
+function spInitArrays(){
+  SP_DATES=spBuildDates(); SP_N=SP_DATES.length;
+  spRevA=new Array(SP_N).fill(null); spFbA=new Array(SP_N).fill(null);
+  spGgA=new Array(SP_N).fill(null);  spApiA=new Array(SP_N).fill(null);
+  spOrdA=new Array(SP_N).fill(null);
+}
+
+// ── localStorage fallback ─────────────────────────────
+function spSaveLS(){
+  const d={};
+  for(let i=0;i<SP_N;i++){
+    const iso=SP_DATES[i].iso;
+    if(spRevA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null){
+      d[iso]={};
+      if(spRevA[i]!=null) d[iso].r=spRevA[i];
+      if(spApiA[i]!=null) d[iso].a=spApiA[i];
+      if(spOrdA[i]!=null) d[iso].o=spOrdA[i];
+    }
+  }
+  try{localStorage.setItem(SP_LS_KEY,JSON.stringify(d));}catch(e){}
+}
+function spLoadLS(){
+  try{
+    const d=JSON.parse(localStorage.getItem(SP_LS_KEY)||'{}');
+    for(let i=0;i<SP_N;i++){
+      const x=d[SP_DATES[i].iso];
+      if(x){
+        spRevA[i]=x.r!=null?+x.r:null;
+        spApiA[i]=x.a!=null?+x.a:null;
+        spOrdA[i]=x.o!=null?+x.o:null;
+      }
+    }
+  }catch(e){}
+}
+
+// ── Sync badge ─────────────────────────────────────────
+function spBadge(state,msg){
+  const el=document.getElementById('sp-sync-badge');
+  if(!el)return;
+  el.className='sp-sync '+state;
+  el.textContent={ok:'☁️ ',err:'⚠️ ',load:'⏳ '}[state]+msg;
+}
+
+// ── Load từ Sheets (store_2026) ────────────────────────
+async function spLoadFromSheets(){
+  spBadge('load','Đang tải...');
+  try{
+    const res=await fetch(SP_GS_URL+'?action=read_store');
+    const json=await res.json();
+    if(!json.ok)throw new Error('API error');
+    const d=json.data||{};
+    for(let i=0;i<SP_N;i++){
+      const iso=SP_DATES[i].iso;
+      if(d[iso]){
+        spRevA[i]=d[iso].r!=null?+d[iso].r:spRevA[i];
+        spFbA[i] =d[iso].fb!=null?+d[iso].fb:spFbA[i];
+        spGgA[i] =d[iso].gg!=null?+d[iso].gg:spGgA[i];
+        spApiA[i]=d[iso].a!=null?+d[iso].a:spApiA[i];
+        spOrdA[i]=d[iso].o!=null?+d[iso].o:spOrdA[i];
+      }
+    }
+    spSaveLS();
+    spBadge('ok','Đã đồng bộ');
+    spRecalc();
+  }catch(e){
+    spLoadLS();
+    spBadge('err','Dùng cache local');
+    spRecalc();
+    console.error('SP GS error',e);
+  }
+}
+
+// ── Ghi manual fields lên Sheets ──────────────────────
+async function spSaveField(idx,field,value){
+  spSaveLS();
+  const date=SP_DATES[idx].iso;
+  const val=value==null?'':value;
+  try{
+    await fetch(`${SP_GS_URL}?action=write_store&date=${date}&field=${field}&value=${val}`);
+  }catch(e){console.error('SP write error',e);}
+}
+
+// ── Filter range ────────────────────────────────────────
+function spGetRange(){
+  const today=spTodayISO();
+  const td=new Date(today+'T00:00:00');
+  const shift=n=>{const d=new Date(td);d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+  switch(spFilterMode){
+    case 'today': return [today,today];
+    case 'yest':  return [shift(-1),shift(-1)];
+    case '7d':    return [shift(-6),today];
+    case '14d':   return [shift(-13),today];
+    case '30d':   return [shift(-29),today];
+    case 'mtd':   return [today.slice(0,7)+'-01',today];
+    case 'lm':    {const lm=new Date(td.getFullYear(),td.getMonth()-1,1);const le=new Date(td.getFullYear(),td.getMonth(),0);return [lm.getFullYear()+'-'+String(lm.getMonth()+1).padStart(2,'0')+'-'+String(lm.getDate()).padStart(2,'0'),le.getFullYear()+'-'+String(le.getMonth()+1).padStart(2,'0')+'-'+String(le.getDate()).padStart(2,'0')];}
+    case 'ytd':   return ['2026-01-01',today];
+    default:      return ['2026-01-01','2026-12-31'];
+  }
+}
+function spSetFilter(mode){
+  spFilterMode=mode;
+  document.querySelectorAll('.fpill').forEach(el=>el.classList.remove('act'));
+  const el=document.getElementById('spf-'+mode);
+  if(el)el.classList.add('act');
+  spRecalc();
+}
+
+// ── Calc per day ────────────────────────────────────────
+function spCalcDay(i){
+  const gm= +document.getElementById('sp-gm').value/100||0.70;
+  const varC=+document.getElementById('sp-var').value/100||0.05;
+  const rev=spRevA[i], fb=spFbA[i]||0, gg=spGgA[i]||0;
+  const spent=fb+gg;
+  const api=spApiA[i]||0;
+  const orders=spOrdA[i];
+  if(rev==null&&spent===0) return null;
+  const r=rev||0;
+  const np=r*gm - spent - api - r*varC;
+  return{rev:r,fb,gg,spent,api,orders,
+    roas:spent>0?r/spent:null,
+    poas:r-spent-api,
+    aov:orders&&orders>0?r/orders:null,
+    np, nmg:r>0?np/r:null};
+}
+
+const spFE=v=>'€'+Math.round(v).toLocaleString('de-DE');
+const spFP=v=>(v*100).toFixed(1)+'%';
+const spFN=v=>Math.round(v).toLocaleString('de-DE');
+
+// ── Main recalc ─────────────────────────────────────────
+function spRecalc(){
+  const [fS,fE]=spGetRange();
+  const allRows=SP_DATES.map((d,i)=>({...d,calc:spCalcDay(i)}));
+  const filtRows=allRows.filter(r=>r.iso>=fS&&r.iso<=fE);
+  const withData=filtRows.filter(r=>r.calc);
+
+  const tRev  =withData.reduce((s,r)=>s+r.calc.rev,0);
+  const tSpent=withData.reduce((s,r)=>s+r.calc.spent,0);
+  const tNP   =withData.reduce((s,r)=>s+r.calc.np,0);
+  const tOrd  =withData.filter(r=>r.calc.orders).reduce((s,r)=>s+r.calc.orders,0);
+  const tFb   =withData.reduce((s,r)=>s+r.calc.fb,0);
+  const tGg   =withData.reduce((s,r)=>s+r.calc.gg,0);
+  const avgRoas=tSpent>0?tRev/tSpent:0;
+  const nmg   =tRev>0?tNP/tRev:0;
+
+  document.getElementById('sp-k-spent').textContent=spFE(tSpent);
+  document.getElementById('sp-k-spent-s').textContent='FB '+spFE(tFb)+' · GG '+spFE(tGg);
+  document.getElementById('sp-k-rev').textContent=spFE(tRev);
+  document.getElementById('sp-k-rev-s').textContent=spFN(tOrd)+' orders';
+  document.getElementById('sp-k-np').textContent=spFE(tNP);
+  document.getElementById('sp-k-np').style.color=tNP>=0?'#4ade80':'#f87171';
+  document.getElementById('sp-k-np-s').textContent='margin: '+spFP(nmg);
+  document.getElementById('sp-k-roas').textContent=avgRoas.toFixed(2)+'x';
+  document.getElementById('sp-k-roas-s').textContent=spFE(tRev)+' / '+spFE(tSpent);
+  document.getElementById('sp-k-usd').textContent='$'+Math.round(tNP*1.16).toLocaleString('de-DE');
+  document.getElementById('sp-k-usd-s').textContent=spFE(tNP)+' × 1.16';
+
+  const rl=spFilterMode==='all'?'toàn năm':fS.slice(5)+' → '+fE.slice(5);
+  document.getElementById('sp-range-lbl').textContent='· '+rl;
+
+  spRenderTable(allRows,fS,fE);
+  spUpdateSummary(withData);
+  spUpdateChart(withData);
+}
+
+// ── Render table ────────────────────────────────────────
+function spRenderTable(rows,fS,fE){
+  const mNames=['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+  let lastM=-1;
+  document.getElementById('sp-tbody').innerHTML=rows.map(r=>{
+    const c=r.calc; const hs=c!=null;
+    let sep='';
+    if(r.month!==lastM){lastM=r.month;sep=`<tr class="month-sep"><td colspan="11">── ${mNames[r.month]} 2026 ──</td></tr>`;}
+    const inF=r.iso>=fS&&r.iso<=fE;
+    const opacity=(!inF&&spFilterMode!=='all')||r.isFuture?'opacity:.4;':'';
+    const pcls=hs?(c.np>=0?'pos':'neg'):'';
+    return sep+`<tr style="${opacity}${r.isToday?'background:#4d8ef508;':''}">
+      <td><div class="td-dt">${r.ds}${r.isToday?' <span class="today-badge">Hôm nay</span>':''}</div><div style="font-size:9px;color:var(--t3)">${r.dow}</div></td>
+      <td class="ec"><input type="number" value="${spRevA[r.idx]!=null?Math.round(spRevA[r.idx]):''}" min="0" step="1" class="act-inp" placeholder="—" onchange="spSet('r',${r.idx},this.value)"></td>
+      <td class="ro-cell">${hs&&c.fb?spFE(c.fb):'—'}</td>
+      <td class="ro-cell">${hs&&c.gg?spFE(c.gg):'—'}</td>
+      <td class="mono" style="color:#60a5fa">${hs?spFE(c.spent):'—'}</td>
+      <td class="ec"><input type="number" value="${spApiA[r.idx]!=null?Math.round(spApiA[r.idx]):''}" min="0" step="1" class="act-inp" placeholder="—" onchange="spSet('a',${r.idx},this.value)"></td>
+      <td class="ec"><input type="number" value="${spOrdA[r.idx]!=null?Math.round(spOrdA[r.idx]):''}" min="0" step="1" class="act-inp" placeholder="—" onchange="spSet('o',${r.idx},this.value)"></td>
+      <td class="mono" style="color:#a78bfa">${hs&&c.aov?spFE(c.aov):'—'}</td>
+      <td class="mono" style="color:#fcd34d">${hs&&c.roas?c.roas.toFixed(2)+'x':'—'}</td>
+      <td class="mono" style="color:${hs?(c.poas>=0?'#22d07a':'#f05252'):'var(--t4)'}">${hs?spFE(c.poas):'—'}</td>
+      <td><span class="${pcls}">${hs?(c.np>=0?'+':'')+spFE(c.np):'—'}</span><span class="sub-v">${hs&&c.nmg!=null?spFP(c.nmg):''}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Summary ─────────────────────────────────────────────
+function spUpdateSummary(withData){
+  const tR=withData.reduce((s,r)=>s+r.calc.rev,0);
+  const tS=withData.reduce((s,r)=>s+r.calc.spent,0);
+  const tFb=withData.reduce((s,r)=>s+r.calc.fb,0);
+  const tGg=withData.reduce((s,r)=>s+r.calc.gg,0);
+  const tA=withData.reduce((s,r)=>s+r.calc.api,0);
+  const tO=withData.filter(r=>r.calc.orders).reduce((s,r)=>s+r.calc.orders,0);
+  const tNP=withData.reduce((s,r)=>s+r.calc.np,0);
+  const tP=withData.reduce((s,r)=>s+r.calc.poas,0);
+  document.getElementById('sp-s-rev').textContent=tR?spFE(tR):'—';
+  document.getElementById('sp-s-fb').textContent=tFb?spFE(tFb):'—';
+  document.getElementById('sp-s-gg').textContent=tGg?spFE(tGg):'—';
+  document.getElementById('sp-s-spent').textContent=tS?spFE(tS):'—';
+  document.getElementById('sp-s-api').textContent=tA?spFE(tA):'—';
+  document.getElementById('sp-s-ord').textContent=tO?spFN(tO):'—';
+  document.getElementById('sp-s-aov').textContent=tO?spFE(tR/tO):'—';
+  document.getElementById('sp-s-roas').textContent=tS?(tR/tS).toFixed(2)+'x':'—';
+  document.getElementById('sp-s-poas').textContent=tP?spFE(tP):'—';
+  document.getElementById('sp-s-np').innerHTML=tNP?`<span class="${tNP>=0?'pos':'neg'}">${tNP>=0?'+':''}${spFE(tNP)}</span><span class="sub-v">${spFP(tR>0?tNP/tR:0)}</span>`:'—';
+}
+
+// ── Chart ────────────────────────────────────────────────
+function spSetChart(mode){
+  spChartMode=mode;
+  ['daily','cumul','both'].forEach(m=>document.getElementById('sp-btn-'+m).classList.toggle('act',m===mode));
+  const [fS,fE]=spGetRange();
+  const withData=SP_DATES.map((d,i)=>({...d,calc:spCalcDay(i)})).filter(r=>r.calc&&r.iso>=fS&&r.iso<=fE);
+  spUpdateChart(withData);
+}
+function spUpdateChart(withData){
+  const labels=withData.map(r=>r.ds);
+  const npArr=withData.map(r=>Math.round(r.calc.np));
+  let c=0; const cumulArr=withData.map(r=>{c+=r.calc.np;return Math.round(c);});
+  const datasets=[];
+  if(spChartMode==='daily'||spChartMode==='both')
+    datasets.push({label:'Net Profit daily',data:npArr,borderColor:'#22d07a',backgroundColor:'transparent',borderDash:[5,4],tension:0,pointRadius:2,borderWidth:2,yAxisID:'y'});
+  if(spChartMode==='cumul'||spChartMode==='both')
+    datasets.push({label:'Lũy kế',data:cumulArr,borderColor:'#4d8ef5',backgroundColor:'#4d8ef508',fill:true,tension:0.3,pointRadius:0,borderWidth:2,yAxisID:spChartMode==='both'?'y2':'y'});
+  if(spChart){spChart.data.labels=labels;spChart.data.datasets=datasets;spChart.update('none');return;}
+  const ctx=document.getElementById('sp-chart').getContext('2d');
+  spChart=new Chart(ctx,{type:'line',data:{labels,datasets},options:{
+    responsive:true,maintainAspectRatio:false,animation:{duration:120},
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+      callbacks:{label:c=>`${c.dataset.label}: €${Math.round(c.parsed.y).toLocaleString('de-DE')}`}}},
+    scales:{
+      x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9},maxTicksLimit:28,maxRotation:45}},
+      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:v=>'€'+(Math.abs(v)>=1000?(v/1000).toFixed(0)+'K':v)},grace:'5%'},
+      y2:{display:false,position:'right',grid:{display:false},ticks:{color:'#4a6d94',font:{size:10},callback:v=>'€'+(Math.abs(v)>=1000?(v/1000).toFixed(0)+'K':v)}}
+    }
+  }});
+}
+
+// ── Setters ──────────────────────────────────────────────
+function spSet(field,idx,val){
+  const v=parseFloat(val);
+  const p=(isNaN(v)||val==='')?null:Math.max(0,v);
+  if(field==='r')spRevA[idx]=p;
+  if(field==='a')spApiA[idx]=p;
+  if(field==='o')spOrdA[idx]=p;
+  spSaveField(idx,field,p);
+  spSaveLS();
+  spRecalc();
+}
+
+// ── Init ─────────────────────────────────────────────────
+function spInit(){
+  spInited=true;
+  spInitArrays();
+  spLoadLS();
+  spRecalc();
+  spLoadFromSheets();
+}
+
 </script>
 </body>
 </html>
