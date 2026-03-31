@@ -456,7 +456,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <div class="sp-hdr">
   <div>
     <h1>📊 Store Performance 2026</h1>
-    <p>01 Jan → 31 Dec 2026 · USD · Tự động từ Facebook + Google Ads · Ô vàng = nhập tay</p>
+    <p>01 Jan → 31 Dec 2026 · USD · Tự động từ Facebook + Google Ads + Google Sheets</p>
   </div>
   <div class="hdr-right">
     <div class="ibox"><label>Gross Margin</label><div class="ir"><input type="number" id="sp-gm" value="70" min="10" max="95" step="1" oninput="spRecalc()"><span class="u">%</span></div></div>
@@ -517,7 +517,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div class="ch">
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <div class="ct">📋 Dữ liệu từng ngày <span id="sp-range-lbl" style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px"></span></div>
-        <div class="actual-legend">✏️ Ô vàng = nhập tay · 🔒 Spent tự động từ Ads</div>
+        <div class="actual-legend">🔒 Tất cả dữ liệu tự động từ Google Sheets</div>
       </div>
       <div style="display:flex;gap:6px;align-items:center">
         <div id="sp-sync-badge" class="sp-sync load">⏳ Đang tải...</div>
@@ -529,12 +529,12 @@ tr:hover td{background:rgba(255,255,255,.013)}
         <thead>
           <tr>
             <th>Ngày</th>
-            <th class="ah">Revenue ✏️</th>
+            <th>Revenue 🔒</th>
             <th>FB Spent 🔒</th>
             <th>GG Spent 🔒</th>
             <th>Total Spent</th>
-            <th class="ah">API Cost ✏️</th>
-            <th class="ah">Orders ✏️</th>
+            <th>API Cost 🔒</th>
+            <th>Orders 🔒</th>
             <th>AOV</th>
             <th>ROAS</th>
             <th>POAS (€)</th>
@@ -1332,12 +1332,12 @@ function spRenderTable(rows,fS,fE){
     const pcls=hs?(c.np>=0?'pos':'neg'):'';
     html.push(`<tr class="sp-month-row-${r.month} sp-month-row${collapsed?' hidden':''}" style="${opacity}${r.isToday?'background:#4d8ef508;':''}">
       <td><div class="td-dt">${r.ds}${r.isToday?' <span class="today-badge">Hôm nay</span>':''}</div><div style="font-size:9px;color:var(--t3)">${r.dow}</div></td>
-      <td class="ec"><input type="number" value="${spRevA[r.idx]!=null?Math.round(spRevA[r.idx]):''}" min="0" step="1" class="act-inp" placeholder="—" onchange="spSet('r',${r.idx},this.value)"></td>
+      <td class="ro-cell" style="color:#25d4e7">${hs&&c.rev?spFD(c.rev):'—'}</td>
       <td class="ro-cell">${hs&&c.fb?spFD(c.fb):'—'}</td>
       <td class="ro-cell">${hs&&c.gg?spFD(c.gg):'—'}</td>
       <td class="mono" style="color:#60a5fa">${hs?spFD(c.spent):'—'}</td>
-      <td class="ec"><input type="number" value="${spApiA[r.idx]!=null?Math.round(spApiA[r.idx]):''}" min="0" step="1" class="act-inp" placeholder="—" onchange="spSet('a',${r.idx},this.value)"></td>
-      <td class="ec"><input type="number" value="${spOrdA[r.idx]!=null?Math.round(spOrdA[r.idx]):''}" min="0" step="1" class="act-inp" placeholder="—" onchange="spSet('o',${r.idx},this.value)"></td>
+      <td class="ro-cell">${hs&&c.api?spFD(c.api):'—'}</td>
+      <td class="ro-cell" style="color:#a78bfa">${hs&&c.orders?spFN(c.orders):'—'}</td>
       <td class="mono" style="color:#a78bfa">${hs&&c.aov?spFD(c.aov):'—'}</td>
       <td class="mono" style="color:#fcd34d">${hs&&c.roas?c.roas.toFixed(2)+'x':'—'}</td>
       <td class="mono" style="color:${hs?(c.poas>=0?'#22d07a':'#f05252'):'var(--t4)'}">${hs?spFD(c.poas):'—'}</td>
