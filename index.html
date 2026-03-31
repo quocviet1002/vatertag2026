@@ -470,7 +470,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <div class="kpi kc"><div class="kpi-lbl">📈 Tổng Revenue</div><div class="kpi-val" id="sp-k-rev" style="color:#67e8f9">€0</div><div class="kpi-sub" id="sp-k-rev-s">— orders</div></div>
   <div class="kpi kg"><div class="kpi-lbl">✅ Net Profit</div><div class="kpi-val" id="sp-k-np">€0</div><div class="kpi-sub" id="sp-k-np-s">margin: 0%</div></div>
   <div class="kpi ky"><div class="kpi-lbl">📊 ROAS thực tế</div><div class="kpi-val" id="sp-k-roas" style="color:#fcd34d">0x</div><div class="kpi-sub" id="sp-k-roas-s">Rev / Spent</div></div>
-  <div class="kpi ko"><div class="kpi-lbl">💵 Profit (USD)</div><div class="kpi-val" id="sp-k-usd" style="color:#fdba74">$0</div><div class="kpi-sub" id="sp-k-usd-s">× 1.16</div></div>
+  <div class="kpi ky"><div class="kpi-lbl">📊 % Ads trung bình</div><div class="kpi-val" id="sp-k-usd" style="color:#fcd34d">0%</div><div class="kpi-sub" id="sp-k-usd-s">Spent / Revenue</div></div>
 </div>
 
 <!-- FILTER BAR -->
@@ -1294,8 +1294,10 @@ function spRecalc(){
   document.getElementById('sp-k-np-s').textContent='margin: '+spFP(nmg);
   document.getElementById('sp-k-roas').textContent=avgRoas.toFixed(2)+'x';
   document.getElementById('sp-k-roas-s').textContent=spFE(tRev)+' / '+spFE(tSpent);
-  document.getElementById('sp-k-usd').textContent='$'+Math.round(tNP*1.16).toLocaleString('de-DE');
-  document.getElementById('sp-k-usd-s').textContent=spFE(tNP)+' × 1.16';
+  const pctAds=tRev>0?(tSpent/tRev*100):0;
+  document.getElementById('sp-k-usd').textContent=pctAds.toFixed(1)+'%';
+  document.getElementById('sp-k-usd').style.color=pctAds<=35?'#22d07a':pctAds<=42?'#4d8ef5':pctAds<=50?'#f5c842':'#f05252';
+  document.getElementById('sp-k-usd-s').textContent=spFE(tSpent)+' / '+spFE(tRev);
 
   const rl=spFilterMode==='all'?'toàn năm':fS.slice(5)+' → '+fE.slice(5);
   document.getElementById('sp-range-lbl').textContent='· '+rl;
