@@ -171,13 +171,20 @@ tr:hover td{background:rgba(255,255,255,.013)}
 .fsep{width:1px;height:18px;background:var(--bd);flex-shrink:0}
 .sp-main{padding:13px 18px;display:flex;flex-direction:column;gap:11px}
 .sp-chart-wrap{height:220px;position:relative}
-.sp-tw{overflow-x:auto}
-.sp-tw table{width:100%;border-collapse:collapse;font-size:11px}
-.sp-tw thead th{padding:7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--s1);border-bottom:2px solid var(--bd)}
+.sp-tw-wrap{overflow:auto;max-height:420px;border-radius:8px}
+.sp-tw-wrap::-webkit-scrollbar{width:5px;height:5px}
+.sp-tw{width:100%;border-collapse:collapse;font-size:11px}
+.sp-tw thead th{position:sticky;top:0;z-index:10;padding:7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--s1);border-bottom:2px solid var(--bd)}
 .sp-tw thead th.ah{color:var(--actual);background:#131f32;border-left:1px solid var(--actual-bd)}
 .sp-tw td{padding:5px 7px;border-bottom:1px solid #1d335422;vertical-align:middle}
 .sp-tw tr:hover td{background:rgba(255,255,255,.013)}
-.sp-sum td{background:var(--s2);border-top:2px solid var(--bd2);color:var(--t1);font-weight:700;font-family:var(--mono);font-size:11px}
+.sp-sum td{position:sticky;bottom:0;z-index:10;background:var(--s2);border-top:2px solid var(--bd2);color:var(--t1);font-weight:700;font-family:var(--mono);font-size:11px}
+/* collapsible months */
+.sp-month-hdr td{background:var(--s3);color:var(--t2);font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:5px 8px;cursor:pointer;user-select:none;border-top:1px solid var(--bd)}
+.sp-month-hdr:hover td{background:var(--bd)}
+.sp-month-hdr td .m-arrow{display:inline-block;transition:transform .2s;margin-right:6px;color:var(--t3)}
+.sp-month-hdr.collapsed td .m-arrow{transform:rotate(-90deg)}
+.sp-month-row.hidden{display:none}
 .sp-sync{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
 .sp-sync.ok{color:#22d07a;border-color:#22d07a44}.sp-sync.err{color:#f5c842;border-color:#f5c84244}.sp-sync.load{color:#4d8ef5;border-color:#4d8ef544}
 .ro-cell{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--t3)}
@@ -449,7 +456,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <div class="sp-hdr">
   <div>
     <h1>📊 Store Performance 2026</h1>
-    <p>01 Jan → 31 Dec 2026 · Tự động từ Facebook + Google Ads · Ô vàng = nhập tay</p>
+    <p>01 Jan → 31 Dec 2026 · USD · Tự động từ Facebook + Google Ads · Ô vàng = nhập tay</p>
   </div>
   <div class="hdr-right">
     <div class="ibox"><label>Gross Margin</label><div class="ir"><input type="number" id="sp-gm" value="70" min="10" max="95" step="1" oninput="spRecalc()"><span class="u">%</span></div></div>
@@ -490,7 +497,9 @@ tr:hover td{background:rgba(255,255,255,.013)}
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
         <div class="ct">📈 Biểu đồ Profit</div>
         <div class="ld-row">
-          <div class="ld"><div class="ld-ln" style="color:#22d07a"></div>Daily</div>
+          <div class="ld"><div class="ld-ln" style="color:#25d4e7;border-top-style:solid"></div>Revenue</div>
+          <div class="ld"><div class="ld-ln" style="color:#f5922d;border-top-style:solid"></div>Spent</div>
+          <div class="ld"><div class="ld-ln" style="color:#22d07a"></div>Profit</div>
           <div class="ld"><div class="ld-ln" style="color:#4d8ef5;border-top-style:solid"></div>Lũy kế</div>
         </div>
       </div>
@@ -515,8 +524,8 @@ tr:hover td{background:rgba(255,255,255,.013)}
         <button class="rbtn" onclick="spLoadFromSheets()">🔄 Refresh</button>
       </div>
     </div>
-    <div class="sp-tw">
-      <table>
+    <div class="sp-tw-wrap">
+      <table class="sp-tw">
         <thead>
           <tr>
             <th>Ngày</th>
@@ -1255,7 +1264,8 @@ function spCalcDay(i){
     np, nmg:r>0?np/r:null};
 }
 
-const spFE=v=>'€'+Math.round(v).toLocaleString('de-DE');
+const spFD=v=>'$'+Math.round(v).toLocaleString('de-DE');
+const spFE=v=>'$'+Math.round(v).toLocaleString('de-DE');
 const spFP=v=>(v*100).toFixed(1)+'%';
 const spFN=v=>Math.round(v).toLocaleString('de-DE');
 
@@ -1296,30 +1306,43 @@ function spRecalc(){
 }
 
 // ── Render table ────────────────────────────────────────
+const SP_MONTHS_COLLAPSED = {};
+function spToggleMonth(m){
+  SP_MONTHS_COLLAPSED[m]=!SP_MONTHS_COLLAPSED[m];
+  document.querySelectorAll('.sp-month-row-'+m).forEach(tr=>tr.classList.toggle('hidden',!!SP_MONTHS_COLLAPSED[m]));
+  const hdr=document.getElementById('sp-mhdr-'+m);
+  if(hdr)hdr.classList.toggle('collapsed',!!SP_MONTHS_COLLAPSED[m]);
+}
 function spRenderTable(rows,fS,fE){
   const mNames=['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
   let lastM=-1;
-  document.getElementById('sp-tbody').innerHTML=rows.map(r=>{
+  const html=[];
+  rows.forEach(r=>{
     const c=r.calc; const hs=c!=null;
-    let sep='';
-    if(r.month!==lastM){lastM=r.month;sep=`<tr class="month-sep"><td colspan="11">── ${mNames[r.month]} 2026 ──</td></tr>`;}
+    if(r.month!==lastM){
+      lastM=r.month;
+      const collapsed=!!SP_MONTHS_COLLAPSED[r.month];
+      html.push(`<tr class="sp-month-hdr${collapsed?' collapsed':''}" id="sp-mhdr-${r.month}" onclick="spToggleMonth(${r.month})"><td colspan="11"><span class="m-arrow">▼</span>${mNames[r.month]} 2026</td></tr>`);
+    }
     const inF=r.iso>=fS&&r.iso<=fE;
+    const collapsed=!!SP_MONTHS_COLLAPSED[r.month];
     const opacity=(!inF&&spFilterMode!=='all')||r.isFuture?'opacity:.4;':'';
     const pcls=hs?(c.np>=0?'pos':'neg'):'';
-    return sep+`<tr style="${opacity}${r.isToday?'background:#4d8ef508;':''}">
+    html.push(`<tr class="sp-month-row-${r.month} sp-month-row${collapsed?' hidden':''}" style="${opacity}${r.isToday?'background:#4d8ef508;':''}">
       <td><div class="td-dt">${r.ds}${r.isToday?' <span class="today-badge">Hôm nay</span>':''}</div><div style="font-size:9px;color:var(--t3)">${r.dow}</div></td>
       <td class="ec"><input type="number" value="${spRevA[r.idx]!=null?Math.round(spRevA[r.idx]):''}" min="0" step="1" class="act-inp" placeholder="—" onchange="spSet('r',${r.idx},this.value)"></td>
-      <td class="ro-cell">${hs&&c.fb?spFE(c.fb):'—'}</td>
-      <td class="ro-cell">${hs&&c.gg?spFE(c.gg):'—'}</td>
-      <td class="mono" style="color:#60a5fa">${hs?spFE(c.spent):'—'}</td>
+      <td class="ro-cell">${hs&&c.fb?spFD(c.fb):'—'}</td>
+      <td class="ro-cell">${hs&&c.gg?spFD(c.gg):'—'}</td>
+      <td class="mono" style="color:#60a5fa">${hs?spFD(c.spent):'—'}</td>
       <td class="ec"><input type="number" value="${spApiA[r.idx]!=null?Math.round(spApiA[r.idx]):''}" min="0" step="1" class="act-inp" placeholder="—" onchange="spSet('a',${r.idx},this.value)"></td>
       <td class="ec"><input type="number" value="${spOrdA[r.idx]!=null?Math.round(spOrdA[r.idx]):''}" min="0" step="1" class="act-inp" placeholder="—" onchange="spSet('o',${r.idx},this.value)"></td>
-      <td class="mono" style="color:#a78bfa">${hs&&c.aov?spFE(c.aov):'—'}</td>
+      <td class="mono" style="color:#a78bfa">${hs&&c.aov?spFD(c.aov):'—'}</td>
       <td class="mono" style="color:#fcd34d">${hs&&c.roas?c.roas.toFixed(2)+'x':'—'}</td>
-      <td class="mono" style="color:${hs?(c.poas>=0?'#22d07a':'#f05252'):'var(--t4)'}">${hs?spFE(c.poas):'—'}</td>
-      <td><span class="${pcls}">${hs?(c.np>=0?'+':'')+spFE(c.np):'—'}</span><span class="sub-v">${hs&&c.nmg!=null?spFP(c.nmg):''}</span></td>
-    </tr>`;
-  }).join('');
+      <td class="mono" style="color:${hs?(c.poas>=0?'#22d07a':'#f05252'):'var(--t4)'}">${hs?spFD(c.poas):'—'}</td>
+      <td><span class="${pcls}">${hs?(c.np>=0?'+':'')+spFD(c.np):'—'}</span><span class="sub-v">${hs&&c.nmg!=null?spFP(c.nmg):''}</span></td>
+    </tr>`);
+  });
+  document.getElementById('sp-tbody').innerHTML=html.join('');
 }
 
 // ── Summary ─────────────────────────────────────────────
@@ -1353,25 +1376,43 @@ function spSetChart(mode){
   spUpdateChart(withData);
 }
 function spUpdateChart(withData){
-  const labels=withData.map(r=>r.ds);
-  const npArr=withData.map(r=>Math.round(r.calc.np));
-  let c=0; const cumulArr=withData.map(r=>{c+=r.calc.np;return Math.round(c);});
+  const labels  = withData.map(r=>r.ds);
+  const revArr  = withData.map(r=>Math.round(r.calc.rev));
+  const spentArr= withData.map(r=>Math.round(r.calc.spent));
+  const npArr   = withData.map(r=>Math.round(r.calc.np));
+  let cum=0; const cumulArr=withData.map(r=>{cum+=r.calc.np;return Math.round(cum);});
+
+  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v);
   const datasets=[];
-  if(spChartMode==='daily'||spChartMode==='both')
-    datasets.push({label:'Net Profit daily',data:npArr,borderColor:'#22d07a',backgroundColor:'transparent',borderDash:[5,4],tension:0,pointRadius:2,borderWidth:2,yAxisID:'y'});
-  if(spChartMode==='cumul'||spChartMode==='both')
-    datasets.push({label:'Lũy kế',data:cumulArr,borderColor:'#4d8ef5',backgroundColor:'#4d8ef508',fill:true,tension:0.3,pointRadius:0,borderWidth:2,yAxisID:spChartMode==='both'?'y2':'y'});
-  if(spChart){spChart.data.labels=labels;spChart.data.datasets=datasets;spChart.update('none');return;}
+
+  if(spChartMode==='daily'||spChartMode==='both'){
+    datasets.push({label:'Revenue',data:revArr,borderColor:'#25d4e7',backgroundColor:'transparent',tension:0.3,pointRadius:0,borderWidth:2,yAxisID:'y'});
+    datasets.push({label:'Spent Ads',data:spentArr,borderColor:'#f5922d',backgroundColor:'transparent',tension:0.3,pointRadius:0,borderWidth:2,yAxisID:'y'});
+    datasets.push({label:'Net Profit',data:npArr,borderColor:'#22d07a',backgroundColor:'transparent',borderDash:[5,4],tension:0,pointRadius:2,borderWidth:2,yAxisID:'y'});
+  }
+  if(spChartMode==='cumul'){
+    datasets.push({label:'Lũy kế Profit',data:cumulArr,borderColor:'#4d8ef5',backgroundColor:'#4d8ef510',fill:true,tension:0.3,pointRadius:0,borderWidth:2,yAxisID:'y'});
+  }
+  if(spChartMode==='both'){
+    datasets.push({label:'Lũy kế',data:cumulArr,borderColor:'#4d8ef5',backgroundColor:'transparent',tension:0.3,pointRadius:0,borderWidth:1.5,borderDash:[3,3],yAxisID:'y2'});
+  }
+
+  if(spChart){spChart.data.labels=labels;spChart.data.datasets=datasets;
+    spChart.options.scales.y2.display=spChartMode==='both';
+    spChart.update('none');return;}
   const ctx=document.getElementById('sp-chart').getContext('2d');
   spChart=new Chart(ctx,{type:'line',data:{labels,datasets},options:{
     responsive:true,maintainAspectRatio:false,animation:{duration:120},
     interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
-      callbacks:{label:c=>`${c.dataset.label}: €${Math.round(c.parsed.y).toLocaleString('de-DE')}`}}},
+    plugins:{
+      legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:14,padding:16}},
+      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}
+    },
     scales:{
       x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9},maxTicksLimit:28,maxRotation:45}},
-      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:v=>'€'+(Math.abs(v)>=1000?(v/1000).toFixed(0)+'K':v)},grace:'5%'},
-      y2:{display:false,position:'right',grid:{display:false},ticks:{color:'#4a6d94',font:{size:10},callback:v=>'€'+(Math.abs(v)>=1000?(v/1000).toFixed(0)+'K':v)}}
+      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt},grace:'5%'},
+      y2:{display:false,position:'right',grid:{display:false},ticks:{color:'#4a6d94',font:{size:10},callback:fmt}}
     }
   }});
 }
