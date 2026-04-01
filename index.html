@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vatertag 2026 — Campaign Command Center</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
@@ -457,7 +456,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <div class="sp-hdr">
   <div>
     <h1>📊 Store Performance 2026</h1>
-    <p>01 Jan → 31 Dec 2026 · USD · Tự động từ Facebook + Google Ads + Google Sheets</p>
+    <p>01 Jan → 31 Dec 2026 · USD · Tự động từ Facebook + Google Ads · Ô vàng = nhập tay</p>
   </div>
   <div class="hdr-right">
     <div class="ibox"><label>Gross Margin</label><div class="ir"><input type="number" id="sp-gm" value="70" min="10" max="95" step="1" oninput="spRecalc()"><span class="u">%</span></div></div>
@@ -471,13 +470,13 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <div class="kpi kc"><div class="kpi-lbl">📈 Tổng Revenue</div><div class="kpi-val" id="sp-k-rev" style="color:#67e8f9">€0</div><div class="kpi-sub" id="sp-k-rev-s">— orders</div></div>
   <div class="kpi kg"><div class="kpi-lbl">✅ Net Profit</div><div class="kpi-val" id="sp-k-np">€0</div><div class="kpi-sub" id="sp-k-np-s">margin: 0%</div></div>
   <div class="kpi ky"><div class="kpi-lbl">📊 ROAS thực tế</div><div class="kpi-val" id="sp-k-roas" style="color:#fcd34d">0x</div><div class="kpi-sub" id="sp-k-roas-s">Rev / Spent</div></div>
-  <div class="kpi ky"><div class="kpi-lbl">📊 % Ads trung bình</div><div class="kpi-val" id="sp-k-usd" style="color:#fcd34d">0%</div><div class="kpi-sub" id="sp-k-usd-s">Spent / Revenue</div></div>
+  <div class="kpi ko"><div class="kpi-lbl">📊 % Ads TB</div><div class="kpi-val" id="sp-k-adpct" style="color:#fdba74">0%</div><div class="kpi-sub" id="sp-k-adpct-s">Spent / Revenue</div></div>
 </div>
 
 <!-- FILTER BAR -->
 <div class="filter-bar">
   <span class="flbl">📅</span>
-  <div class="fpill"     id="spf-all"  onclick="spSetFilter('all')">Tất cả</div>
+  <div class="fpill act" id="spf-all"  onclick="spSetFilter('all')">Tất cả</div>
   <div class="fpill"     id="spf-today" onclick="spSetFilter('today')">Hôm nay</div>
   <div class="fpill"     id="spf-yest"  onclick="spSetFilter('yest')">Yesterday</div>
   <div class="fsep"></div>
@@ -487,7 +486,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <div class="fsep"></div>
   <div class="fpill"     id="spf-mtd"  onclick="spSetFilter('mtd')">This Month</div>
   <div class="fpill"     id="spf-lm"   onclick="spSetFilter('lm')">Last Month</div>
-  <div class="fpill act" id="spf-ytd"  onclick="spSetFilter('ytd')">YTD</div>
+  <div class="fpill"     id="spf-ytd"  onclick="spSetFilter('ytd')">YTD</div>
 </div>
 
 <!-- SP MAIN -->
@@ -530,15 +529,15 @@ tr:hover td{background:rgba(255,255,255,.013)}
         <thead>
           <tr>
             <th>Ngày</th>
-            <th>Revenue 🔒</th>
-            <th>FB Spent 🔒</th>
-            <th>GG Spent 🔒</th>
+            <th>Revenue</th>
+            <th>FB Spent</th>
+            <th>GG Spent</th>
             <th>Total Spent</th>
-            <th>API Cost 🔒</th>
-            <th>Orders 🔒</th>
+            <th>API Cost</th>
+            <th>Orders</th>
             <th>AOV</th>
             <th>ROAS</th>
-            <th>POAS (€)</th>
+            <th>POAS ($)</th>
             <th>Net Profit<br>% Margin</th>
           </tr>
         </thead>
@@ -1115,7 +1114,7 @@ const SP_GS_URL = 'https://script.google.com/macros/s/AKfycbw9NtBnN00HYE6sLZLcHB
 const SP_LS_KEY = 'hamyso_store_2026';
 let spInited = false;
 let spChartMode = 'daily';
-let spFilterMode = 'ytd';
+let spFilterMode = 'all';
 let spChart = null;
 
 // Build all dates 01/01 → 31/12/2026
@@ -1152,13 +1151,11 @@ function spSaveLS(){
   const d={};
   for(let i=0;i<SP_N;i++){
     const iso=SP_DATES[i].iso;
-    if(spRevA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null||spFbA[i]!=null||spGgA[i]!=null){
+    if(spRevA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null){
       d[iso]={};
       if(spRevA[i]!=null) d[iso].r=spRevA[i];
       if(spApiA[i]!=null) d[iso].a=spApiA[i];
       if(spOrdA[i]!=null) d[iso].o=spOrdA[i];
-      if(spFbA[i]!=null)  d[iso].fb=spFbA[i];
-      if(spGgA[i]!=null)  d[iso].gg=spGgA[i];
     }
   }
   try{localStorage.setItem(SP_LS_KEY,JSON.stringify(d));}catch(e){}
@@ -1172,8 +1169,6 @@ function spLoadLS(){
         spRevA[i]=x.r!=null?+x.r:null;
         spApiA[i]=x.a!=null?+x.a:null;
         spOrdA[i]=x.o!=null?+x.o:null;
-        spFbA[i] =x.fb!=null?+x.fb:null;
-        spGgA[i] =x.gg!=null?+x.gg:null;
       }
     }
   }catch(e){}
@@ -1193,10 +1188,8 @@ async function spLoadFromSheets(){
   try{
     const res=await fetch(SP_GS_URL+'?action=read_store');
     const json=await res.json();
-    console.log('SP GS response:', JSON.stringify(json).slice(0,300));
-    // Accept data whether ok=true or data exists directly
-    const d=json.data||(typeof json==='object'&&!json.ok===false?json:null)||{};
-    if(!d||Object.keys(d).length===0) throw new Error('No data: '+JSON.stringify(json).slice(0,100));
+    if(!json.ok)throw new Error('API error');
+    const d=json.data||{};
     for(let i=0;i<SP_N;i++){
       const iso=SP_DATES[i].iso;
       if(d[iso]){
@@ -1212,9 +1205,9 @@ async function spLoadFromSheets(){
     spRecalc();
   }catch(e){
     spLoadLS();
-    spBadge('err','Dùng cache · '+e.message.slice(0,40));
+    spBadge('err','Dùng cache local');
     spRecalc();
-    console.error('SP GS error:',e);
+    console.error('SP GS error',e);
   }
 }
 
@@ -1301,10 +1294,10 @@ function spRecalc(){
   document.getElementById('sp-k-np-s').textContent='margin: '+spFP(nmg);
   document.getElementById('sp-k-roas').textContent=avgRoas.toFixed(2)+'x';
   document.getElementById('sp-k-roas-s').textContent=spFE(tRev)+' / '+spFE(tSpent);
-  const pctAds=tRev>0?(tSpent/tRev*100):0;
-  document.getElementById('sp-k-usd').textContent=pctAds.toFixed(1)+'%';
-  document.getElementById('sp-k-usd').style.color=pctAds<=35?'#22d07a':pctAds<=42?'#4d8ef5':pctAds<=50?'#f5c842':'#f05252';
-  document.getElementById('sp-k-usd-s').textContent=spFE(tSpent)+' / '+spFE(tRev);
+  const adPct=tRev>0?tSpent/tRev:0;
+  document.getElementById('sp-k-adpct').textContent=(adPct*100).toFixed(1)+'%';
+  document.getElementById('sp-k-adpct').style.color=adPct<=0.35?'#22d07a':adPct<=0.42?'#25d4e7':adPct<=0.50?'#f5c842':'#f05252';
+  document.getElementById('sp-k-adpct-s').textContent=spFE(tSpent)+' / '+spFE(tRev);
 
   const rl=spFilterMode==='all'?'toàn năm':fS.slice(5)+' → '+fE.slice(5);
   document.getElementById('sp-range-lbl').textContent='· '+rl;
@@ -1339,12 +1332,12 @@ function spRenderTable(rows,fS,fE){
     const pcls=hs?(c.np>=0?'pos':'neg'):'';
     html.push(`<tr class="sp-month-row-${r.month} sp-month-row${collapsed?' hidden':''}" style="${opacity}${r.isToday?'background:#4d8ef508;':''}">
       <td><div class="td-dt">${r.ds}${r.isToday?' <span class="today-badge">Hôm nay</span>':''}</div><div style="font-size:9px;color:var(--t3)">${r.dow}</div></td>
-      <td class="ro-cell" style="color:#25d4e7">${hs&&c.rev?spFD(c.rev):'—'}</td>
+      <td class="mono" style="color:#67e8f9">${hs&&c.rev?spFD(c.rev):'—'}</td>
       <td class="ro-cell">${hs&&c.fb?spFD(c.fb):'—'}</td>
       <td class="ro-cell">${hs&&c.gg?spFD(c.gg):'—'}</td>
       <td class="mono" style="color:#60a5fa">${hs?spFD(c.spent):'—'}</td>
       <td class="ro-cell">${hs&&c.api?spFD(c.api):'—'}</td>
-      <td class="ro-cell" style="color:#a78bfa">${hs&&c.orders?spFN(c.orders):'—'}</td>
+      <td class="ro-cell">${hs&&c.orders?c.orders:'—'}</td>
       <td class="mono" style="color:#a78bfa">${hs&&c.aov?spFD(c.aov):'—'}</td>
       <td class="mono" style="color:#fcd34d">${hs&&c.roas?c.roas.toFixed(2)+'x':'—'}</td>
       <td class="mono" style="color:${hs?(c.poas>=0?'#22d07a':'#f05252'):'var(--t4)'}">${hs?spFD(c.poas):'—'}</td>
