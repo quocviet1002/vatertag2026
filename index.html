@@ -1152,11 +1152,13 @@ function spSaveLS(){
   const d={};
   for(let i=0;i<SP_N;i++){
     const iso=SP_DATES[i].iso;
-    if(spRevA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null){
+    if(spRevA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null||spFbA[i]!=null||spGgA[i]!=null){
       d[iso]={};
       if(spRevA[i]!=null) d[iso].r=spRevA[i];
       if(spApiA[i]!=null) d[iso].a=spApiA[i];
       if(spOrdA[i]!=null) d[iso].o=spOrdA[i];
+      if(spFbA[i]!=null)  d[iso].fb=spFbA[i];
+      if(spGgA[i]!=null)  d[iso].gg=spGgA[i];
     }
   }
   try{localStorage.setItem(SP_LS_KEY,JSON.stringify(d));}catch(e){}
@@ -1170,6 +1172,8 @@ function spLoadLS(){
         spRevA[i]=x.r!=null?+x.r:null;
         spApiA[i]=x.a!=null?+x.a:null;
         spOrdA[i]=x.o!=null?+x.o:null;
+        spFbA[i] =x.fb!=null?+x.fb:null;
+        spGgA[i] =x.gg!=null?+x.gg:null;
       }
     }
   }catch(e){}
