@@ -1193,8 +1193,10 @@ async function spLoadFromSheets(){
   try{
     const res=await fetch(SP_GS_URL+'?action=read_store');
     const json=await res.json();
-    if(!json.ok)throw new Error('API error');
-    const d=json.data||{};
+    console.log('SP GS response:', JSON.stringify(json).slice(0,300));
+    // Accept data whether ok=true or data exists directly
+    const d=json.data||(typeof json==='object'&&!json.ok===false?json:null)||{};
+    if(!d||Object.keys(d).length===0) throw new Error('No data: '+JSON.stringify(json).slice(0,100));
     for(let i=0;i<SP_N;i++){
       const iso=SP_DATES[i].iso;
       if(d[iso]){
@@ -1210,9 +1212,9 @@ async function spLoadFromSheets(){
     spRecalc();
   }catch(e){
     spLoadLS();
-    spBadge('err','Dùng cache local');
+    spBadge('err','Dùng cache · '+e.message.slice(0,40));
     spRecalc();
-    console.error('SP GS error',e);
+    console.error('SP GS error:',e);
   }
 }
 
