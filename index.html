@@ -476,7 +476,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <!-- FILTER BAR -->
 <div class="filter-bar">
   <span class="flbl">📅</span>
-  <div class="fpill act" id="spf-all"  onclick="spSetFilter('all')">Tất cả</div>
+  <div class="fpill" id="spf-all"  onclick="spSetFilter('all')">Tất cả</div>
   <div class="fpill"     id="spf-today" onclick="spSetFilter('today')">Hôm nay</div>
   <div class="fpill"     id="spf-yest"  onclick="spSetFilter('yest')">Yesterday</div>
   <div class="fsep"></div>
@@ -486,7 +486,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <div class="fsep"></div>
   <div class="fpill"     id="spf-mtd"  onclick="spSetFilter('mtd')">This Month</div>
   <div class="fpill"     id="spf-lm"   onclick="spSetFilter('lm')">Last Month</div>
-  <div class="fpill"     id="spf-ytd"  onclick="spSetFilter('ytd')">YTD</div>
+  <div class="fpill act" id="spf-ytd"  onclick="spSetFilter('ytd')">YTD</div>
 </div>
 
 <!-- SP MAIN -->
@@ -1114,7 +1114,7 @@ const SP_GS_URL = 'https://script.google.com/macros/s/AKfycbxViEkih39gnsaD3srYjk
 const SP_LS_KEY = 'hamyso_store_2026';
 let spInited = false;
 let spChartMode = 'daily';
-let spFilterMode = 'all';
+let spFilterMode = 'ytd';
 let spChart = null;
 
 // Build all dates 01/01 → 31/12/2026
