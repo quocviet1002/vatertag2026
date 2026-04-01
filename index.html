@@ -456,7 +456,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <div class="sp-hdr">
   <div>
     <h1>📊 Store Performance 2026</h1>
-    <p>01 Jan → 31 Dec 2026 · USD · Tự động từ Facebook + Google Ads · Ô vàng = nhập tay</p>
+    <p>01 Jan → 31 Dec 2026 · USD · Tự động đồng bộ từ Facebook + Google Ads</p>
   </div>
   <div class="hdr-right">
     <div class="ibox"><label>Gross Margin</label><div class="ir"><input type="number" id="sp-gm" value="70" min="10" max="95" step="1" oninput="spRecalc()"><span class="u">%</span></div></div>
@@ -1110,7 +1110,7 @@ function switchTab(n){
 // ══════════════════════════════════════════════════════
 //  STORE PERFORMANCE — STATE
 // ══════════════════════════════════════════════════════
-const SP_GS_URL = 'https://script.google.com/macros/s/AKfycbw9NtBnN00HYE6sLZLcHBJkJ7NwUyX1YQNdQQ9veIGgNmO70caD0uazIpaIZ398cJp_/exec';
+const SP_GS_URL = 'https://script.google.com/macros/s/AKfycbxViEkih39gnsaD3srYjkWe1Wq_tUVCRv1FAIT9MAeRnIZTN5gDaR5mMGsw1KkGOz7n/exec';
 const SP_LS_KEY = 'hamyso_store_2026';
 let spInited = false;
 let spChartMode = 'daily';
@@ -1137,13 +1137,13 @@ function spTodayISO(){
 
 let SP_DATES=[];
 let SP_N=0;
-let spRevA=[], spFbA=[], spGgA=[], spApiA=[], spOrdA=[];
+let spRevA=[], spFbA=[], spGgA=[], spSpentA=[], spApiA=[], spOrdA=[];
 
 function spInitArrays(){
   SP_DATES=spBuildDates(); SP_N=SP_DATES.length;
   spRevA=new Array(SP_N).fill(null); spFbA=new Array(SP_N).fill(null);
-  spGgA=new Array(SP_N).fill(null);  spApiA=new Array(SP_N).fill(null);
-  spOrdA=new Array(SP_N).fill(null);
+  spGgA=new Array(SP_N).fill(null);  spSpentA=new Array(SP_N).fill(null);
+  spApiA=new Array(SP_N).fill(null); spOrdA=new Array(SP_N).fill(null);
 }
 
 // ── localStorage fallback ─────────────────────────────
@@ -1151,11 +1151,14 @@ function spSaveLS(){
   const d={};
   for(let i=0;i<SP_N;i++){
     const iso=SP_DATES[i].iso;
-    if(spRevA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null){
+    if(spRevA[i]!=null||spSpentA[i]!=null||spFbA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null){
       d[iso]={};
-      if(spRevA[i]!=null) d[iso].r=spRevA[i];
-      if(spApiA[i]!=null) d[iso].a=spApiA[i];
-      if(spOrdA[i]!=null) d[iso].o=spOrdA[i];
+      if(spRevA[i]!=null)   d[iso].r =spRevA[i];
+      if(spSpentA[i]!=null) d[iso].s =spSpentA[i];
+      if(spFbA[i]!=null)    d[iso].fb=spFbA[i];
+      if(spGgA[i]!=null)    d[iso].gg=spGgA[i];
+      if(spApiA[i]!=null)   d[iso].a =spApiA[i];
+      if(spOrdA[i]!=null)   d[iso].o =spOrdA[i];
     }
   }
   try{localStorage.setItem(SP_LS_KEY,JSON.stringify(d));}catch(e){}
@@ -1166,9 +1169,12 @@ function spLoadLS(){
     for(let i=0;i<SP_N;i++){
       const x=d[SP_DATES[i].iso];
       if(x){
-        spRevA[i]=x.r!=null?+x.r:null;
-        spApiA[i]=x.a!=null?+x.a:null;
-        spOrdA[i]=x.o!=null?+x.o:null;
+        spRevA[i]  =x.r !=null?+x.r :null;
+        spSpentA[i]=x.s !=null?+x.s :null;
+        spFbA[i]   =x.fb!=null?+x.fb:null;
+        spGgA[i]   =x.gg!=null?+x.gg:null;
+        spApiA[i]  =x.a !=null?+x.a :null;
+        spOrdA[i]  =x.o !=null?+x.o :null;
       }
     }
   }catch(e){}
@@ -1193,11 +1199,12 @@ async function spLoadFromSheets(){
     for(let i=0;i<SP_N;i++){
       const iso=SP_DATES[i].iso;
       if(d[iso]){
-        spRevA[i]=d[iso].r!=null?+d[iso].r:spRevA[i];
-        spFbA[i] =d[iso].fb!=null?+d[iso].fb:spFbA[i];
-        spGgA[i] =d[iso].gg!=null?+d[iso].gg:spGgA[i];
-        spApiA[i]=d[iso].a!=null?+d[iso].a:spApiA[i];
-        spOrdA[i]=d[iso].o!=null?+d[iso].o:spOrdA[i];
+        spRevA[i]  =d[iso].r !=null?+d[iso].r :spRevA[i];
+        spSpentA[i]=d[iso].s !=null?+d[iso].s :spSpentA[i];
+        spFbA[i]   =d[iso].fb!=null?+d[iso].fb:spFbA[i];
+        spGgA[i]   =d[iso].gg!=null?+d[iso].gg:spGgA[i];
+        spApiA[i]  =d[iso].a !=null?+d[iso].a :spApiA[i];
+        spOrdA[i]  =d[iso].o !=null?+d[iso].o :spOrdA[i];
       }
     }
     spSaveLS();
@@ -1251,7 +1258,7 @@ function spCalcDay(i){
   const gm= +document.getElementById('sp-gm').value/100||0.70;
   const varC=+document.getElementById('sp-var').value/100||0.05;
   const rev=spRevA[i], fb=spFbA[i]||0, gg=spGgA[i]||0;
-  const spent=fb+gg;
+  const spent=spSpentA[i]!=null?spSpentA[i]:(fb+gg);
   const api=spApiA[i]||0;
   const orders=spOrdA[i];
   if(rev==null&&spent===0) return null;
