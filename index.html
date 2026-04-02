@@ -583,9 +583,7 @@ const PHASES=[
 function buildDates(){
   const dates=[],start=new Date(2026,2,6),end=new Date(2026,4,14);
   for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){
-    // GMT+1 (Germany/DACH market)
-    const gmt1=new Date(d.getTime()+60*60*1000);
-    const iso=gmt1.getUTCFullYear()+'-'+String(gmt1.getUTCMonth()+1).padStart(2,'0')+'-'+String(gmt1.getUTCDate()).padStart(2,'0');
+    const iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     const ph=PHASES.find(p=>iso>=p.sd&&iso<=p.ed)||PHASES[0];
     dates.push({
       idx:dates.length,iso,
@@ -787,9 +785,9 @@ function calcDay(idx,inp){
   // Revenue Actual
   const revA=revActual[idx];
 
-  // Which budget and revenue to use for profit calc
-  const budUse = bA!=null ? bA : bF;
-  const revUse = revA!=null ? revA : revF;
+  // KPI/Chart luôn dùng Forecast — Actual chỉ để so sánh trong bảng
+  const budUse = bF;
+  const revUse = revF;
 
   // Orders (always from revUse / AOV)
   const orders = inp.aov>0 ? revUse/inp.aov : 0;
