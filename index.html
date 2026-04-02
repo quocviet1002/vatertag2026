@@ -205,20 +205,20 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <div class="hdr">
   <div class="hdr-title">
     <h1>🃏 Vatertag 2026 — Campaign Command Center</h1>
-    <p>06 Mar → 14 May 2026 · EUR/USD 1.16 · Ô vàng = Actual (sync Google Sheets ☁️)</p>
+    <p>06 Mar → 14 May 2026 · USD · Actual tự động từ Google Sheets ☁️</p>
   </div>
   <div class="hdr-right">
     <div id="tbadge" class="tbadge tmiss">❌ BELOW $30K</div>
     <div class="ibox accent">
       <label>💰 Tổng Spent Ads</label>
-      <div class="ir"><span class="u">€</span>
-        <input type="number" id="i-total" value="250000" min="5000" max="300000" step="1000" oninput="onTotalChange()">
+      <div class="ir"><span class="u">$</span>
+        <input type="number" id="i-total" value="290000" min="5000" max="400000" step="1000" oninput="onTotalChange()">
       </div>
     </div>
     <div class="ibox">
       <label>AOV</label>
-      <div class="ir"><span class="u">€</span>
-        <input type="number" id="i-aov" value="37.5" min="10" max="100" step="0.5" oninput="recalc()">
+      <div class="ir"><span class="u">$</span>
+        <input type="number" id="i-aov" value="43.5" min="10" max="100" step="0.5" oninput="recalc()">
       </div>
     </div>
     <div class="ibox">
@@ -392,7 +392,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div class="ch">
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <div class="ct">📋 Dữ liệu từng ngày</div>
-        <div class="actual-legend">✏️ Ô vàng = Actual</div>
+        <div class="actual-legend">☁️ Actual tự động từ Google Sheets · USD</div>
         <div id="sync-badge" class="sync-badge sync-load">⏳ Đang tải...</div>
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
@@ -728,7 +728,7 @@ function initActualFromStorage(){
 // ══════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════
-let budFcst    = buildBudgets(250000);
+let budFcst    = buildBudgets(290000);
 let revFcstOvr = new Array(N).fill(null); // null = auto (BudF×ROAS)
 let revFcstMan = new Array(N).fill(false);
 let budActual  = new Array(N).fill(null);
@@ -757,14 +757,14 @@ function getInp(){
   };
 }
 function onTotalChange(){
-  const t=+document.getElementById('i-total').value||250000;
+  const t=+document.getElementById('i-total').value||290000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
   recalc();
 }
 function onRateChange(){
-  const t=+document.getElementById('i-total').value||250000;
+  const t=+document.getElementById('i-total').value||290000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
@@ -826,7 +826,7 @@ function pillCls(adPct,phase,avgAdPct){
 // ══════════════════════════════════════════════════════
 //  FORMATTERS
 // ══════════════════════════════════════════════════════
-const fe=v=>'€'+Math.round(v).toLocaleString('de-DE');
+const fe=v=>'$'+Math.round(v).toLocaleString('de-DE');
 const fp=v=>(v*100).toFixed(1)+'%';
 const fn=v=>Math.round(v).toLocaleString('de-DE');
 
@@ -847,7 +847,7 @@ function recalc(){
   const avgAdPct=totRevU>0?totBU/totRevU:0;
   const avgRoas =totBU>0?totRevU/totBU:0;
   const nmgTot  =totRevU>0?totNP/totRevU:0;
-  const npUSD   =totNP*1.16;
+  const npUSD   =totNP;
 
   const totApiF =rows.reduce((s,r)=>s+r.apiF,0);
   const totApiA =rows.filter(r=>r.apiA!=null).reduce((s,r)=>s+r.apiA,0);
@@ -872,7 +872,7 @@ function recalc(){
   const hit=npUSD>=30000;
   const tb=document.getElementById('tbadge');
   tb.className='tbadge '+(hit?'thit':'tmiss');
-  tb.textContent=(hit?'✅ ':'❌ ')+fe(totNP)+' (~$'+Math.round(npUSD/1000)+'K)';
+  tb.textContent=(hit?'✅ ':'❌ ')+fe(totNP);
 
   renderTable(rows,avgAdPct,inp);
   updateSummary(rows,avgAdPct);
@@ -910,22 +910,19 @@ function renderTable(rows,avgAdPct,inp){
       <td class="ec"><input type="number" value="${hs?Math.round(r.revF):''}" min="0" max="999999" step="1"
         class="${r.revFman?'manual':''}" placeholder="—"
         onchange="setRevFcst(${r.idx},this.value)"></td>
-      <td class="ec" style="border-left:1px solid var(--actual-bd)">
-        <input type="number" value="${r.revA!=null?Math.round(r.revA):''}" min="0" max="999999" step="1"
-          class="act-inp" placeholder="—" onchange="setRevActual(${r.idx},this.value)">
+      <td style="border-left:1px solid var(--actual-bd)">
+        <span class="mono" style="color:var(--actual)">${r.revA!=null?fe(r.revA):'—'}</span>
         ${dRHtml}
       </td>
       <td class="ec"><input type="number" value="${r.bF}" min="0" max="20000" step="50"
         onchange="setBudFcst(${r.idx},this.value)"></td>
-      <td class="ec" style="border-left:1px solid var(--actual-bd)">
-        <input type="number" value="${r.bA!=null?Math.round(r.bA):''}" min="0" max="20000" step="50"
-          class="act-inp" placeholder="—" onchange="setBudActual(${r.idx},this.value)">
+      <td style="border-left:1px solid var(--actual-bd)">
+        <span class="mono" style="color:var(--actual)">${r.bA!=null?fe(r.bA):'—'}</span>
         ${dBHtml}
       </td>
       <td class="mono" style="color:#a78bfa">${hs?fe(r.apiF):'—'}</td>
-      <td class="ec" style="border-left:1px solid var(--actual-bd)">
-        <input type="number" value="${r.apiA!=null?Math.round(r.apiA):''}" min="0" max="99999" step="1"
-          class="act-inp" placeholder="—" onchange="setApiActual(${r.idx},this.value)">
+      <td style="border-left:1px solid var(--actual-bd)">
+        <span class="mono" style="color:var(--actual)">${r.apiA!=null?fe(r.apiA):'—'}</span>
         ${r.apiA!=null?`<span class="${(r.apiA-r.apiF)<=0?'delta-pos':'delta-neg'}">${(r.apiA-r.apiF)<=0?'':'+'} ${fe(r.apiA-r.apiF)}</span>`:''}
       </td>
       <td class="mono" style="color:#a78bfa">${hs?r.orders.toFixed(1):'—'}</td>
@@ -1069,7 +1066,7 @@ function filterPhase(ph,el){
   updateSummary(rows,tRU>0?tBU/tRU:0);
 }
 function resetForecast(){
-  const t=+document.getElementById('i-total').value||250000;
+  const t=+document.getElementById('i-total').value||290000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
@@ -1105,6 +1102,7 @@ function switchTab(n){
   document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('active',i===n-1));
   document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',i===n-1));
   if(n===2&&!spInited){spInit();}
+  if(n===1&&spInited){spSyncToPage1();}
 }
 
 // ══════════════════════════════════════════════════════
@@ -1137,13 +1135,14 @@ function spTodayISO(){
 
 let SP_DATES=[];
 let SP_N=0;
-let spRevA=[], spFbA=[], spGgA=[], spSpentA=[], spApiA=[], spOrdA=[];
+let spRevA=[], spFbA=[], spGgA=[], spSpentA=[], spApiA=[], spOrdA=[], spFxA=[];
 
 function spInitArrays(){
   SP_DATES=spBuildDates(); SP_N=SP_DATES.length;
   spRevA=new Array(SP_N).fill(null); spFbA=new Array(SP_N).fill(null);
   spGgA=new Array(SP_N).fill(null);  spSpentA=new Array(SP_N).fill(null);
   spApiA=new Array(SP_N).fill(null); spOrdA=new Array(SP_N).fill(null);
+  spFxA=new Array(SP_N).fill(null);
 }
 
 // ── localStorage fallback ─────────────────────────────
@@ -1205,10 +1204,12 @@ async function spLoadFromSheets(){
         spGgA[i]   =d[iso].gg!=null?+d[iso].gg:spGgA[i];
         spApiA[i]  =d[iso].a !=null?+d[iso].a :spApiA[i];
         spOrdA[i]  =d[iso].o !=null?+d[iso].o :spOrdA[i];
+        spFxA[i]   =d[iso].fx!=null?+d[iso].fx:spFxA[i];
       }
     }
     spSaveLS();
     spBadge('ok','Đã đồng bộ');
+    spSyncToPage1();
     spRecalc();
   }catch(e){
     spLoadLS();
@@ -1216,6 +1217,26 @@ async function spLoadFromSheets(){
     spRecalc();
     console.error('SP GS error',e);
   }
+}
+
+
+// ── Sync Page 2 → Page 1 Actual (USD → EUR) ────────────────────────────
+function spSyncToPage1(){
+  const spIdx={};
+  SP_DATES.forEach((d,i)=>{ spIdx[d.iso]=i; });
+  let count=0;
+  for(let i=0;i<N;i++){
+    const iso=DATES[i].iso;
+    const si=spIdx[iso];
+    if(si===undefined) continue;
+    const rev  =spRevA[si]!=null  ?Math.round(spRevA[si])  :null;
+    const spent=spSpentA[si]!=null?Math.round(spSpentA[si]):null;
+    const api  =spApiA[si]!=null  ?Math.round(spApiA[si])  :null;
+    if(rev!=null)   {revActual[i]=rev;   count++;}
+    if(spent!=null) {budActual[i]=spent;}
+    if(api!=null)   {apiActual[i]=api;}
+  }
+  if(count>0){saveLocalCache();recalc();console.log('Synced '+count+' days P2→P1');}
 }
 
 // ── Ghi manual fields lên Sheets ──────────────────────
