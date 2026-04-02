@@ -1092,6 +1092,8 @@ function clearActual(){
 // ══════════════════════════════════════════════════════
 recalc();
 loadActualFromSheets();
+// Khởi động Page 2 ngầm ngay khi load → sync data vào Page 1
+setTimeout(()=>spInit(), 500);
 
 // ══════════════════════════════════════════════════════
 //  TAB SWITCH
