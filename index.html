@@ -194,7 +194,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
 
 <!-- ══ NAV ══ -->
 <div class="nav">
-  <div class="nav-brand">🃏 Hamyso</div>
+  <div class="nav-brand">🚀 Hamyso</div>
   <div class="nav-tab active" id="tab1" onclick="switchTab(1)">📋 Campaign Forecast</div>
   <div class="nav-tab" id="tab2" onclick="switchTab(2)">📊 Store Performance</div>
 </div>
@@ -1463,6 +1463,10 @@ function spSet(field,idx,val){
 function spInit(){
   spInited=true;
   spInitArrays();
+  // Mặc định đóng tháng 1, 2, 3
+  SP_MONTHS_COLLAPSED[0]=true;
+  SP_MONTHS_COLLAPSED[1]=true;
+  SP_MONTHS_COLLAPSED[2]=true;
   spLoadLS();
   spRecalc();
   spLoadFromSheets();
