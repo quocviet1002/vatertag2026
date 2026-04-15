@@ -240,7 +240,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div class="ibox accent">
       <label>💰 Tổng Spent Ads</label>
       <div class="ir"><span class="u">$</span>
-        <input type="number" id="i-total" value="320000" min="5000" max="400000" step="1000" oninput="onTotalChange()">
+        <input type="number" id="i-total" value="290000" min="5000" max="400000" step="1000" oninput="onTotalChange()">
       </div>
     </div>
     <div class="ibox">
@@ -281,12 +281,12 @@ tr:hover td{background:rgba(255,255,255,.013)}
   </div>
   <div class="ri" style="border-color:#a855f744">
     <span class="ri-ph" style="color:#a855f7">⚡ Peak</span>
-    <input type="number" id="r-peak"   value="2.3"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <input type="number" id="r-peak"   value="2.4"  min="0.5" max="8" step="0.05" oninput="recalc()">
     <span class="u">x</span>
   </div>
   <div class="ri" style="border-color:#ef444444">
     <span class="ri-ph" style="color:#ef4444">🚨 Sprint</span>
-    <input type="number" id="r-sprint" value="2.4"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <input type="number" id="r-sprint" value="2.6"  min="0.5" max="8" step="0.05" oninput="recalc()">
     <span class="u">x</span>
   </div>
   <div class="ri" style="border-color:#f59e0b44">
@@ -610,13 +610,19 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <!-- CONTROL PANEL -->
 <div class="fb-ctrl">
   <span class="fb-ctrl-lbl">📅 Thời gian:</span>
-  <select class="fb-sel" id="fb-range" onchange="fbApplyFilters()">
+  <select class="fb-sel" id="fb-range" onchange="fbRangeChange()">
     <option value="7">Last 7 Days</option>
     <option value="14">Last 14 Days</option>
     <option value="30" selected>Last 30 Days</option>
     <option value="90">Last 90 Days</option>
     <option value="all">Tất cả</option>
+    <option value="custom">Custom...</option>
   </select>
+  <div id="fb-custom-range" style="display:none;align-items:center;gap:6px">
+    <input type="date" id="fb-date-from" class="fb-sel" style="padding:4px 8px;font-size:10px" onchange="fbApplyFilters()">
+    <span class="fb-ctrl-lbl">→</span>
+    <input type="date" id="fb-date-to" class="fb-sel" style="padding:4px 8px;font-size:10px" onchange="fbApplyFilters()">
+  </div>
   <span class="fb-ctrl-lbl" style="margin-left:8px">Event:</span>
   <select class="fb-sel" id="fb-event" onchange="fbApplyFilters()">
     <option value="all">Tất cả</option>
@@ -1654,6 +1660,24 @@ function fbPopulateFilters(){
   fill('fb-country', countries);
 }
 
+// ── Range change handler ──────────────────────────────
+function fbRangeChange(){
+  const val = document.getElementById('fb-range').value;
+  const customEl = document.getElementById('fb-custom-range');
+  if(val === 'custom'){
+    customEl.style.display = 'flex';
+    // Set default: last 30 days
+    const to = new Date();
+    const from = new Date();
+    from.setDate(from.getDate() - 30);
+    document.getElementById('fb-date-to').value   = to.toISOString().slice(0,10);
+    document.getElementById('fb-date-from').value = from.toISOString().slice(0,10);
+  } else {
+    customEl.style.display = 'none';
+  }
+  fbApplyFilters();
+}
+
 // ── Filter logic ──────────────────────────────────────
 function fbGetFiltered(){
   const rangeDays = document.getElementById('fb-range').value;
@@ -1664,7 +1688,12 @@ function fbGetFiltered(){
   let data = fbRawData;
 
   // Date filter
-  if(rangeDays!=='all'){
+  if(rangeDays === 'custom'){
+    const from = document.getElementById('fb-date-from').value;
+    const to   = document.getElementById('fb-date-to').value;
+    if(from) data = data.filter(r=>r.date >= from);
+    if(to)   data = data.filter(r=>r.date <= to);
+  } else if(rangeDays !== 'all'){
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - parseInt(rangeDays));
     const cutStr = cutoff.toISOString().slice(0,10);
