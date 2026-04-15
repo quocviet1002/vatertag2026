@@ -862,7 +862,7 @@ function initActualFromStorage(){
 // ══════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════
-let budFcst    = buildBudgets(290000);
+let budFcst    = buildBudgets(350000);
 let revFcstOvr = new Array(N).fill(null); // null = auto (BudF×ROAS)
 let revFcstMan = new Array(N).fill(false);
 let budActual  = new Array(N).fill(null);
@@ -891,14 +891,14 @@ function getInp(){
   };
 }
 function onTotalChange(){
-  const t=+document.getElementById('i-total').value||290000;
+  const t=+document.getElementById('i-total').value||350000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
   recalc();
 }
 function onRateChange(){
-  const t=+document.getElementById('i-total').value||290000;
+  const t=+document.getElementById('i-total').value||350000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
