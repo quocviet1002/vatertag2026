@@ -188,33 +188,6 @@ tr:hover td{background:rgba(255,255,255,.013)}
 .sp-sync{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
 .sp-sync.ok{color:#22d07a;border-color:#22d07a44}.sp-sync.err{color:#f5c842;border-color:#f5c84244}.sp-sync.load{color:#4d8ef5;border-color:#4d8ef544}
 .ro-cell{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--t3)}
-
-/* ── FB ADS PAGE 3 ── */
-.fb-hdr{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.fb-hdr h1{font-size:15px;font-weight:700}
-.fb-hdr p{font-size:10px;color:var(--t3);margin-top:2px}
-.fb-ctrl{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.fb-ctrl-lbl{font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-right:2px}
-.fb-sel{background:var(--s2);border:1px solid var(--bd);border-radius:7px;color:var(--t1);font-size:12px;font-weight:600;padding:6px 10px;outline:none;cursor:pointer;font-family:var(--font);transition:border-color .15s;min-width:120px}
-.fb-sel:focus{border-color:var(--blue)}
-.fb-sel option{background:var(--s2)}
-.fb-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
-.fb-main{padding:13px 18px;display:flex;flex-direction:column;gap:11px}
-.fb-charts{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.fb-chart-wrap{height:220px;position:relative}
-.fb-sync{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
-.fb-sync.ok{color:#22d07a;border-color:#22d07a44}
-.fb-sync.err{color:#f5c842;border-color:#f5c84244}
-.fb-sync.load{color:#4d8ef5;border-color:#4d8ef544}
-.fb-tw{overflow-x:auto}
-.fb-tw table{width:100%;border-collapse:collapse;font-size:11px}
-.fb-tw thead th{padding:7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5}
-.fb-tw td{padding:5px 7px;border-bottom:1px solid #1d335422;vertical-align:middle}
-.fb-tw tr:hover td{background:rgba(255,255,255,.013)}
-.fb-bar{height:6px;border-radius:3px;background:var(--blue);opacity:.7}
-.fb-roas-good{color:#22d07a;font-family:var(--mono);font-weight:700}
-.fb-roas-ok{color:#f5c842;font-family:var(--mono);font-weight:700}
-.fb-roas-bad{color:#f05252;font-family:var(--mono);font-weight:700}
 </style>
 </head>
 <body>
@@ -224,7 +197,6 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <div class="nav-brand">🚀 Hamyso</div>
   <div class="nav-tab active" id="tab1" onclick="switchTab(1)">📋 Campaign Forecast</div>
   <div class="nav-tab" id="tab2" onclick="switchTab(2)">📊 Store Performance</div>
-  <div class="nav-tab" id="tab3" onclick="switchTab(3)">📣 Facebook Ads</div>
 </div>
 
 <!-- ══ PAGE 1 — CAMPAIGN FORECAST ══ -->
@@ -240,7 +212,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div class="ibox accent">
       <label>💰 Tổng Spent Ads</label>
       <div class="ir"><span class="u">$</span>
-        <input type="number" id="i-total" value="350000" min="5000" max="400000" step="1000" oninput="onTotalChange()">
+        <input type="number" id="i-total" value="290000" min="5000" max="400000" step="1000" oninput="onTotalChange()">
       </div>
     </div>
     <div class="ibox">
@@ -276,17 +248,17 @@ tr:hover td{background:rgba(255,255,255,.013)}
   </div>
   <div class="ri" style="border-color:#f9731644">
     <span class="ri-ph" style="color:#f97316">🔥 Accel</span>
-    <input type="number" id="r-accel"  value="2.0"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <input type="number" id="r-accel"  value="2.1"  min="0.5" max="8" step="0.05" oninput="recalc()">
     <span class="u">x</span>
   </div>
   <div class="ri" style="border-color:#a855f744">
     <span class="ri-ph" style="color:#a855f7">⚡ Peak</span>
-    <input type="number" id="r-peak"   value="2.2"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <input type="number" id="r-peak"   value="2.4"  min="0.5" max="8" step="0.05" oninput="recalc()">
     <span class="u">x</span>
   </div>
   <div class="ri" style="border-color:#ef444444">
     <span class="ri-ph" style="color:#ef4444">🚨 Sprint</span>
-    <input type="number" id="r-sprint" value="2.4"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <input type="number" id="r-sprint" value="2.6"  min="0.5" max="8" step="0.05" oninput="recalc()">
     <span class="u">x</span>
   </div>
   <div class="ri" style="border-color:#f59e0b44">
@@ -369,7 +341,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
           <div class="rc-rule">Nối Warm-up</div>
           <div class="rc-inp-row">
             <span class="rc-inp-lbl">Tăng</span>
-            <input type="number" id="rate-accel" class="rc-inp" value="10" min="1" max="30" step="0.5" oninput="onRateChange()">
+            <input type="number" id="rate-accel" class="rc-inp" value="12" min="1" max="30" step="0.5" oninput="onRateChange()">
             <span class="rc-inp-lbl">%/ngày</span>
           </div>
         </div>
@@ -378,7 +350,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
           <div class="rc-rule">Nối Accel</div>
           <div class="rc-inp-row">
             <span class="rc-inp-lbl">Tăng</span>
-            <input type="number" id="rate-peak" class="rc-inp" value="12" min="1" max="30" step="0.5" oninput="onRateChange()">
+            <input type="number" id="rate-peak" class="rc-inp" value="15" min="1" max="30" step="0.5" oninput="onRateChange()">
             <span class="rc-inp-lbl">%/ngày</span>
           </div>
         </div>
@@ -562,6 +534,9 @@ tr:hover td{background:rgba(255,255,255,.013)}
             <th>GG Spent</th>
             <th>Total Spent</th>
             <th>API Cost</th>
+            <th>COGS</th>
+            <th>Payment GW</th>
+            <th>Variable Fee</th>
             <th>Orders</th>
             <th>AOV</th>
             <th>ROAS</th>
@@ -578,6 +553,9 @@ tr:hover td{background:rgba(255,255,255,.013)}
             <td id="sp-s-gg">—</td>
             <td id="sp-s-spent">—</td>
             <td id="sp-s-api">—</td>
+            <td id="sp-s-cogs">—</td>
+            <td id="sp-s-pg">—</td>
+            <td id="sp-s-vf">—</td>
             <td id="sp-s-ord">—</td>
             <td id="sp-s-aov">—</td>
             <td id="sp-s-roas">—</td>
@@ -590,115 +568,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
   </div>
 </div>
 
-
 </div><!-- /page2 -->
-
-<!-- ══ PAGE 3 — FACEBOOK ADS ══ -->
-<div id="page3" class="page">
-
-<div class="fb-hdr">
-  <div>
-    <h1>📣 Facebook Ads Analytics</h1>
-    <p id="fb-subtitle">AllFB Ads · USD · Dữ liệu tự động từ Google Sheets</p>
-  </div>
-  <div style="display:flex;align-items:center;gap:8px">
-    <div id="fb-sync-badge" class="fb-sync load">⏳ Đang tải...</div>
-    <button class="rbtn" onclick="fbLoad()">🔄 Refresh</button>
-  </div>
-</div>
-
-<!-- CONTROL PANEL -->
-<div class="fb-ctrl">
-  <span class="fb-ctrl-lbl">📅 Thời gian:</span>
-  <select class="fb-sel" id="fb-range" onchange="fbRangeChange()">
-    <option value="7">Last 7 Days</option>
-    <option value="14">Last 14 Days</option>
-    <option value="30" selected>Last 30 Days</option>
-    <option value="90">Last 90 Days</option>
-    <option value="all">Tất cả</option>
-    <option value="custom">Custom...</option>
-  </select>
-  <div id="fb-custom-range" style="display:none;align-items:center;gap:6px">
-    <input type="date" id="fb-date-from" class="fb-sel" style="padding:4px 8px;font-size:10px" onchange="fbApplyFilters()">
-    <span class="fb-ctrl-lbl">→</span>
-    <input type="date" id="fb-date-to" class="fb-sel" style="padding:4px 8px;font-size:10px" onchange="fbApplyFilters()">
-  </div>
-  <span class="fb-ctrl-lbl" style="margin-left:8px">Event:</span>
-  <select class="fb-sel" id="fb-event" onchange="fbApplyFilters()">
-    <option value="all">Tất cả</option>
-  </select>
-  <span class="fb-ctrl-lbl" style="margin-left:8px">Niche:</span>
-  <select class="fb-sel" id="fb-niche" onchange="fbApplyFilters()">
-    <option value="all">Tất cả</option>
-  </select>
-  <span class="fb-ctrl-lbl" style="margin-left:8px">Country:</span>
-  <select class="fb-sel" id="fb-country" onchange="fbApplyFilters()">
-    <option value="all">Tất cả</option>
-  </select>
-</div>
-
-<!-- KPI STRIP -->
-<div class="fb-kpi">
-  <div class="kpi kb"><div class="kpi-lbl">💰 Total Spend</div><div class="kpi-val" id="fb-k-spend" style="color:#60a5fa">$0</div><div class="kpi-sub" id="fb-k-spend-s">—</div></div>
-  <div class="kpi kc"><div class="kpi-lbl">📈 Total Revenue</div><div class="kpi-val" id="fb-k-rev" style="color:#67e8f9">$0</div><div class="kpi-sub" id="fb-k-rev-s">—</div></div>
-  <div class="kpi kg"><div class="kpi-lbl">📊 Avg ROAS</div><div class="kpi-val" id="fb-k-roas">0x</div><div class="kpi-sub" id="fb-k-roas-s">Revenue / Spend</div></div>
-  <div class="kpi ky"><div class="kpi-lbl">🎯 CPP</div><div class="kpi-val" id="fb-k-cpp" style="color:#fcd34d">$0</div><div class="kpi-sub" id="fb-k-cpp-s">Cost per purchase</div></div>
-  <div class="kpi ko"><div class="kpi-lbl">🛒 Purchases</div><div class="kpi-val" id="fb-k-pur" style="color:#fdba74">0</div><div class="kpi-sub" id="fb-k-pur-s">—</div></div>
-</div>
-
-<!-- CHARTS + TABLE -->
-<div class="fb-main">
-  <!-- Line chart + Stacked bar -->
-  <div class="fb-charts">
-    <div class="card">
-      <div class="ch">
-        <div class="ct">📈 Spend vs Revenue theo ngày</div>
-      </div>
-      <div class="fb-chart-wrap"><canvas id="fb-line-chart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="ch">
-        <div class="ct">🏆 Hiệu quả theo</div>
-        <div style="display:flex;gap:4px">
-          <div class="ptab act" id="fb-by-niche" onclick="fbSetGroupBy('niche')">Niche</div>
-          <div class="ptab" id="fb-by-country" onclick="fbSetGroupBy('country')">Country</div>
-        </div>
-      </div>
-      <div class="fb-chart-wrap"><canvas id="fb-bar-chart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Top campaigns table -->
-  <div class="card">
-    <div class="ch">
-      <div class="ct">🏅 Top Campaigns by ROAS</div>
-      <div style="font-size:10px;color:var(--t3)" id="fb-camp-count">—</div>
-    </div>
-    <div class="fb-tw">
-      <table>
-        <thead>
-          <tr>
-            <th>Campaign</th>
-            <th>Country</th>
-            <th>Event</th>
-            <th>Niche</th>
-            <th>Spend</th>
-            <th>Revenue</th>
-            <th>ROAS</th>
-            <th>Purchases</th>
-            <th>CPP</th>
-            <th>Impressions</th>
-            <th>CTR proxy</th>
-          </tr>
-        </thead>
-        <tbody id="fb-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-</div><!-- /page3 -->
-
 
 <script>
 // ══════════════════════════════════════════════════════
@@ -862,7 +732,7 @@ function initActualFromStorage(){
 // ══════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════
-let budFcst    = buildBudgets(350000);
+let budFcst    = buildBudgets(290000);
 let revFcstOvr = new Array(N).fill(null); // null = auto (BudF×ROAS)
 let revFcstMan = new Array(N).fill(false);
 let budActual  = new Array(N).fill(null);
@@ -891,14 +761,14 @@ function getInp(){
   };
 }
 function onTotalChange(){
-  const t=+document.getElementById('i-total').value||350000;
+  const t=+document.getElementById('i-total').value||290000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
   recalc();
 }
 function onRateChange(){
-  const t=+document.getElementById('i-total').value||350000;
+  const t=+document.getElementById('i-total').value||290000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
@@ -1239,7 +1109,6 @@ function switchTab(n){
   document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',i===n-1));
   if(n===2&&!spInited){spInit();}
   if(n===1&&spInited){spSyncToPage1();}
-  if(n===3&&!fbInited){fbInit();}
 }
 
 // ══════════════════════════════════════════════════════
@@ -1272,7 +1141,7 @@ function spTodayISO(){
 
 let SP_DATES=[];
 let SP_N=0;
-let spRevA=[], spFbA=[], spGgA=[], spSpentA=[], spApiA=[], spOrdA=[], spFxA=[];
+let spRevA=[], spFbA=[], spGgA=[], spSpentA=[], spApiA=[], spOrdA=[], spFxA=[], spNpA=[], spPgA=[], spVfA=[], spCogsA=[];
 
 function spInitArrays(){
   SP_DATES=spBuildDates(); SP_N=SP_DATES.length;
@@ -1280,6 +1149,8 @@ function spInitArrays(){
   spGgA=new Array(SP_N).fill(null);  spSpentA=new Array(SP_N).fill(null);
   spApiA=new Array(SP_N).fill(null); spOrdA=new Array(SP_N).fill(null);
   spFxA=new Array(SP_N).fill(null);
+  spNpA=new Array(SP_N).fill(null); spPgA=new Array(SP_N).fill(null);
+  spVfA=new Array(SP_N).fill(null); spCogsA=new Array(SP_N).fill(null);
 }
 
 // ── localStorage fallback ─────────────────────────────
@@ -1341,7 +1212,11 @@ async function spLoadFromSheets(){
         spGgA[i]   =d[iso].gg!=null?+d[iso].gg:spGgA[i];
         spApiA[i]  =d[iso].a !=null?+d[iso].a :spApiA[i];
         spOrdA[i]  =d[iso].o !=null?+d[iso].o :spOrdA[i];
-        spFxA[i]   =d[iso].fx!=null?+d[iso].fx:spFxA[i];
+        spFxA[i]   =d[iso].fx  !=null?+d[iso].fx  :spFxA[i];
+        spNpA[i]   =d[iso].np  !=null?+d[iso].np  :spNpA[i];
+        spPgA[i]   =d[iso].pg  !=null?+d[iso].pg  :spPgA[i];
+        spVfA[i]   =d[iso].vf  !=null?+d[iso].vf  :spVfA[i];
+        spCogsA[i] =d[iso].cogs!=null?+d[iso].cogs:spCogsA[i];
       }
     }
     spSaveLS();
@@ -1413,16 +1288,18 @@ function spSetFilter(mode){
 
 // ── Calc per day ────────────────────────────────────────
 function spCalcDay(i){
-  const gm= +document.getElementById('sp-gm').value/100||0.70;
-  const varC=+document.getElementById('sp-var').value/100||0.05;
   const rev=spRevA[i], fb=spFbA[i]||0, gg=spGgA[i]||0;
   const spent=spSpentA[i]!=null?spSpentA[i]:(fb+gg);
   const api=spApiA[i]||0;
   const orders=spOrdA[i];
+  const pg  =spPgA[i]  ||0;
+  const vf  =spVfA[i]  ||0;
+  const cogs=spCogsA[i]||0;
   if(rev==null&&spent===0) return null;
   const r=rev||0;
-  const np=r*gm - spent - api - r*varC;
-  return{rev:r,fb,gg,spent,api,orders,
+  // Dùng net profit từ sheet nếu có, ngược lại tự tính
+  const np=spNpA[i]!=null?spNpA[i]:(r*(+document.getElementById('sp-gm').value/100||0.70)-spent-api-r*(+document.getElementById('sp-var').value/100||0.05));
+  return{rev:r,fb,gg,spent,api,orders,pg,vf,cogs,
     roas:spent>0?r/spent:null,
     poas:r-spent-api,
     aov:orders&&orders>0?r/orders:null,
@@ -1502,6 +1379,9 @@ function spRenderTable(rows,fS,fE){
       <td class="ro-cell">${hs&&c.gg?spFD(c.gg):'—'}</td>
       <td class="mono" style="color:#60a5fa">${hs?spFD(c.spent):'—'}</td>
       <td class="ro-cell">${hs&&c.api?spFD(c.api):'—'}</td>
+      <td class="ro-cell" style="color:#f97316">${hs&&c.cogs?spFD(c.cogs):'—'}</td>
+      <td class="ro-cell" style="color:#a78bfa">${hs&&c.pg?spFD(c.pg):'—'}</td>
+      <td class="ro-cell" style="color:#94afd4">${hs&&c.vf?spFD(c.vf):'—'}</td>
       <td class="ro-cell">${hs&&c.orders?c.orders:'—'}</td>
       <td class="mono" style="color:#a78bfa">${hs&&c.aov?spFD(c.aov):'—'}</td>
       <td class="mono" style="color:#fcd34d">${hs&&c.roas?c.roas.toFixed(2)+'x':'—'}</td>
@@ -1514,24 +1394,30 @@ function spRenderTable(rows,fS,fE){
 
 // ── Summary ─────────────────────────────────────────────
 function spUpdateSummary(withData){
-  const tR=withData.reduce((s,r)=>s+r.calc.rev,0);
-  const tS=withData.reduce((s,r)=>s+r.calc.spent,0);
-  const tFb=withData.reduce((s,r)=>s+r.calc.fb,0);
-  const tGg=withData.reduce((s,r)=>s+r.calc.gg,0);
-  const tA=withData.reduce((s,r)=>s+r.calc.api,0);
-  const tO=withData.filter(r=>r.calc.orders).reduce((s,r)=>s+r.calc.orders,0);
-  const tNP=withData.reduce((s,r)=>s+r.calc.np,0);
-  const tP=withData.reduce((s,r)=>s+r.calc.poas,0);
-  document.getElementById('sp-s-rev').textContent=tR?spFE(tR):'—';
-  document.getElementById('sp-s-fb').textContent=tFb?spFE(tFb):'—';
-  document.getElementById('sp-s-gg').textContent=tGg?spFE(tGg):'—';
+  const tR   =withData.reduce((s,r)=>s+r.calc.rev,0);
+  const tS   =withData.reduce((s,r)=>s+r.calc.spent,0);
+  const tFb  =withData.reduce((s,r)=>s+r.calc.fb,0);
+  const tGg  =withData.reduce((s,r)=>s+r.calc.gg,0);
+  const tA   =withData.reduce((s,r)=>s+r.calc.api,0);
+  const tCogs=withData.reduce((s,r)=>s+r.calc.cogs,0);
+  const tPg  =withData.reduce((s,r)=>s+r.calc.pg,0);
+  const tVf  =withData.reduce((s,r)=>s+r.calc.vf,0);
+  const tO   =withData.filter(r=>r.calc.orders).reduce((s,r)=>s+r.calc.orders,0);
+  const tNP  =withData.reduce((s,r)=>s+r.calc.np,0);
+  const tP   =withData.reduce((s,r)=>s+r.calc.poas,0);
+  document.getElementById('sp-s-rev').textContent  =tR?spFE(tR):'—';
+  document.getElementById('sp-s-fb').textContent   =tFb?spFE(tFb):'—';
+  document.getElementById('sp-s-gg').textContent   =tGg?spFE(tGg):'—';
   document.getElementById('sp-s-spent').textContent=tS?spFE(tS):'—';
-  document.getElementById('sp-s-api').textContent=tA?spFE(tA):'—';
-  document.getElementById('sp-s-ord').textContent=tO?spFN(tO):'—';
-  document.getElementById('sp-s-aov').textContent=tO?spFE(tR/tO):'—';
-  document.getElementById('sp-s-roas').textContent=tS?(tR/tS).toFixed(2)+'x':'—';
-  document.getElementById('sp-s-poas').textContent=tP?spFE(tP):'—';
-  document.getElementById('sp-s-np').innerHTML=tNP?`<span class="${tNP>=0?'pos':'neg'}">${tNP>=0?'+':''}${spFE(tNP)}</span><span class="sub-v">${spFP(tR>0?tNP/tR:0)}</span>`:'—';
+  document.getElementById('sp-s-api').textContent  =tA?spFE(tA):'—';
+  document.getElementById('sp-s-cogs').textContent =tCogs?spFE(tCogs):'—';
+  document.getElementById('sp-s-pg').textContent   =tPg?spFE(tPg):'—';
+  document.getElementById('sp-s-vf').textContent   =tVf?spFE(tVf):'—';
+  document.getElementById('sp-s-ord').textContent  =tO?spFN(tO):'—';
+  document.getElementById('sp-s-aov').textContent  =tO?spFE(tR/tO):'—';
+  document.getElementById('sp-s-roas').textContent =tS?(tR/tS).toFixed(2)+'x':'—';
+  document.getElementById('sp-s-poas').textContent =tP?spFE(tP):'—';
+  document.getElementById('sp-s-np').innerHTML     =tNP?`<span class="${tNP>=0?'pos':'neg'}">${tNP>=0?'+':''}${spFE(tNP)}</span><span class="sub-v">${spFP(tR>0?tNP/tR:0)}</span>`:'—';
 }
 
 // ── Chart ────────────────────────────────────────────────
@@ -1607,275 +1493,6 @@ function spInit(){
   spLoadLS();
   spRecalc();
   spLoadFromSheets();
-}
-
-// ══════════════════════════════════════════════════════
-//  PAGE 3 — FACEBOOK ADS ANALYTICS
-// ══════════════════════════════════════════════════════
-const FB_ADS_URL = 'https://script.google.com/macros/s/AKfycbxViEkih39gnsaD3srYjkWe1Wq_tUVCRv1FAIT9MAeRnIZTN5gDaR5mMGsw1KkGOz7n/exec';
-let fbInited = false;
-let fbRawData = []; // array of row objects
-let fbGroupBy = 'niche';
-let fbLineChart = null;
-let fbBarChart  = null;
-
-function fbBadge(state, msg){
-  const el=document.getElementById('fb-sync-badge');
-  if(!el)return;
-  el.className='fb-sync '+state;
-  el.textContent={ok:'☁️ ',err:'⚠️ ',load:'⏳ '}[state]+msg;
-}
-
-// ── Load từ Apps Script ───────────────────────────────
-async function fbLoad(){
-  fbBadge('load','Đang tải...');
-  try{
-    const res  = await fetch(FB_ADS_URL+'?action=read_fb_ads');
-    const json = await res.json();
-    if(!json.ok) throw new Error(json.error||'API error');
-    fbRawData = json.data||[];
-    fbPopulateFilters();
-    fbApplyFilters();
-    fbBadge('ok','Đã đồng bộ · '+fbRawData.length+' rows');
-  }catch(e){
-    fbBadge('err','Lỗi: '+e.message);
-    console.error('FB Ads load error',e);
-  }
-}
-
-// ── Populate filter dropdowns ────────────────────────
-function fbPopulateFilters(){
-  const events   = [...new Set(fbRawData.map(r=>r.event).filter(Boolean))].sort();
-  const niches   = [...new Set(fbRawData.map(r=>r.niche).filter(Boolean))].sort();
-  const countries= [...new Set(fbRawData.map(r=>r.country).filter(Boolean))].sort();
-
-  const fill=(id,arr)=>{
-    const sel=document.getElementById(id);
-    const cur=sel.value;
-    sel.innerHTML='<option value="all">Tất cả</option>'+arr.map(v=>`<option value="${v}">${v}</option>`).join('');
-    if(arr.includes(cur)) sel.value=cur;
-  };
-  fill('fb-event',   events);
-  fill('fb-niche',   niches);
-  fill('fb-country', countries);
-}
-
-// ── Range change handler ──────────────────────────────
-function fbRangeChange(){
-  const val = document.getElementById('fb-range').value;
-  const customEl = document.getElementById('fb-custom-range');
-  if(val === 'custom'){
-    customEl.style.display = 'flex';
-    // Set default: last 30 days
-    const to = new Date();
-    const from = new Date();
-    from.setDate(from.getDate() - 30);
-    document.getElementById('fb-date-to').value   = to.toISOString().slice(0,10);
-    document.getElementById('fb-date-from').value = from.toISOString().slice(0,10);
-  } else {
-    customEl.style.display = 'none';
-  }
-  fbApplyFilters();
-}
-
-// ── Filter logic ──────────────────────────────────────
-function fbGetFiltered(){
-  const rangeDays = document.getElementById('fb-range').value;
-  const event     = document.getElementById('fb-event').value;
-  const niche     = document.getElementById('fb-niche').value;
-  const country   = document.getElementById('fb-country').value;
-
-  let data = fbRawData;
-
-  // Date filter
-  if(rangeDays === 'custom'){
-    const from = document.getElementById('fb-date-from').value;
-    const to   = document.getElementById('fb-date-to').value;
-    if(from) data = data.filter(r=>r.date >= from);
-    if(to)   data = data.filter(r=>r.date <= to);
-  } else if(rangeDays !== 'all'){
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - parseInt(rangeDays));
-    const cutStr = cutoff.toISOString().slice(0,10);
-    data = data.filter(r=>r.date>=cutStr);
-  }
-  if(event  !=='all') data=data.filter(r=>r.event===event);
-  if(niche  !=='all') data=data.filter(r=>r.niche===niche);
-  if(country!=='all') data=data.filter(r=>r.country===country);
-  return data;
-}
-
-function fbApplyFilters(){
-  const data = fbGetFiltered();
-  fbUpdateKPIs(data);
-  fbUpdateLineChart(data);
-  fbUpdateBarChart(data, fbGroupBy);
-  fbUpdateTable(data);
-}
-
-function fbSetGroupBy(g){
-  fbGroupBy=g;
-  ['niche','country'].forEach(x=>{
-    document.getElementById('fb-by-'+x).classList.toggle('act',x===g);
-  });
-  fbUpdateBarChart(fbGetFiltered(), g);
-}
-
-// ── KPIs ──────────────────────────────────────────────
-function fbUpdateKPIs(data){
-  const spend  = data.reduce((s,r)=>s+r.spend,0);
-  const rev    = data.reduce((s,r)=>s+r.revenue,0);
-  const pur    = data.reduce((s,r)=>s+r.purchases,0);
-  const roas   = spend>0?rev/spend:0;
-  const cpp    = pur>0?spend/pur:0;
-
-  const fd=v=>'$'+Math.round(v).toLocaleString('de-DE');
-  document.getElementById('fb-k-spend').textContent  =fd(spend);
-  document.getElementById('fb-k-spend-s').textContent=data.length+' rows';
-  document.getElementById('fb-k-rev').textContent    =fd(rev);
-  document.getElementById('fb-k-rev-s').textContent  ='Purchase value';
-  document.getElementById('fb-k-roas').textContent   =roas.toFixed(2)+'x';
-  document.getElementById('fb-k-roas').style.color   =roas>=2.5?'#22d07a':roas>=1.5?'#f5c842':'#f05252';
-  document.getElementById('fb-k-roas-s').textContent =fd(rev)+' / '+fd(spend);
-  document.getElementById('fb-k-cpp').textContent    =fd(cpp);
-  document.getElementById('fb-k-cpp-s').textContent  ='per purchase';
-  document.getElementById('fb-k-pur').textContent    =Math.round(pur).toLocaleString();
-  document.getElementById('fb-k-pur-s').textContent  ='total orders';
-}
-
-// ── Line Chart: Spend vs Revenue by date ─────────────
-function fbUpdateLineChart(data){
-  const byDate={};
-  data.forEach(r=>{
-    if(!byDate[r.date]) byDate[r.date]={spend:0,rev:0};
-    byDate[r.date].spend+=r.spend;
-    byDate[r.date].rev  +=r.revenue;
-  });
-  const labels=Object.keys(byDate).sort();
-  const spends=labels.map(d=>Math.round(byDate[d].spend));
-  const revs  =labels.map(d=>Math.round(byDate[d].rev));
-  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v);
-
-  if(fbLineChart){
-    fbLineChart.data.labels=labels;
-    fbLineChart.data.datasets[0].data=spends;
-    fbLineChart.data.datasets[1].data=revs;
-    fbLineChart.update('none');
-    return;
-  }
-  const ctx=document.getElementById('fb-line-chart').getContext('2d');
-  fbLineChart=new Chart(ctx,{type:'line',data:{
-    labels,
-    datasets:[
-      {label:'Spend',data:spends,borderColor:'#f5922d',backgroundColor:'#f5922d10',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
-      {label:'Revenue',data:revs,borderColor:'#25d4e7',backgroundColor:'#25d4e710',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
-    ]
-  },options:{
-    responsive:true,maintainAspectRatio:false,animation:{duration:120},
-    interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
-      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
-        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
-    scales:{
-      x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9},maxTicksLimit:20,maxRotation:45}},
-      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt},grace:'5%'}
-    }
-  }});
-}
-
-// ── Bar Chart: by Niche or Country ───────────────────
-function fbUpdateBarChart(data, groupBy){
-  const byGroup={};
-  data.forEach(r=>{
-    const key=r[groupBy]||'Unknown';
-    if(!byGroup[key]) byGroup[key]={spend:0,rev:0,pur:0};
-    byGroup[key].spend+=r.spend;
-    byGroup[key].rev  +=r.revenue;
-    byGroup[key].pur  +=r.purchases;
-  });
-  const labels=Object.entries(byGroup).sort((a,b)=>b[1].rev-a[1].rev).map(e=>e[0]);
-  const spends=labels.map(k=>Math.round(byGroup[k].spend));
-  const revs  =labels.map(k=>Math.round(byGroup[k].rev));
-  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v);
-
-  if(fbBarChart){
-    fbBarChart.data.labels=labels;
-    fbBarChart.data.datasets[0].data=spends;
-    fbBarChart.data.datasets[1].data=revs;
-    fbBarChart.update('none');
-    return;
-  }
-  const ctx=document.getElementById('fb-bar-chart').getContext('2d');
-  fbBarChart=new Chart(ctx,{type:'bar',data:{
-    labels,
-    datasets:[
-      {label:'Spend',data:spends,backgroundColor:'#f5922d88',borderColor:'#f5922d',borderWidth:1},
-      {label:'Revenue',data:revs,backgroundColor:'#25d4e788',borderColor:'#25d4e7',borderWidth:1},
-    ]
-  },options:{
-    responsive:true,maintainAspectRatio:false,animation:{duration:120},
-    interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
-      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
-        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
-    scales:{
-      x:{grid:{display:false},ticks:{color:'#4a6d94',font:{size:10},maxRotation:0}},
-      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt}}
-    }
-  }});
-}
-
-// ── Table: Top campaigns by ROAS ─────────────────────
-function fbUpdateTable(data){
-  const byCamp={};
-  data.forEach(r=>{
-    const key=r.campaign||'Unknown';
-    if(!byCamp[key]) byCamp[key]={campaign:r.campaign,country:r.country,event:r.event,niche:r.niche,spend:0,rev:0,pur:0,imp:0,clicks:0};
-    byCamp[key].spend  +=r.spend;
-    byCamp[key].rev    +=r.revenue;
-    byCamp[key].pur    +=r.purchases;
-    byCamp[key].imp    +=r.impressions;
-    byCamp[key].clicks +=r.clicks;
-  });
-
-  const rows=Object.values(byCamp)
-    .filter(r=>r.spend>0)
-    .sort((a,b)=>(b.rev/b.spend)-(a.rev/a.spend))
-    .slice(0,30);
-
-  document.getElementById('fb-camp-count').textContent=rows.length+' campaigns';
-  const fd=v=>'$'+Math.round(v).toLocaleString('de-DE');
-  const maxSpend=Math.max(...rows.map(r=>r.spend),1);
-
-  document.getElementById('fb-tbody').innerHTML=rows.map(r=>{
-    const roas=r.spend>0?r.rev/r.spend:0;
-    const cpp =r.pur>0?r.spend/r.pur:0;
-    const ctr =r.imp>0?(r.clicks/r.imp*100).toFixed(2)+'%':'—';
-    const rc=roas>=2.5?'fb-roas-good':roas>=1.5?'fb-roas-ok':'fb-roas-bad';
-    const barW=Math.round(r.spend/maxSpend*100);
-    return`<tr>
-      <td>
-        <div style="font-size:11px;font-weight:600;color:var(--t1);max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.campaign||'—'}</div>
-        <div class="fb-bar" style="width:${barW}%;margin-top:3px"></div>
-      </td>
-      <td style="color:var(--t2);font-size:10px">${r.country||'—'}</td>
-      <td style="color:var(--purple);font-size:10px">${r.event||'—'}</td>
-      <td style="color:var(--cyan);font-size:10px">${r.niche||'—'}</td>
-      <td style="font-family:var(--mono);color:#60a5fa">${fd(r.spend)}</td>
-      <td style="font-family:var(--mono);color:#67e8f9">${fd(r.rev)}</td>
-      <td class="${rc}">${roas.toFixed(2)}x</td>
-      <td style="font-family:var(--mono);color:var(--t2)">${Math.round(r.pur)}</td>
-      <td style="font-family:var(--mono);color:var(--yellow)">${fd(cpp)}</td>
-      <td style="font-family:var(--mono);color:var(--t3)">${Math.round(r.imp).toLocaleString()}</td>
-      <td style="font-family:var(--mono);color:var(--t3)">${ctr}</td>
-    </tr>`;
-  }).join('');
-}
-
-// ── Init ─────────────────────────────────────────────
-function fbInit(){
-  fbInited=true;
-  fbLoad();
 }
 
 </script>
