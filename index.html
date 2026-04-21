@@ -217,6 +217,28 @@ tr:hover td{background:rgba(255,255,255,.013)}
 .fb-roas-good{color:#22d07a;font-family:var(--mono);font-weight:700}
 .fb-roas-ok{color:#f5c842;font-family:var(--mono);font-weight:700}
 .fb-roas-bad{color:#f05252;font-family:var(--mono);font-weight:700}
+/* ── FB VIEW TABS ── */
+.fb-view-tabs{display:flex;gap:5px;align-items:center}
+.fb-view-tab{padding:4px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);cursor:pointer;font-size:10px;font-weight:700;color:var(--t3);transition:all .15s;white-space:nowrap}
+.fb-view-tab.act{background:#4d8ef520;border-color:var(--blue);color:var(--blue)}
+/* ── EXPAND BTN ── */
+.fb-exp{width:22px;height:22px;border-radius:5px;border:1px solid var(--bd);background:var(--s2);color:var(--t3);cursor:pointer;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.fb-exp:hover{background:var(--bd);color:var(--t1)}
+.fb-exp.open{background:#4d8ef520;border-color:var(--blue);color:var(--blue)}
+/* ── DRILL-DOWN AD ROWS ── */
+.fb-drill td{background:#0a1828!important;border-bottom:1px solid #1d335415!important;padding:4px 7px!important}
+.fb-drill:last-of-type td{border-bottom:2px solid var(--bd)!important}
+.fb-drill-indent{display:flex;align-items:center;gap:7px;padding-left:28px}
+.fb-drill-line{width:1px;height:100%;background:var(--bd2);margin-right:2px}
+.fb-ad-badge{font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;background:#4d8ef515;border:1px solid #4d8ef530;color:#60a5fa;white-space:nowrap}
+/* ── SORT HEADER ── */
+.fb-th-sort{cursor:pointer;user-select:none}
+.fb-th-sort:hover{color:var(--t1)}
+.fb-th-sort.asc::after{content:' ↑'}
+.fb-th-sort.desc::after{content:' ↓'}
+/* ── TOP AD KPI ── */
+.fb-kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
+.fb-top-ad{font-size:11px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 </style>
 </head>
 <body>
@@ -653,11 +675,12 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <div class="kpi kg"><div class="kpi-lbl">📊 Avg ROAS</div><div class="kpi-val" id="fb-k-roas">0x</div><div class="kpi-sub" id="fb-k-roas-s">Revenue / Spend</div></div>
   <div class="kpi ky"><div class="kpi-lbl">🎯 CPP</div><div class="kpi-val" id="fb-k-cpp" style="color:#fcd34d">$0</div><div class="kpi-sub" id="fb-k-cpp-s">Cost per purchase</div></div>
   <div class="kpi ko"><div class="kpi-lbl">🛒 Purchases</div><div class="kpi-val" id="fb-k-pur" style="color:#fdba74">0</div><div class="kpi-sub" id="fb-k-pur-s">—</div></div>
+  <div class="kpi kp"><div class="kpi-lbl">🏆 Top Ad (ROAS)</div><div class="fb-top-ad" id="fb-k-topad" style="margin-top:6px;color:#c4b5fd">—</div><div class="kpi-sub" id="fb-k-topad-s">—</div></div>
 </div>
 
 <!-- CHARTS + TABLE -->
 <div class="fb-main">
-  <!-- Line chart + Stacked bar -->
+  <!-- Line chart + Bar chart -->
   <div class="fb-charts">
     <div class="card">
       <div class="ch">
@@ -669,38 +692,72 @@ tr:hover td{background:rgba(255,255,255,.013)}
       <div class="ch">
         <div class="ct">🏆 Hiệu quả theo</div>
         <div style="display:flex;gap:4px">
-          <div class="ptab act" id="fb-by-niche" onclick="fbSetGroupBy('niche')">Niche</div>
-          <div class="ptab" id="fb-by-country" onclick="fbSetGroupBy('country')">Country</div>
+          <div class="ptab act" id="fb-by-niche"   onclick="fbSetGroupBy('niche')">Niche</div>
+          <div class="ptab"     id="fb-by-country" onclick="fbSetGroupBy('country')">Country</div>
         </div>
       </div>
       <div class="fb-chart-wrap"><canvas id="fb-bar-chart"></canvas></div>
     </div>
   </div>
 
-  <!-- Top campaigns table -->
+  <!-- Campaign / Ad breakdown table -->
   <div class="card">
     <div class="ch">
-      <div class="ct">🏅 Top Campaigns by ROAS</div>
-      <div style="font-size:10px;color:var(--t3)" id="fb-camp-count">—</div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="ct" id="fb-table-title">🏅 By Campaign</div>
+        <div class="fb-view-tabs">
+          <div class="fb-view-tab act" id="fb-v-camp" onclick="fbSetView('camp')">📁 By Campaign</div>
+          <div class="fb-view-tab"     id="fb-v-ad"   onclick="fbSetView('ad')">🎨 By Ad</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:10px;color:var(--t3)" id="fb-camp-count">—</span>
+        <button class="rbtn" id="fb-expand-all-btn" onclick="fbExpandAll()" style="display:none">⊞ Expand All</button>
+        <button class="rbtn" id="fb-collapse-all-btn" onclick="fbCollapseAll()" style="display:none">⊟ Collapse All</button>
+      </div>
     </div>
-    <div class="fb-tw">
+
+    <!-- Campaign view -->
+    <div id="fb-view-camp" class="fb-tw">
       <table>
         <thead>
           <tr>
-            <th>Campaign</th>
-            <th>Country</th>
+            <th style="width:28px"></th>
+            <th class="fb-th-sort" onclick="fbSortCamp('campaign')">Campaign</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('country')">Country</th>
             <th>Event</th>
             <th>Niche</th>
-            <th>Spend</th>
-            <th>Revenue</th>
-            <th>ROAS</th>
-            <th>Purchases</th>
-            <th>CPP</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('spend')">Spend</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('rev')">Revenue</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('roas')">ROAS</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('pur')">Purchases</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('cpp')">CPP</th>
             <th>Impressions</th>
-            <th>CTR proxy</th>
+            <th>CTR</th>
           </tr>
         </thead>
         <tbody id="fb-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Ad view (flat, by ad name) -->
+    <div id="fb-view-ad" class="fb-tw" style="display:none">
+      <table>
+        <thead>
+          <tr>
+            <th class="fb-th-sort" onclick="fbSortAd('ad')">Ad Name</th>
+            <th>Campaign</th>
+            <th class="fb-th-sort" onclick="fbSortAd('spend')">Spend</th>
+            <th class="fb-th-sort" onclick="fbSortAd('rev')">Revenue</th>
+            <th class="fb-th-sort" onclick="fbSortAd('roas')">ROAS</th>
+            <th class="fb-th-sort" onclick="fbSortAd('pur')">Purchases</th>
+            <th class="fb-th-sort" onclick="fbSortAd('cpp')">CPP</th>
+            <th class="fb-th-sort" onclick="fbSortAd('imp')">Impressions</th>
+            <th>CTR</th>
+            <th>% of Spend</th>
+          </tr>
+        </thead>
+        <tbody id="fb-ad-tbody"></tbody>
       </table>
     </div>
   </div>
@@ -1658,27 +1715,32 @@ function spInit(){
 //  PAGE 3 — FACEBOOK ADS ANALYTICS
 // ══════════════════════════════════════════════════════
 const FB_ADS_URL = 'https://script.google.com/macros/s/AKfycbxViEkih39gnsaD3srYjkWe1Wq_tUVCRv1FAIT9MAeRnIZTN5gDaR5mMGsw1KkGOz7n/exec';
-let fbInited = false;
-let fbRawData = []; // array of row objects
-let fbGroupBy = 'niche';
-let fbLineChart = null;
-let fbBarChart  = null;
+let fbInited   = false;
+let fbRawData  = [];
+let fbGroupBy  = 'niche';
+let fbLineChart= null;
+let fbBarChart = null;
+let fbView     = 'camp';          // 'camp' | 'ad'
+let fbExpanded = new Set();       // expanded campaign keys
+let fbCampSort = {col:'roas', dir:'desc'};
+let fbAdSort   = {col:'spend', dir:'desc'};
 
-function fbBadge(state, msg){
+// ── Badge ─────────────────────────────────────────────
+function fbBadge(state,msg){
   const el=document.getElementById('fb-sync-badge');
   if(!el)return;
   el.className='fb-sync '+state;
   el.textContent={ok:'☁️ ',err:'⚠️ ',load:'⏳ '}[state]+msg;
 }
 
-// ── Load từ Apps Script ───────────────────────────────
+// ── Load ──────────────────────────────────────────────
 async function fbLoad(){
   fbBadge('load','Đang tải...');
   try{
-    const res  = await fetch(FB_ADS_URL+'?action=read_fb_ads');
-    const json = await res.json();
+    const res =await fetch(FB_ADS_URL+'?action=read_fb_ads');
+    const json=await res.json();
     if(!json.ok) throw new Error(json.error||'API error');
-    fbRawData = json.data||[];
+    fbRawData=json.data||[];
     fbPopulateFilters();
     fbApplyFilters();
     fbBadge('ok','Đã đồng bộ · '+fbRawData.length+' rows');
@@ -1688,92 +1750,175 @@ async function fbLoad(){
   }
 }
 
-// ── Populate filter dropdowns ────────────────────────
+// ── Populate dropdowns ────────────────────────────────
 function fbPopulateFilters(){
-  const events   = [...new Set(fbRawData.map(r=>r.event).filter(Boolean))].sort();
-  const niches   = [...new Set(fbRawData.map(r=>r.niche).filter(Boolean))].sort();
-  const countries= [...new Set(fbRawData.map(r=>r.country).filter(Boolean))].sort();
-
+  const events   =[...new Set(fbRawData.map(r=>r.event).filter(Boolean))].sort();
+  const niches   =[...new Set(fbRawData.map(r=>r.niche).filter(Boolean))].sort();
+  const countries=[...new Set(fbRawData.map(r=>r.country).filter(Boolean))].sort();
   const fill=(id,arr)=>{
-    const sel=document.getElementById(id);
-    const cur=sel.value;
+    const sel=document.getElementById(id), cur=sel.value;
     sel.innerHTML='<option value="all">Tất cả</option>'+arr.map(v=>`<option value="${v}">${v}</option>`).join('');
     if(arr.includes(cur)) sel.value=cur;
   };
-  fill('fb-event',   events);
-  fill('fb-niche',   niches);
-  fill('fb-country', countries);
+  fill('fb-event',events); fill('fb-niche',niches); fill('fb-country',countries);
 }
 
-// ── Range change handler ──────────────────────────────
+// ── Range change ──────────────────────────────────────
 function fbRangeChange(){
-  const val = document.getElementById('fb-range').value;
-  const customEl = document.getElementById('fb-custom-range');
-  if(val === 'custom'){
-    customEl.style.display = 'flex';
-    // Set default: last 30 days
-    const to = new Date();
-    const from = new Date();
-    from.setDate(from.getDate() - 30);
-    document.getElementById('fb-date-to').value   = to.toISOString().slice(0,10);
-    document.getElementById('fb-date-from').value = from.toISOString().slice(0,10);
-  } else {
-    customEl.style.display = 'none';
-  }
+  const val=document.getElementById('fb-range').value;
+  const cEl=document.getElementById('fb-custom-range');
+  if(val==='custom'){
+    cEl.style.display='flex';
+    const to=new Date(), from=new Date();
+    from.setDate(from.getDate()-30);
+    document.getElementById('fb-date-to').value  =to.toISOString().slice(0,10);
+    document.getElementById('fb-date-from').value=from.toISOString().slice(0,10);
+  } else { cEl.style.display='none'; }
   fbApplyFilters();
 }
 
-// ── Filter logic ──────────────────────────────────────
+// ── Filter ────────────────────────────────────────────
 function fbGetFiltered(){
-  const rangeDays = document.getElementById('fb-range').value;
-  const event     = document.getElementById('fb-event').value;
-  const niche     = document.getElementById('fb-niche').value;
-  const country   = document.getElementById('fb-country').value;
-
-  let data = fbRawData;
-
-  // Date filter
-  if(rangeDays === 'custom'){
-    const from = document.getElementById('fb-date-from').value;
-    const to   = document.getElementById('fb-date-to').value;
-    if(from) data = data.filter(r=>r.date >= from);
-    if(to)   data = data.filter(r=>r.date <= to);
-  } else if(rangeDays !== 'all'){
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - parseInt(rangeDays));
-    const cutStr = cutoff.toISOString().slice(0,10);
-    data = data.filter(r=>r.date>=cutStr);
+  const range=document.getElementById('fb-range').value;
+  const event=document.getElementById('fb-event').value;
+  const niche=document.getElementById('fb-niche').value;
+  const ctry =document.getElementById('fb-country').value;
+  let d=fbRawData;
+  if(range==='custom'){
+    const from=document.getElementById('fb-date-from').value;
+    const to  =document.getElementById('fb-date-to').value;
+    if(from) d=d.filter(r=>r.date>=from);
+    if(to)   d=d.filter(r=>r.date<=to);
+  } else if(range!=='all'){
+    const cut=new Date(); cut.setDate(cut.getDate()-parseInt(range));
+    const cs=cut.toISOString().slice(0,10);
+    d=d.filter(r=>r.date>=cs);
   }
-  if(event  !=='all') data=data.filter(r=>r.event===event);
-  if(niche  !=='all') data=data.filter(r=>r.niche===niche);
-  if(country!=='all') data=data.filter(r=>r.country===country);
-  return data;
+  if(event!=='all') d=d.filter(r=>r.event===event);
+  if(niche!=='all') d=d.filter(r=>r.niche===niche);
+  if(ctry !=='all') d=d.filter(r=>r.country===ctry);
+  return d;
 }
 
 function fbApplyFilters(){
-  const data = fbGetFiltered();
+  const data=fbGetFiltered();
   fbUpdateKPIs(data);
   fbUpdateLineChart(data);
-  fbUpdateBarChart(data, fbGroupBy);
-  fbUpdateTable(data);
+  fbUpdateBarChart(data,fbGroupBy);
+  if(fbView==='camp') fbUpdateCampTable(data);
+  else                fbUpdateAdTable(data);
 }
 
-function fbSetGroupBy(g){
-  fbGroupBy=g;
-  ['niche','country'].forEach(x=>{
-    document.getElementById('fb-by-'+x).classList.toggle('act',x===g);
+// ── View switch ───────────────────────────────────────
+function fbSetView(v){
+  fbView=v;
+  document.getElementById('fb-view-camp').style.display = v==='camp'?'':'none';
+  document.getElementById('fb-view-ad').style.display   = v==='ad'  ?'':'none';
+  document.getElementById('fb-v-camp').classList.toggle('act',v==='camp');
+  document.getElementById('fb-v-ad').classList.toggle('act',v==='ad');
+  document.getElementById('fb-table-title').textContent = v==='camp'?'🏅 By Campaign':'🎨 By Ad';
+  document.getElementById('fb-expand-all-btn').style.display   = v==='camp'?'':'none';
+  document.getElementById('fb-collapse-all-btn').style.display = v==='camp'?'':'none';
+  const data=fbGetFiltered();
+  if(v==='camp') fbUpdateCampTable(data);
+  else           fbUpdateAdTable(data);
+}
+
+// ── Group helper ──────────────────────────────────────
+function fbGroupByCamp(data){
+  const map={};
+  data.forEach(r=>{
+    const key=r.campaign||'Unknown';
+    if(!map[key]) map[key]={campaign:r.campaign,country:r.country,event:r.event,niche:r.niche,
+      spend:0,rev:0,pur:0,imp:0,clicks:0, ads:{}};
+    map[key].spend  +=r.spend;
+    map[key].rev    +=r.revenue;
+    map[key].pur    +=r.purchases;
+    map[key].imp    +=r.impressions;
+    map[key].clicks +=r.clicks;
+    // per-ad breakdown inside this campaign
+    const adKey=r.adName||r.ad||'Unknown Ad';
+    if(!map[key].ads[adKey]) map[key].ads[adKey]={ad:adKey,spend:0,rev:0,pur:0,imp:0,clicks:0};
+    map[key].ads[adKey].spend  +=r.spend;
+    map[key].ads[adKey].rev    +=r.revenue;
+    map[key].ads[adKey].pur    +=r.purchases;
+    map[key].ads[adKey].imp    +=r.impressions;
+    map[key].ads[adKey].clicks +=r.clicks;
   });
-  fbUpdateBarChart(fbGetFiltered(), g);
+  return map;
+}
+
+function fbGroupByAd(data){
+  const map={};
+  data.forEach(r=>{
+    const key=r.adName||r.ad||'Unknown Ad';
+    if(!map[key]) map[key]={ad:key,campaign:r.campaign,spend:0,rev:0,pur:0,imp:0,clicks:0};
+    map[key].spend  +=r.spend;
+    map[key].rev    +=r.revenue;
+    map[key].pur    +=r.purchases;
+    map[key].imp    +=r.impressions;
+    map[key].clicks +=r.clicks;
+  });
+  return map;
+}
+
+// ── Sort helpers ──────────────────────────────────────
+function fbSortRows(rows, col, dir){
+  const key={roas:r=>r.spend>0?r.rev/r.spend:0, spend:r=>r.spend, rev:r=>r.rev,
+    pur:r=>r.pur, cpp:r=>r.pur>0?r.spend/r.pur:999999,
+    campaign:r=>(r.campaign||'').toLowerCase(),
+    country:r=>(r.country||'').toLowerCase(),
+    ad:r=>(r.ad||'').toLowerCase(),
+    imp:r=>r.imp}[col]||((r)=>r.spend);
+  return [...rows].sort((a,b)=>{
+    const va=key(a), vb=key(b);
+    return dir==='asc' ? (va>vb?1:-1) : (va<vb?1:-1);
+  });
+}
+
+function fbSortCamp(col){
+  if(fbCampSort.col===col) fbCampSort.dir=fbCampSort.dir==='desc'?'asc':'desc';
+  else { fbCampSort.col=col; fbCampSort.dir='desc'; }
+  // update header arrows
+  document.querySelectorAll('#fb-view-camp .fb-th-sort').forEach(th=>{
+    th.classList.remove('asc','desc');
+    if(th.getAttribute('onclick')===`fbSortCamp('${col}')`) th.classList.add(fbCampSort.dir);
+  });
+  fbUpdateCampTable(fbGetFiltered());
+}
+function fbSortAd(col){
+  if(fbAdSort.col===col) fbAdSort.dir=fbAdSort.dir==='desc'?'asc':'desc';
+  else { fbAdSort.col=col; fbAdSort.dir='desc'; }
+  document.querySelectorAll('#fb-view-ad .fb-th-sort').forEach(th=>{
+    th.classList.remove('asc','desc');
+    if(th.getAttribute('onclick')===`fbSortAd('${col}')`) th.classList.add(fbAdSort.dir);
+  });
+  fbUpdateAdTable(fbGetFiltered());
+}
+
+// ── Expand / Collapse ─────────────────────────────────
+function fbToggleCamp(key){
+  if(fbExpanded.has(key)) fbExpanded.delete(key);
+  else fbExpanded.add(key);
+  fbUpdateCampTable(fbGetFiltered());
+}
+function fbExpandAll(){
+  const map=fbGroupByCamp(fbGetFiltered());
+  Object.keys(map).forEach(k=>fbExpanded.add(k));
+  fbUpdateCampTable(fbGetFiltered());
+}
+function fbCollapseAll(){
+  fbExpanded.clear();
+  fbUpdateCampTable(fbGetFiltered());
 }
 
 // ── KPIs ──────────────────────────────────────────────
 function fbUpdateKPIs(data){
-  const spend  = data.reduce((s,r)=>s+r.spend,0);
-  const rev    = data.reduce((s,r)=>s+r.revenue,0);
-  const pur    = data.reduce((s,r)=>s+r.purchases,0);
-  const roas   = spend>0?rev/spend:0;
-  const cpp    = pur>0?spend/pur:0;
-
+  const spend=data.reduce((s,r)=>s+r.spend,0);
+  const rev  =data.reduce((s,r)=>s+r.revenue,0);
+  const pur  =data.reduce((s,r)=>s+r.purchases,0);
+  const roas =spend>0?rev/spend:0;
+  const cpp  =pur>0?spend/pur:0;
   const fd=v=>'$'+Math.round(v).toLocaleString('de-DE');
   document.getElementById('fb-k-spend').textContent  =fd(spend);
   document.getElementById('fb-k-spend-s').textContent=data.length+' rows';
@@ -1786,121 +1931,50 @@ function fbUpdateKPIs(data){
   document.getElementById('fb-k-cpp-s').textContent  ='per purchase';
   document.getElementById('fb-k-pur').textContent    =Math.round(pur).toLocaleString();
   document.getElementById('fb-k-pur-s').textContent  ='total orders';
-}
-
-// ── Line Chart: Spend vs Revenue by date ─────────────
-function fbUpdateLineChart(data){
-  const byDate={};
-  data.forEach(r=>{
-    if(!byDate[r.date]) byDate[r.date]={spend:0,rev:0};
-    byDate[r.date].spend+=r.spend;
-    byDate[r.date].rev  +=r.revenue;
-  });
-  const labels=Object.keys(byDate).sort();
-  const spends=labels.map(d=>Math.round(byDate[d].spend));
-  const revs  =labels.map(d=>Math.round(byDate[d].rev));
-  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v);
-
-  if(fbLineChart){
-    fbLineChart.data.labels=labels;
-    fbLineChart.data.datasets[0].data=spends;
-    fbLineChart.data.datasets[1].data=revs;
-    fbLineChart.update('none');
-    return;
+  // Top Ad by ROAS
+  const adMap=fbGroupByAd(data);
+  const topAd=Object.values(adMap).filter(r=>r.spend>10).sort((a,b)=>(b.rev/b.spend)-(a.rev/a.spend))[0];
+  if(topAd){
+    const tRoas=topAd.rev/topAd.spend;
+    document.getElementById('fb-k-topad').textContent  =topAd.ad;
+    document.getElementById('fb-k-topad-s').textContent=tRoas.toFixed(2)+'x · '+fd(topAd.spend);
+    document.getElementById('fb-k-topad-s').style.color=tRoas>=2.5?'#22d07a':tRoas>=1.5?'#f5c842':'#f05252';
+  } else {
+    document.getElementById('fb-k-topad').textContent='—';
+    document.getElementById('fb-k-topad-s').textContent='—';
   }
-  const ctx=document.getElementById('fb-line-chart').getContext('2d');
-  fbLineChart=new Chart(ctx,{type:'line',data:{
-    labels,
-    datasets:[
-      {label:'Spend',data:spends,borderColor:'#f5922d',backgroundColor:'#f5922d10',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
-      {label:'Revenue',data:revs,borderColor:'#25d4e7',backgroundColor:'#25d4e710',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
-    ]
-  },options:{
-    responsive:true,maintainAspectRatio:false,animation:{duration:120},
-    interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
-      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
-        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
-    scales:{
-      x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9},maxTicksLimit:20,maxRotation:45}},
-      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt},grace:'5%'}
-    }
-  }});
 }
 
-// ── Bar Chart: by Niche or Country ───────────────────
-function fbUpdateBarChart(data, groupBy){
-  const byGroup={};
-  data.forEach(r=>{
-    const key=r[groupBy]||'Unknown';
-    if(!byGroup[key]) byGroup[key]={spend:0,rev:0,pur:0};
-    byGroup[key].spend+=r.spend;
-    byGroup[key].rev  +=r.revenue;
-    byGroup[key].pur  +=r.purchases;
-  });
-  const labels=Object.entries(byGroup).sort((a,b)=>b[1].rev-a[1].rev).map(e=>e[0]);
-  const spends=labels.map(k=>Math.round(byGroup[k].spend));
-  const revs  =labels.map(k=>Math.round(byGroup[k].rev));
-  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v);
-
-  if(fbBarChart){
-    fbBarChart.data.labels=labels;
-    fbBarChart.data.datasets[0].data=spends;
-    fbBarChart.data.datasets[1].data=revs;
-    fbBarChart.update('none');
-    return;
-  }
-  const ctx=document.getElementById('fb-bar-chart').getContext('2d');
-  fbBarChart=new Chart(ctx,{type:'bar',data:{
-    labels,
-    datasets:[
-      {label:'Spend',data:spends,backgroundColor:'#f5922d88',borderColor:'#f5922d',borderWidth:1},
-      {label:'Revenue',data:revs,backgroundColor:'#25d4e788',borderColor:'#25d4e7',borderWidth:1},
-    ]
-  },options:{
-    responsive:true,maintainAspectRatio:false,animation:{duration:120},
-    interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
-      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
-        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
-    scales:{
-      x:{grid:{display:false},ticks:{color:'#4a6d94',font:{size:10},maxRotation:0}},
-      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt}}
-    }
-  }});
-}
-
-// ── Table: Top campaigns by ROAS ─────────────────────
-function fbUpdateTable(data){
-  const byCamp={};
-  data.forEach(r=>{
-    const key=r.campaign||'Unknown';
-    if(!byCamp[key]) byCamp[key]={campaign:r.campaign,country:r.country,event:r.event,niche:r.niche,spend:0,rev:0,pur:0,imp:0,clicks:0};
-    byCamp[key].spend  +=r.spend;
-    byCamp[key].rev    +=r.revenue;
-    byCamp[key].pur    +=r.purchases;
-    byCamp[key].imp    +=r.impressions;
-    byCamp[key].clicks +=r.clicks;
-  });
-
-  const rows=Object.values(byCamp)
-    .filter(r=>r.spend>0)
-    .sort((a,b)=>(b.rev/b.spend)-(a.rev/a.spend))
-    .slice(0,30);
-
-  document.getElementById('fb-camp-count').textContent=rows.length+' campaigns';
-  const fd=v=>'$'+Math.round(v).toLocaleString('de-DE');
+// ── Campaign Table (with drill-down) ─────────────────
+function fbUpdateCampTable(data){
+  const map=fbGroupByCamp(data);
+  let rows=Object.values(map).filter(r=>r.spend>0);
+  rows=fbSortRows(rows, fbCampSort.col, fbCampSort.dir);
   const maxSpend=Math.max(...rows.map(r=>r.spend),1);
+  const fd=v=>'$'+Math.round(v).toLocaleString('de-DE');
+  const totalSpend=rows.reduce((s,r)=>s+r.spend,0);
 
-  document.getElementById('fb-tbody').innerHTML=rows.map(r=>{
+  document.getElementById('fb-camp-count').textContent=rows.length+' campaigns · '+fbExpanded.size+' expanded';
+  document.getElementById('fb-expand-all-btn').style.display='';
+  document.getElementById('fb-collapse-all-btn').style.display='';
+
+  let html='';
+  rows.forEach(r=>{
     const roas=r.spend>0?r.rev/r.spend:0;
     const cpp =r.pur>0?r.spend/r.pur:0;
     const ctr =r.imp>0?(r.clicks/r.imp*100).toFixed(2)+'%':'—';
-    const rc=roas>=2.5?'fb-roas-good':roas>=1.5?'fb-roas-ok':'fb-roas-bad';
+    const rc  =roas>=2.5?'fb-roas-good':roas>=1.5?'fb-roas-ok':'fb-roas-bad';
     const barW=Math.round(r.spend/maxSpend*100);
-    return`<tr>
+    const isOpen=fbExpanded.has(r.campaign||'Unknown');
+    const adRows=Object.values(r.ads||{}).filter(a=>a.spend>0)
+      .sort((a,b)=>b.spend-a.spend);
+    const hasAds=adRows.length>0;
+
+    // Campaign row
+    html+=`<tr style="cursor:pointer" onclick="fbToggleCamp('${(r.campaign||'Unknown').replace(/'/g,"\\'")}')">
+      <td style="text-align:center"><span class="fb-exp${isOpen?' open':''}${!hasAds?' disabled':''}">${hasAds?(isOpen?'▼':'▶'):'·'}</span></td>
       <td>
-        <div style="font-size:11px;font-weight:600;color:var(--t1);max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.campaign||'—'}</div>
+        <div style="font-size:11px;font-weight:600;color:var(--t1);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.campaign||'—'}</div>
         <div class="fb-bar" style="width:${barW}%;margin-top:3px"></div>
       </td>
       <td style="color:var(--t2);font-size:10px">${r.country||'—'}</td>
@@ -1910,14 +1984,159 @@ function fbUpdateTable(data){
       <td style="font-family:var(--mono);color:#67e8f9">${fd(r.rev)}</td>
       <td class="${rc}">${roas.toFixed(2)}x</td>
       <td style="font-family:var(--mono);color:var(--t2)">${Math.round(r.pur)}</td>
-      <td style="font-family:var(--mono);color:var(--yellow)">${fd(cpp)}</td>
+      <td style="font-family:var(--mono);color:var(--yellow)">${cpp>0?fd(cpp):'—'}</td>
       <td style="font-family:var(--mono);color:var(--t3)">${Math.round(r.imp).toLocaleString()}</td>
       <td style="font-family:var(--mono);color:var(--t3)">${ctr}</td>
+    </tr>`;
+
+    // Drill-down ad rows (only if expanded)
+    if(isOpen && hasAds){
+      adRows.forEach((ad,adIdx)=>{
+        const aRoas=ad.spend>0?ad.rev/ad.spend:0;
+        const aCpp =ad.pur>0?ad.spend/ad.pur:0;
+        const aCtr =ad.imp>0?(ad.clicks/ad.imp*100).toFixed(2)+'%':'—';
+        const aRc  =aRoas>=2.5?'fb-roas-good':aRoas>=1.5?'fb-roas-ok':'fb-roas-bad';
+        const spPct=totalSpend>0?(ad.spend/totalSpend*100).toFixed(1)+'%':'—';
+        const adBarW=r.spend>0?Math.round(ad.spend/r.spend*100):0;
+        html+=`<tr class="fb-drill">
+          <td></td>
+          <td colspan="4">
+            <div class="fb-drill-indent">
+              <span style="font-size:9px;color:var(--t3);margin-right:2px">${adIdx+1}</span>
+              <span class="fb-ad-badge">AD</span>
+              <span style="font-size:11px;font-weight:600;color:var(--t2);max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ad.ad}</span>
+            </div>
+            <div class="fb-bar" style="width:${adBarW}%;margin-top:3px;margin-left:28px;background:#9b72f5;height:4px;opacity:.6"></div>
+          </td>
+          <td style="font-family:var(--mono);color:#60a5fa;font-size:10px">${fd(ad.spend)}<span style="display:block;font-size:8px;color:var(--t3)">${spPct} of total</span></td>
+          <td style="font-family:var(--mono);color:#67e8f9;font-size:10px">${fd(ad.rev)}</td>
+          <td class="${aRc}" style="font-size:10px">${aRoas>0?aRoas.toFixed(2)+'x':'—'}</td>
+          <td style="font-family:var(--mono);color:var(--t2);font-size:10px">${Math.round(ad.pur)||'—'}</td>
+          <td style="font-family:var(--mono);color:var(--yellow);font-size:10px">${aCpp>0?fd(aCpp):'—'}</td>
+          <td style="font-family:var(--mono);color:var(--t3);font-size:10px">${Math.round(ad.imp).toLocaleString()}</td>
+          <td style="font-family:var(--mono);color:var(--t3);font-size:10px">${aCtr}</td>
+        </tr>`;
+      });
+    }
+  });
+  document.getElementById('fb-tbody').innerHTML=html;
+}
+
+// ── Ad Breakdown Table (flat) ─────────────────────────
+function fbUpdateAdTable(data){
+  const map=fbGroupByAd(data);
+  let rows=Object.values(map).filter(r=>r.spend>0);
+  rows=fbSortRows(rows, fbAdSort.col, fbAdSort.dir);
+  const totalSpend=rows.reduce((s,r)=>s+r.spend,0);
+  const maxSpend=Math.max(...rows.map(r=>r.spend),1);
+  const fd=v=>'$'+Math.round(v).toLocaleString('de-DE');
+
+  document.getElementById('fb-camp-count').textContent=rows.length+' ads';
+
+  document.getElementById('fb-ad-tbody').innerHTML=rows.map((r,i)=>{
+    const roas=r.spend>0?r.rev/r.spend:0;
+    const cpp =r.pur>0?r.spend/r.pur:0;
+    const ctr =r.imp>0?(r.clicks/r.imp*100).toFixed(2)+'%':'—';
+    const rc  =roas>=2.5?'fb-roas-good':roas>=1.5?'fb-roas-ok':'fb-roas-bad';
+    const spPct=totalSpend>0?(r.spend/totalSpend*100).toFixed(1)+'%':'—';
+    const barW=Math.round(r.spend/maxSpend*100);
+    return`<tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="font-size:9px;color:var(--t4);font-family:var(--mono);min-width:18px">${i+1}</span>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--t1);max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.ad||'—'}</div>
+            <div class="fb-bar" style="width:${barW}%;margin-top:3px"></div>
+          </div>
+        </div>
+      </td>
+      <td style="font-size:10px;color:var(--t3);max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.campaign||'—'}</td>
+      <td style="font-family:var(--mono);color:#60a5fa">${fd(r.spend)}</td>
+      <td style="font-family:var(--mono);color:#67e8f9">${fd(r.rev)}</td>
+      <td class="${rc}">${roas>0?roas.toFixed(2)+'x':'—'}</td>
+      <td style="font-family:var(--mono);color:var(--t2)">${Math.round(r.pur)||'—'}</td>
+      <td style="font-family:var(--mono);color:var(--yellow)">${cpp>0?fd(cpp):'—'}</td>
+      <td style="font-family:var(--mono);color:var(--t3)">${Math.round(r.imp).toLocaleString()}</td>
+      <td style="font-family:var(--mono);color:var(--t3)">${ctr}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:5px">
+          <div style="flex:1;height:5px;background:var(--bd);border-radius:3px;overflow:hidden"><div style="width:${spPct};height:100%;background:#4d8ef5;border-radius:3px"></div></div>
+          <span style="font-size:9px;color:var(--t3);font-family:var(--mono);white-space:nowrap">${spPct}</span>
+        </div>
+      </td>
     </tr>`;
   }).join('');
 }
 
-// ── Init ─────────────────────────────────────────────
+// ── Group By (bar chart) ──────────────────────────────
+function fbSetGroupBy(g){
+  fbGroupBy=g;
+  ['niche','country'].forEach(x=>document.getElementById('fb-by-'+x).classList.toggle('act',x===g));
+  fbUpdateBarChart(fbGetFiltered(),g);
+}
+
+// ── Line Chart ────────────────────────────────────────
+function fbUpdateLineChart(data){
+  const byDate={};
+  data.forEach(r=>{
+    if(!byDate[r.date]) byDate[r.date]={spend:0,rev:0};
+    byDate[r.date].spend+=r.spend; byDate[r.date].rev+=r.revenue;
+  });
+  const labels=Object.keys(byDate).sort();
+  const spends=labels.map(d=>Math.round(byDate[d].spend));
+  const revs  =labels.map(d=>Math.round(byDate[d].rev));
+  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v);
+  if(fbLineChart){
+    fbLineChart.data.labels=labels;
+    fbLineChart.data.datasets[0].data=spends;
+    fbLineChart.data.datasets[1].data=revs;
+    fbLineChart.update('none'); return;
+  }
+  const ctx=document.getElementById('fb-line-chart').getContext('2d');
+  fbLineChart=new Chart(ctx,{type:'line',data:{labels,datasets:[
+    {label:'Spend',  data:spends,borderColor:'#f5922d',backgroundColor:'#f5922d10',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
+    {label:'Revenue',data:revs,  borderColor:'#25d4e7',backgroundColor:'#25d4e710',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:120},
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
+      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
+    scales:{x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9},maxTicksLimit:20,maxRotation:45}},
+      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt},grace:'5%'}}}});
+}
+
+// ── Bar Chart ─────────────────────────────────────────
+function fbUpdateBarChart(data,groupBy){
+  const byGroup={};
+  data.forEach(r=>{
+    const key=r[groupBy]||'Unknown';
+    if(!byGroup[key]) byGroup[key]={spend:0,rev:0,pur:0};
+    byGroup[key].spend+=r.spend; byGroup[key].rev+=r.revenue; byGroup[key].pur+=r.purchases;
+  });
+  const labels=Object.entries(byGroup).sort((a,b)=>b[1].rev-a[1].rev).map(e=>e[0]);
+  const spends=labels.map(k=>Math.round(byGroup[k].spend));
+  const revs  =labels.map(k=>Math.round(byGroup[k].rev));
+  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v);
+  if(fbBarChart){
+    fbBarChart.data.labels=labels;
+    fbBarChart.data.datasets[0].data=spends;
+    fbBarChart.data.datasets[1].data=revs;
+    fbBarChart.update('none'); return;
+  }
+  const ctx=document.getElementById('fb-bar-chart').getContext('2d');
+  fbBarChart=new Chart(ctx,{type:'bar',data:{labels,datasets:[
+    {label:'Spend',  data:spends,backgroundColor:'#f5922d88',borderColor:'#f5922d',borderWidth:1},
+    {label:'Revenue',data:revs,  backgroundColor:'#25d4e788',borderColor:'#25d4e7',borderWidth:1},
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:120},
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
+      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
+    scales:{x:{grid:{display:false},ticks:{color:'#4a6d94',font:{size:10},maxRotation:0}},
+      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt}}}}});
+}
+
+// ── Init ──────────────────────────────────────────────
 function fbInit(){
   fbInited=true;
   fbLoad();
