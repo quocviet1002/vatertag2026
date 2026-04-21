@@ -188,6 +188,8 @@ tr:hover td{background:rgba(255,255,255,.013)}
 .sp-sync{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
 .sp-sync.ok{color:#22d07a;border-color:#22d07a44}.sp-sync.err{color:#f5c842;border-color:#f5c84244}.sp-sync.load{color:#4d8ef5;border-color:#4d8ef544}
 .ro-cell{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--t3)}
+.today-badge{display:inline-block;font-size:8px;font-weight:700;color:#4d8ef5;background:#4d8ef520;border:1px solid #4d8ef540;border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+.sp-kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
 
 /* ── FB ADS PAGE 3 ── */
 .fb-hdr{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -494,11 +496,12 @@ tr:hover td{background:rgba(255,255,255,.013)}
 
 <!-- SP KPI -->
 <div class="sp-kpi">
-  <div class="kpi kb"><div class="kpi-lbl">💰 Tổng Spent</div><div class="kpi-val" id="sp-k-spent" style="color:#60a5fa">€0</div><div class="kpi-sub" id="sp-k-spent-s">FB + GG</div></div>
-  <div class="kpi kc"><div class="kpi-lbl">📈 Tổng Revenue</div><div class="kpi-val" id="sp-k-rev" style="color:#67e8f9">€0</div><div class="kpi-sub" id="sp-k-rev-s">— orders</div></div>
-  <div class="kpi kg"><div class="kpi-lbl">✅ Net Profit</div><div class="kpi-val" id="sp-k-np">€0</div><div class="kpi-sub" id="sp-k-np-s">margin: 0%</div></div>
+  <div class="kpi kb"><div class="kpi-lbl">💰 Tổng Spent</div><div class="kpi-val" id="sp-k-spent" style="color:#60a5fa">$0</div><div class="kpi-sub" id="sp-k-spent-s">FB + GG</div></div>
+  <div class="kpi kc"><div class="kpi-lbl">📈 Tổng Revenue</div><div class="kpi-val" id="sp-k-rev" style="color:#67e8f9">$0</div><div class="kpi-sub" id="sp-k-rev-s">— orders</div></div>
+  <div class="kpi kg"><div class="kpi-lbl">✅ Net Profit</div><div class="kpi-val" id="sp-k-np">$0</div><div class="kpi-sub" id="sp-k-np-s">margin: 0%</div></div>
   <div class="kpi ky"><div class="kpi-lbl">📊 ROAS thực tế</div><div class="kpi-val" id="sp-k-roas" style="color:#fcd34d">0x</div><div class="kpi-sub" id="sp-k-roas-s">Rev / Spent</div></div>
   <div class="kpi ko"><div class="kpi-lbl">📊 % Ads TB</div><div class="kpi-val" id="sp-k-adpct" style="color:#fdba74">0%</div><div class="kpi-sub" id="sp-k-adpct-s">Spent / Revenue</div></div>
+  <div class="kpi kp"><div class="kpi-lbl">📦 COGS</div><div class="kpi-val" id="sp-k-cogs" style="color:#c4b5fd">$0</div><div class="kpi-sub" id="sp-k-cogs-s">Cost of goods sold</div></div>
 </div>
 
 <!-- FILTER BAR -->
@@ -562,6 +565,9 @@ tr:hover td{background:rgba(255,255,255,.013)}
             <th>GG Spent</th>
             <th>Total Spent</th>
             <th>API Cost</th>
+            <th style="color:#f97316">COGS</th>
+            <th style="color:#a78bfa">Payment GW</th>
+            <th style="color:#94afd4">Variable Fee</th>
             <th>Orders</th>
             <th>AOV</th>
             <th>ROAS</th>
@@ -578,6 +584,9 @@ tr:hover td{background:rgba(255,255,255,.013)}
             <td id="sp-s-gg">—</td>
             <td id="sp-s-spent">—</td>
             <td id="sp-s-api">—</td>
+            <td id="sp-s-cogs">—</td>
+            <td id="sp-s-pg">—</td>
+            <td id="sp-s-vf">—</td>
             <td id="sp-s-ord">—</td>
             <td id="sp-s-aov">—</td>
             <td id="sp-s-roas">—</td>
@@ -1273,6 +1282,7 @@ function spTodayISO(){
 let SP_DATES=[];
 let SP_N=0;
 let spRevA=[], spFbA=[], spGgA=[], spSpentA=[], spApiA=[], spOrdA=[], spFxA=[];
+let spNpA=[], spPgA=[], spVfA=[], spCogsA=[];
 
 function spInitArrays(){
   SP_DATES=spBuildDates(); SP_N=SP_DATES.length;
@@ -1280,6 +1290,8 @@ function spInitArrays(){
   spGgA=new Array(SP_N).fill(null);  spSpentA=new Array(SP_N).fill(null);
   spApiA=new Array(SP_N).fill(null); spOrdA=new Array(SP_N).fill(null);
   spFxA=new Array(SP_N).fill(null);
+  spNpA=new Array(SP_N).fill(null); spPgA=new Array(SP_N).fill(null);
+  spVfA=new Array(SP_N).fill(null); spCogsA=new Array(SP_N).fill(null);
 }
 
 // ── localStorage fallback ─────────────────────────────
@@ -1287,14 +1299,19 @@ function spSaveLS(){
   const d={};
   for(let i=0;i<SP_N;i++){
     const iso=SP_DATES[i].iso;
-    if(spRevA[i]!=null||spSpentA[i]!=null||spFbA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null){
+    if(spRevA[i]!=null||spSpentA[i]!=null||spFbA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null
+       ||spNpA[i]!=null||spPgA[i]!=null||spVfA[i]!=null||spCogsA[i]!=null){
       d[iso]={};
-      if(spRevA[i]!=null)   d[iso].r =spRevA[i];
-      if(spSpentA[i]!=null) d[iso].s =spSpentA[i];
-      if(spFbA[i]!=null)    d[iso].fb=spFbA[i];
-      if(spGgA[i]!=null)    d[iso].gg=spGgA[i];
-      if(spApiA[i]!=null)   d[iso].a =spApiA[i];
-      if(spOrdA[i]!=null)   d[iso].o =spOrdA[i];
+      if(spRevA[i]   !=null) d[iso].r   =spRevA[i];
+      if(spSpentA[i] !=null) d[iso].s   =spSpentA[i];
+      if(spFbA[i]    !=null) d[iso].fb  =spFbA[i];
+      if(spGgA[i]    !=null) d[iso].gg  =spGgA[i];
+      if(spApiA[i]   !=null) d[iso].a   =spApiA[i];
+      if(spOrdA[i]   !=null) d[iso].o   =spOrdA[i];
+      if(spNpA[i]    !=null) d[iso].np  =spNpA[i];
+      if(spPgA[i]    !=null) d[iso].pg  =spPgA[i];
+      if(spVfA[i]    !=null) d[iso].vf  =spVfA[i];
+      if(spCogsA[i]  !=null) d[iso].cogs=spCogsA[i];
     }
   }
   try{localStorage.setItem(SP_LS_KEY,JSON.stringify(d));}catch(e){}
@@ -1305,12 +1322,16 @@ function spLoadLS(){
     for(let i=0;i<SP_N;i++){
       const x=d[SP_DATES[i].iso];
       if(x){
-        spRevA[i]  =x.r !=null?+x.r :null;
-        spSpentA[i]=x.s !=null?+x.s :null;
-        spFbA[i]   =x.fb!=null?+x.fb:null;
-        spGgA[i]   =x.gg!=null?+x.gg:null;
-        spApiA[i]  =x.a !=null?+x.a :null;
-        spOrdA[i]  =x.o !=null?+x.o :null;
+        spRevA[i]  =x.r   !=null?+x.r   :null;
+        spSpentA[i]=x.s   !=null?+x.s   :null;
+        spFbA[i]   =x.fb  !=null?+x.fb  :null;
+        spGgA[i]   =x.gg  !=null?+x.gg  :null;
+        spApiA[i]  =x.a   !=null?+x.a   :null;
+        spOrdA[i]  =x.o   !=null?+x.o   :null;
+        spNpA[i]   =x.np  !=null?+x.np  :null;
+        spPgA[i]   =x.pg  !=null?+x.pg  :null;
+        spVfA[i]   =x.vf  !=null?+x.vf  :null;
+        spCogsA[i] =x.cogs!=null?+x.cogs:null;
       }
     }
   }catch(e){}
@@ -1337,11 +1358,15 @@ async function spLoadFromSheets(){
       if(d[iso]){
         spRevA[i]  =d[iso].r !=null?+d[iso].r :spRevA[i];
         spSpentA[i]=d[iso].s !=null?+d[iso].s :spSpentA[i];
-        spFbA[i]   =d[iso].fb!=null?+d[iso].fb:spFbA[i];
-        spGgA[i]   =d[iso].gg!=null?+d[iso].gg:spGgA[i];
-        spApiA[i]  =d[iso].a !=null?+d[iso].a :spApiA[i];
-        spOrdA[i]  =d[iso].o !=null?+d[iso].o :spOrdA[i];
-        spFxA[i]   =d[iso].fx!=null?+d[iso].fx:spFxA[i];
+        spFbA[i]   =d[iso].fb  !=null?+d[iso].fb  :spFbA[i];
+        spGgA[i]   =d[iso].gg  !=null?+d[iso].gg  :spGgA[i];
+        spApiA[i]  =d[iso].a   !=null?+d[iso].a   :spApiA[i];
+        spOrdA[i]  =d[iso].o   !=null?+d[iso].o   :spOrdA[i];
+        spFxA[i]   =d[iso].fx  !=null?+d[iso].fx  :spFxA[i];
+        spNpA[i]   =d[iso].np  !=null?+d[iso].np  :spNpA[i];
+        spPgA[i]   =d[iso].pg  !=null?+d[iso].pg  :spPgA[i];
+        spVfA[i]   =d[iso].vf  !=null?+d[iso].vf  :spVfA[i];
+        spCogsA[i] =d[iso].cogs!=null?+d[iso].cogs:spCogsA[i];
       }
     }
     spSaveLS();
@@ -1413,20 +1438,28 @@ function spSetFilter(mode){
 
 // ── Calc per day ────────────────────────────────────────
 function spCalcDay(i){
-  const gm= +document.getElementById('sp-gm').value/100||0.70;
-  const varC=+document.getElementById('sp-var').value/100||0.05;
+  const gm  = +document.getElementById('sp-gm').value/100  || 0.70;
+  const varC= +document.getElementById('sp-var').value/100 || 0.05;
   const rev=spRevA[i], fb=spFbA[i]||0, gg=spGgA[i]||0;
-  const spent=spSpentA[i]!=null?spSpentA[i]:(fb+gg);
-  const api=spApiA[i]||0;
-  const orders=spOrdA[i];
-  if(rev==null&&spent===0) return null;
-  const r=rev||0;
-  const np=r*gm - spent - api - r*varC;
-  return{rev:r,fb,gg,spent,api,orders,
-    roas:spent>0?r/spent:null,
-    poas:r-spent-api,
-    aov:orders&&orders>0?r/orders:null,
-    np, nmg:r>0?np/r:null};
+  // Ưu tiên total spent từ Sheets; nếu không có thì cộng fb+gg
+  const spent = spSpentA[i]!=null ? spSpentA[i] : (fb+gg>0 ? fb+gg : null);
+  const api   = spApiA[i]||0;
+  const orders= spOrdA[i];
+  // COGS, Payment GW, Variable Fee từ Sheets (nếu có)
+  const cogs = spCogsA[i]!=null ? spCogsA[i] : (rev!=null ? (rev||0)*0.30 : 0);
+  const pg   = spPgA[i]  !=null ? spPgA[i]   : 0;
+  const vf   = spVfA[i]  !=null ? spVfA[i]   : (rev!=null ? (rev||0)*varC : 0);
+  if(rev==null && (spent==null||spent===0)) return null;
+  const r=rev||0; const s=spent||0;
+  // Net Profit: ưu tiên giá trị từ Sheets; nếu không có thì tự tính
+  const np = spNpA[i]!=null
+    ? spNpA[i]
+    : (r*gm - s - api - r*varC);
+  return{rev:r, fb, gg, spent:s, api, orders, cogs, pg, vf,
+    roas: s>0 ? r/s : null,
+    poas: r-s-api,
+    aov:  orders&&orders>0 ? r/orders : null,
+    np,   nmg: r>0 ? np/r : null};
 }
 
 const spFD=v=>'$'+Math.round(v).toLocaleString('de-DE');
@@ -1463,6 +1496,9 @@ function spRecalc(){
   document.getElementById('sp-k-adpct').textContent=(adPct*100).toFixed(1)+'%';
   document.getElementById('sp-k-adpct').style.color=adPct<=0.35?'#22d07a':adPct<=0.42?'#25d4e7':adPct<=0.50?'#f5c842':'#f05252';
   document.getElementById('sp-k-adpct-s').textContent=spFE(tSpent)+' / '+spFE(tRev);
+  const tCogs=withData.reduce((s,r)=>s+r.calc.cogs,0);
+  document.getElementById('sp-k-cogs').textContent=spFE(tCogs);
+  document.getElementById('sp-k-cogs-s').textContent=tRev>0?(tCogs/tRev*100).toFixed(1)+'% of Rev':'—';
 
   const rl=spFilterMode==='all'?'toàn năm':fS.slice(5)+' → '+fE.slice(5);
   document.getElementById('sp-range-lbl').textContent='· '+rl;
@@ -1489,7 +1525,7 @@ function spRenderTable(rows,fS,fE){
     if(r.month!==lastM){
       lastM=r.month;
       const collapsed=!!SP_MONTHS_COLLAPSED[r.month];
-      html.push(`<tr class="sp-month-hdr${collapsed?' collapsed':''}" id="sp-mhdr-${r.month}" onclick="spToggleMonth(${r.month})"><td colspan="11"><span class="m-arrow">▼</span>${mNames[r.month]} 2026</td></tr>`);
+      html.push(`<tr class="sp-month-hdr${collapsed?' collapsed':''}" id="sp-mhdr-${r.month}" onclick="spToggleMonth(${r.month})"><td colspan="14"><span class="m-arrow">▼</span>${mNames[r.month]} 2026</td></tr>`);
     }
     const inF=r.iso>=fS&&r.iso<=fE;
     const collapsed=!!SP_MONTHS_COLLAPSED[r.month];
@@ -1502,6 +1538,9 @@ function spRenderTable(rows,fS,fE){
       <td class="ro-cell">${hs&&c.gg?spFD(c.gg):'—'}</td>
       <td class="mono" style="color:#60a5fa">${hs?spFD(c.spent):'—'}</td>
       <td class="ro-cell">${hs&&c.api?spFD(c.api):'—'}</td>
+      <td class="ro-cell" style="color:#f97316">${hs&&c.cogs?spFD(c.cogs):'—'}</td>
+      <td class="ro-cell" style="color:#a78bfa">${hs&&c.pg?spFD(c.pg):'—'}</td>
+      <td class="ro-cell" style="color:#94afd4">${hs&&c.vf?spFD(c.vf):'—'}</td>
       <td class="ro-cell">${hs&&c.orders?c.orders:'—'}</td>
       <td class="mono" style="color:#a78bfa">${hs&&c.aov?spFD(c.aov):'—'}</td>
       <td class="mono" style="color:#fcd34d">${hs&&c.roas?c.roas.toFixed(2)+'x':'—'}</td>
@@ -1514,24 +1553,30 @@ function spRenderTable(rows,fS,fE){
 
 // ── Summary ─────────────────────────────────────────────
 function spUpdateSummary(withData){
-  const tR=withData.reduce((s,r)=>s+r.calc.rev,0);
-  const tS=withData.reduce((s,r)=>s+r.calc.spent,0);
-  const tFb=withData.reduce((s,r)=>s+r.calc.fb,0);
-  const tGg=withData.reduce((s,r)=>s+r.calc.gg,0);
-  const tA=withData.reduce((s,r)=>s+r.calc.api,0);
-  const tO=withData.filter(r=>r.calc.orders).reduce((s,r)=>s+r.calc.orders,0);
-  const tNP=withData.reduce((s,r)=>s+r.calc.np,0);
-  const tP=withData.reduce((s,r)=>s+r.calc.poas,0);
-  document.getElementById('sp-s-rev').textContent=tR?spFE(tR):'—';
-  document.getElementById('sp-s-fb').textContent=tFb?spFE(tFb):'—';
-  document.getElementById('sp-s-gg').textContent=tGg?spFE(tGg):'—';
+  const tR   =withData.reduce((s,r)=>s+r.calc.rev,0);
+  const tS   =withData.reduce((s,r)=>s+r.calc.spent,0);
+  const tFb  =withData.reduce((s,r)=>s+r.calc.fb,0);
+  const tGg  =withData.reduce((s,r)=>s+r.calc.gg,0);
+  const tA   =withData.reduce((s,r)=>s+r.calc.api,0);
+  const tCogs=withData.reduce((s,r)=>s+r.calc.cogs,0);
+  const tPg  =withData.reduce((s,r)=>s+r.calc.pg,0);
+  const tVf  =withData.reduce((s,r)=>s+r.calc.vf,0);
+  const tO   =withData.filter(r=>r.calc.orders).reduce((s,r)=>s+r.calc.orders,0);
+  const tNP  =withData.reduce((s,r)=>s+r.calc.np,0);
+  const tP   =withData.reduce((s,r)=>s+r.calc.poas,0);
+  document.getElementById('sp-s-rev').textContent  =tR?spFE(tR):'—';
+  document.getElementById('sp-s-fb').textContent   =tFb?spFE(tFb):'—';
+  document.getElementById('sp-s-gg').textContent   =tGg?spFE(tGg):'—';
   document.getElementById('sp-s-spent').textContent=tS?spFE(tS):'—';
-  document.getElementById('sp-s-api').textContent=tA?spFE(tA):'—';
-  document.getElementById('sp-s-ord').textContent=tO?spFN(tO):'—';
-  document.getElementById('sp-s-aov').textContent=tO?spFE(tR/tO):'—';
-  document.getElementById('sp-s-roas').textContent=tS?(tR/tS).toFixed(2)+'x':'—';
-  document.getElementById('sp-s-poas').textContent=tP?spFE(tP):'—';
-  document.getElementById('sp-s-np').innerHTML=tNP?`<span class="${tNP>=0?'pos':'neg'}">${tNP>=0?'+':''}${spFE(tNP)}</span><span class="sub-v">${spFP(tR>0?tNP/tR:0)}</span>`:'—';
+  document.getElementById('sp-s-api').textContent  =tA?spFE(tA):'—';
+  document.getElementById('sp-s-cogs').textContent =tCogs?spFE(tCogs):'—';
+  document.getElementById('sp-s-pg').textContent   =tPg?spFE(tPg):'—';
+  document.getElementById('sp-s-vf').textContent   =tVf?spFE(tVf):'—';
+  document.getElementById('sp-s-ord').textContent  =tO?spFN(tO):'—';
+  document.getElementById('sp-s-aov').textContent  =tO?spFE(tR/tO):'—';
+  document.getElementById('sp-s-roas').textContent =tS?(tR/tS).toFixed(2)+'x':'—';
+  document.getElementById('sp-s-poas').textContent =tP?spFE(tP):'—';
+  document.getElementById('sp-s-np').innerHTML     =tNP?`<span class="${tNP>=0?'pos':'neg'}">${tNP>=0?'+':''}${spFE(tNP)}</span><span class="sub-v">${spFP(tR>0?tNP/tR:0)}</span>`:'—';
 }
 
 // ── Chart ────────────────────────────────────────────────
