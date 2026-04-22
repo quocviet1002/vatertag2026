@@ -188,15 +188,79 @@ tr:hover td{background:rgba(255,255,255,.013)}
 .sp-sync{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
 .sp-sync.ok{color:#22d07a;border-color:#22d07a44}.sp-sync.err{color:#f5c842;border-color:#f5c84244}.sp-sync.load{color:#4d8ef5;border-color:#4d8ef544}
 .ro-cell{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--t3)}
+.today-badge{display:inline-block;font-size:8px;font-weight:700;color:#4d8ef5;background:#4d8ef520;border:1px solid #4d8ef540;border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+.sp-kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
+
+/* ── FB ADS PAGE 3 ── */
+.fb-hdr{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.fb-hdr h1{font-size:15px;font-weight:700}
+.fb-hdr p{font-size:10px;color:var(--t3);margin-top:2px}
+.fb-ctrl{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fb-ctrl-lbl{font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-right:2px}
+.fb-sel{background:var(--s2);border:1px solid var(--bd);border-radius:7px;color:var(--t1);font-size:12px;font-weight:600;padding:6px 10px;outline:none;cursor:pointer;font-family:var(--font);transition:border-color .15s;min-width:120px}
+.fb-sel:focus{border-color:var(--blue)}
+.fb-sel option{background:var(--s2)}
+.fb-kpi{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
+.fb-main{padding:13px 18px;display:flex;flex-direction:column;gap:11px}
+.fb-charts{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.fb-chart-wrap{height:220px;position:relative}
+.fb-sync{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
+.fb-sync.ok{color:#22d07a;border-color:#22d07a44}
+.fb-sync.err{color:#f5c842;border-color:#f5c84244}
+.fb-sync.load{color:#4d8ef5;border-color:#4d8ef544}
+.fb-tw{overflow-x:auto}
+.fb-tw table{width:100%;border-collapse:collapse;font-size:11px}
+.fb-tw thead th{padding:7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5}
+.fb-tw td{padding:5px 7px;border-bottom:1px solid #1d335422;vertical-align:middle}
+.fb-tw tr:hover td{background:rgba(255,255,255,.013)}
+.fb-bar{height:6px;border-radius:3px;background:var(--blue);opacity:.7}
+.fb-roas-good{color:#22d07a;font-family:var(--mono);font-weight:700}
+.fb-roas-ok{color:#f5c842;font-family:var(--mono);font-weight:700}
+.fb-roas-bad{color:#f05252;font-family:var(--mono);font-weight:700}
+/* ── KPI DELTA ── */
+.kpi-delta{font-size:10px;font-family:var(--mono);font-weight:600;margin-top:2px;display:flex;align-items:center;gap:3px}
+.kpi-delta.up{color:#22d07a}.kpi-delta.down{color:#f05252}.kpi-delta.neu{color:var(--t3)}
+.kpi-delta.up-bad{color:#f05252}.kpi-delta.down-good{color:#22d07a}
+/* ── FATIGUE TABLE ── */
+.fatigue-ok{background:#14532d18;border-left:3px solid #22d07a44}
+.fatigue-warn{background:#71400a18;border-left:3px solid #f5c84244}
+.fatigue-crit{background:#7f1d1d18;border-left:3px solid #f0525244}
+.fatigue-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap}
+.fb-ok-badge{background:#14532d;color:#86efac;border:1px solid #22d07a44}
+.fb-warn-badge{background:#713f12;color:#fde68a;border:1px solid #f5c84244}
+.fb-crit-badge{background:#7f1d1d;color:#fca5a5;border:1px solid #f0525244}
+/* ── FB VIEW TABS ── */
+.fb-view-tabs{display:flex;gap:5px;align-items:center}
+.fb-view-tab{padding:4px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);cursor:pointer;font-size:10px;font-weight:700;color:var(--t3);transition:all .15s;white-space:nowrap}
+.fb-view-tab.act{background:#4d8ef520;border-color:var(--blue);color:var(--blue)}
+/* ── EXPAND BTN ── */
+.fb-exp{width:22px;height:22px;border-radius:5px;border:1px solid var(--bd);background:var(--s2);color:var(--t3);cursor:pointer;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.fb-exp:hover{background:var(--bd);color:var(--t1)}
+.fb-exp.open{background:#4d8ef520;border-color:var(--blue);color:var(--blue)}
+/* ── DRILL-DOWN AD ROWS ── */
+.fb-drill td{background:#0a1828!important;border-bottom:1px solid #1d335415!important;padding:4px 7px!important}
+.fb-drill:last-of-type td{border-bottom:2px solid var(--bd)!important}
+.fb-drill-indent{display:flex;align-items:center;gap:7px;padding-left:28px}
+.fb-drill-line{width:1px;height:100%;background:var(--bd2);margin-right:2px}
+.fb-ad-badge{font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;background:#4d8ef515;border:1px solid #4d8ef530;color:#60a5fa;white-space:nowrap}
+/* ── SORT HEADER ── */
+.fb-th-sort{cursor:pointer;user-select:none}
+.fb-th-sort:hover{color:var(--t1)}
+.fb-th-sort.asc::after{content:' ↑'}
+.fb-th-sort.desc::after{content:' ↓'}
+/* ── TOP AD KPI ── */
+.fb-kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
+.fb-top-ad{font-size:11px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 </style>
 </head>
 <body>
 
 <!-- ══ NAV ══ -->
 <div class="nav">
-  <div class="nav-brand">🃏 Hamyso</div>
+  <div class="nav-brand">🚀 Hamyso</div>
   <div class="nav-tab active" id="tab1" onclick="switchTab(1)">📋 Campaign Forecast</div>
   <div class="nav-tab" id="tab2" onclick="switchTab(2)">📊 Store Performance</div>
+  <div class="nav-tab" id="tab3" onclick="switchTab(3)">📣 Facebook Ads</div>
 </div>
 
 <!-- ══ PAGE 1 — CAMPAIGN FORECAST ══ -->
@@ -205,20 +269,20 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <div class="hdr">
   <div class="hdr-title">
     <h1>🃏 Vatertag 2026 — Campaign Command Center</h1>
-    <p>06 Mar → 14 May 2026 · EUR/USD 1.16 · Ô vàng = Actual (sync Google Sheets ☁️)</p>
+    <p>06 Mar → 14 May 2026 · USD · Actual tự động từ Google Sheets ☁️</p>
   </div>
   <div class="hdr-right">
     <div id="tbadge" class="tbadge tmiss">❌ BELOW $30K</div>
     <div class="ibox accent">
       <label>💰 Tổng Spent Ads</label>
-      <div class="ir"><span class="u">€</span>
-        <input type="number" id="i-total" value="250000" min="5000" max="300000" step="1000" oninput="onTotalChange()">
+      <div class="ir"><span class="u">$</span>
+        <input type="number" id="i-total" value="290000" min="5000" max="400000" step="1000" oninput="onTotalChange()">
       </div>
     </div>
     <div class="ibox">
       <label>AOV</label>
-      <div class="ir"><span class="u">€</span>
-        <input type="number" id="i-aov" value="37.5" min="10" max="100" step="0.5" oninput="recalc()">
+      <div class="ir"><span class="u">$</span>
+        <input type="number" id="i-aov" value="43.5" min="10" max="100" step="0.5" oninput="recalc()">
       </div>
     </div>
     <div class="ibox">
@@ -392,7 +456,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div class="ch">
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <div class="ct">📋 Dữ liệu từng ngày</div>
-        <div class="actual-legend">✏️ Ô vàng = Actual</div>
+        <div class="actual-legend">☁️ Actual tự động từ Google Sheets · USD</div>
         <div id="sync-badge" class="sync-badge sync-load">⏳ Đang tải...</div>
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
@@ -466,11 +530,12 @@ tr:hover td{background:rgba(255,255,255,.013)}
 
 <!-- SP KPI -->
 <div class="sp-kpi">
-  <div class="kpi kb"><div class="kpi-lbl">💰 Tổng Spent</div><div class="kpi-val" id="sp-k-spent" style="color:#60a5fa">€0</div><div class="kpi-sub" id="sp-k-spent-s">FB + GG</div></div>
-  <div class="kpi kc"><div class="kpi-lbl">📈 Tổng Revenue</div><div class="kpi-val" id="sp-k-rev" style="color:#67e8f9">€0</div><div class="kpi-sub" id="sp-k-rev-s">— orders</div></div>
-  <div class="kpi kg"><div class="kpi-lbl">✅ Net Profit</div><div class="kpi-val" id="sp-k-np">€0</div><div class="kpi-sub" id="sp-k-np-s">margin: 0%</div></div>
+  <div class="kpi kb"><div class="kpi-lbl">💰 Tổng Spent</div><div class="kpi-val" id="sp-k-spent" style="color:#60a5fa">$0</div><div class="kpi-sub" id="sp-k-spent-s">FB + GG</div></div>
+  <div class="kpi kc"><div class="kpi-lbl">📈 Tổng Revenue</div><div class="kpi-val" id="sp-k-rev" style="color:#67e8f9">$0</div><div class="kpi-sub" id="sp-k-rev-s">— orders</div></div>
+  <div class="kpi kg"><div class="kpi-lbl">✅ Net Profit</div><div class="kpi-val" id="sp-k-np">$0</div><div class="kpi-sub" id="sp-k-np-s">margin: 0%</div></div>
   <div class="kpi ky"><div class="kpi-lbl">📊 ROAS thực tế</div><div class="kpi-val" id="sp-k-roas" style="color:#fcd34d">0x</div><div class="kpi-sub" id="sp-k-roas-s">Rev / Spent</div></div>
   <div class="kpi ko"><div class="kpi-lbl">📊 % Ads TB</div><div class="kpi-val" id="sp-k-adpct" style="color:#fdba74">0%</div><div class="kpi-sub" id="sp-k-adpct-s">Spent / Revenue</div></div>
+  <div class="kpi kp"><div class="kpi-lbl">📦 COGS</div><div class="kpi-val" id="sp-k-cogs" style="color:#c4b5fd">$0</div><div class="kpi-sub" id="sp-k-cogs-s">Cost of goods sold</div></div>
 </div>
 
 <!-- FILTER BAR -->
@@ -534,6 +599,9 @@ tr:hover td{background:rgba(255,255,255,.013)}
             <th>GG Spent</th>
             <th>Total Spent</th>
             <th>API Cost</th>
+            <th style="color:#f97316">COGS</th>
+            <th style="color:#a78bfa">Payment GW</th>
+            <th style="color:#94afd4">Variable Fee</th>
             <th>Orders</th>
             <th>AOV</th>
             <th>ROAS</th>
@@ -550,6 +618,9 @@ tr:hover td{background:rgba(255,255,255,.013)}
             <td id="sp-s-gg">—</td>
             <td id="sp-s-spent">—</td>
             <td id="sp-s-api">—</td>
+            <td id="sp-s-cogs">—</td>
+            <td id="sp-s-pg">—</td>
+            <td id="sp-s-vf">—</td>
             <td id="sp-s-ord">—</td>
             <td id="sp-s-aov">—</td>
             <td id="sp-s-roas">—</td>
@@ -562,7 +633,211 @@ tr:hover td{background:rgba(255,255,255,.013)}
   </div>
 </div>
 
+
 </div><!-- /page2 -->
+
+<!-- ══ PAGE 3 — FACEBOOK ADS ══ -->
+<div id="page3" class="page">
+
+<div class="fb-hdr">
+  <div>
+    <h1>📣 Facebook Ads Analytics</h1>
+    <p id="fb-subtitle">AllFB Ads · USD · Dữ liệu tự động từ Google Sheets</p>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div id="fb-sync-badge" class="fb-sync load">⏳ Đang tải...</div>
+    <button class="rbtn" onclick="fbLoad()">🔄 Refresh</button>
+  </div>
+</div>
+
+<!-- CONTROL PANEL -->
+<div class="fb-ctrl">
+  <span class="fb-ctrl-lbl">📅 Thời gian:</span>
+  <select class="fb-sel" id="fb-range" onchange="fbRangeChange()">
+    <option value="7">Last 7 Days</option>
+    <option value="14">Last 14 Days</option>
+    <option value="30" selected>Last 30 Days</option>
+    <option value="90">Last 90 Days</option>
+    <option value="all">Tất cả</option>
+    <option value="custom">Custom...</option>
+  </select>
+  <div id="fb-custom-range" style="display:none;align-items:center;gap:6px">
+    <input type="date" id="fb-date-from" class="fb-sel" style="padding:4px 8px;font-size:10px" onchange="fbApplyFilters()">
+    <span class="fb-ctrl-lbl">→</span>
+    <input type="date" id="fb-date-to" class="fb-sel" style="padding:4px 8px;font-size:10px" onchange="fbApplyFilters()">
+  </div>
+  <span class="fb-ctrl-lbl" style="margin-left:8px">Event:</span>
+  <select class="fb-sel" id="fb-event" onchange="fbApplyFilters()">
+    <option value="all">Tất cả</option>
+  </select>
+  <span class="fb-ctrl-lbl" style="margin-left:8px">Niche:</span>
+  <select class="fb-sel" id="fb-niche" onchange="fbApplyFilters()">
+    <option value="all">Tất cả</option>
+  </select>
+  <span class="fb-ctrl-lbl" style="margin-left:8px">Country:</span>
+  <select class="fb-sel" id="fb-country" onchange="fbApplyFilters()">
+    <option value="all">Tất cả</option>
+  </select>
+</div>
+
+<!-- KPI STRIP -->
+<div class="fb-kpi">
+  <div class="kpi kb"><div class="kpi-lbl">💰 Total Spend</div><div class="kpi-val" id="fb-k-spend" style="color:#60a5fa">$0</div><div class="kpi-sub" id="fb-k-spend-s">—</div></div>
+  <div class="kpi kc"><div class="kpi-lbl">📈 Total Revenue</div><div class="kpi-val" id="fb-k-rev" style="color:#67e8f9">$0</div><div class="kpi-sub" id="fb-k-rev-s">—</div></div>
+  <div class="kpi kg"><div class="kpi-lbl">📊 Avg ROAS</div><div class="kpi-val" id="fb-k-roas">0x</div><div class="kpi-sub" id="fb-k-roas-s">Revenue / Spend</div></div>
+  <div class="kpi ky"><div class="kpi-lbl">🎯 CPP</div><div class="kpi-val" id="fb-k-cpp" style="color:#fcd34d">$0</div><div class="kpi-sub" id="fb-k-cpp-s">Cost per purchase</div></div>
+  <div class="kpi ko"><div class="kpi-lbl">🛒 Purchases</div><div class="kpi-val" id="fb-k-pur" style="color:#fdba74">0</div><div class="kpi-sub" id="fb-k-pur-s">—</div></div>
+  <div class="kpi kp"><div class="kpi-lbl">🏆 Top Ad (ROAS)</div><div class="fb-top-ad" id="fb-k-topad" style="margin-top:6px;color:#c4b5fd">—</div><div class="kpi-sub" id="fb-k-topad-s">—</div></div>
+  <div class="kpi" style="background:var(--s1)">
+    <div class="kpi-lbl" style="color:var(--t3)">📡 Avg CPM</div>
+    <div class="kpi-val" id="fb-k-cpm" style="color:#67e8f9;font-size:18px">$0</div>
+    <div class="kpi-delta neu" id="fb-k-cpm-delta">vs kỳ trước</div>
+    <div class="kpi-sub" id="fb-k-cpm-s">cost/1K impressions</div>
+  </div>
+  <div class="kpi" style="background:var(--s1)">
+    <div class="kpi-lbl" style="color:var(--t3)">🖱️ Avg CPC</div>
+    <div class="kpi-val" id="fb-k-cpc" style="color:#a78bfa;font-size:18px">$0</div>
+    <div class="kpi-delta neu" id="fb-k-cpc-delta">vs kỳ trước</div>
+    <div class="kpi-sub" id="fb-k-cpc-s">cost/link click</div>
+  </div>
+</div>
+
+<!-- CHARTS + TABLE -->
+<div class="fb-main">
+  <!-- Row 1: Spend/Rev + Niche/Country bar -->
+  <div class="fb-charts">
+    <div class="card">
+      <div class="ch">
+        <div class="ct">📈 Spend vs Revenue theo ngày</div>
+      </div>
+      <div class="fb-chart-wrap"><canvas id="fb-line-chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ch">
+        <div class="ct">🏆 Hiệu quả theo</div>
+        <div style="display:flex;gap:4px">
+          <div class="ptab act" id="fb-by-niche"   onclick="fbSetGroupBy('niche')">Niche</div>
+          <div class="ptab"     id="fb-by-country" onclick="fbSetGroupBy('country')">Country</div>
+        </div>
+      </div>
+      <div class="fb-chart-wrap"><canvas id="fb-bar-chart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Row 2: CPC/CPM Trend + Fatigue Alert -->
+  <div class="fb-charts">
+    <!-- CPC/CPM Trend chart -->
+    <div class="card">
+      <div class="ch">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <div class="ct">📡 CPC &amp; CPM Trend</div>
+          <div class="ld-row">
+            <div class="ld"><div class="ld-ln" style="color:#67e8f9;border-top-style:solid"></div>CPM</div>
+            <div class="ld"><div class="ld-ln" style="color:#a78bfa;border-top-style:solid"></div>CPC</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:4px">
+          <div class="ptab act" id="fb-cpm-by-day"     onclick="fbSetTrendGroup('day')">Daily</div>
+          <div class="ptab"     id="fb-cpm-by-ad"      onclick="fbSetTrendGroup('ad')">By Ad</div>
+          <div class="ptab"     id="fb-cpm-by-country" onclick="fbSetTrendGroup('country')">By Country</div>
+        </div>
+      </div>
+      <div class="fb-chart-wrap"><canvas id="fb-trend-chart"></canvas></div>
+    </div>
+
+    <!-- Creative Fatigue Alert -->
+    <div class="card">
+      <div class="ch">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="ct">🔥 Creative Fatigue Alert</div>
+          <span style="font-size:10px;color:var(--t3)" id="fb-fatigue-sub">So sánh 7 ngày gần nhất vs 7 ngày trước</span>
+        </div>
+        <div id="fb-fatigue-count" style="font-size:10px;color:var(--t3)">—</div>
+      </div>
+      <div style="overflow-y:auto;max-height:210px">
+        <table style="width:100%;border-collapse:collapse;font-size:11px">
+          <thead>
+            <tr>
+              <th style="padding:6px 7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5">Ad</th>
+              <th style="padding:6px 7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5">Status</th>
+              <th style="padding:6px 7px;text-align:right;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5">CPM now</th>
+              <th style="padding:6px 7px;text-align:right;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5">CPM Δ</th>
+              <th style="padding:6px 7px;text-align:right;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5">CTR now</th>
+              <th style="padding:6px 7px;text-align:right;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5">CTR Δ</th>
+              <th style="padding:6px 7px;text-align:right;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5">Spend</th>
+            </tr>
+          </thead>
+          <tbody id="fb-fatigue-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Campaign / Ad breakdown table -->
+  <div class="card">
+    <div class="ch">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="ct" id="fb-table-title">🏅 By Campaign</div>
+        <div class="fb-view-tabs">
+          <div class="fb-view-tab act" id="fb-v-camp" onclick="fbSetView('camp')">📁 By Campaign</div>
+          <div class="fb-view-tab"     id="fb-v-ad"   onclick="fbSetView('ad')">🎨 By Ad</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:10px;color:var(--t3)" id="fb-camp-count">—</span>
+        <button class="rbtn" id="fb-expand-all-btn" onclick="fbExpandAll()" style="display:none">⊞ Expand All</button>
+        <button class="rbtn" id="fb-collapse-all-btn" onclick="fbCollapseAll()" style="display:none">⊟ Collapse All</button>
+      </div>
+    </div>
+
+    <!-- Campaign view -->
+    <div id="fb-view-camp" class="fb-tw">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:28px"></th>
+            <th class="fb-th-sort" onclick="fbSortCamp('campaign')">Campaign</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('country')">Country</th>
+            <th>Event</th>
+            <th>Niche</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('spend')">Spend</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('rev')">Revenue</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('roas')">ROAS</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('pur')">Purchases</th>
+            <th class="fb-th-sort" onclick="fbSortCamp('cpp')">CPP</th>
+            <th>Impressions</th>
+            <th>CTR</th>
+          </tr>
+        </thead>
+        <tbody id="fb-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Ad view (flat, by ad name) -->
+    <div id="fb-view-ad" class="fb-tw" style="display:none">
+      <table>
+        <thead>
+          <tr>
+            <th class="fb-th-sort" onclick="fbSortAd('ad')">Ad Name</th>
+            <th>Campaign</th>
+            <th class="fb-th-sort" onclick="fbSortAd('spend')">Spend</th>
+            <th class="fb-th-sort" onclick="fbSortAd('rev')">Revenue</th>
+            <th class="fb-th-sort" onclick="fbSortAd('roas')">ROAS</th>
+            <th class="fb-th-sort" onclick="fbSortAd('pur')">Purchases</th>
+            <th class="fb-th-sort" onclick="fbSortAd('cpp')">CPP</th>
+            <th class="fb-th-sort" onclick="fbSortAd('imp')">Impressions</th>
+            <th>CTR</th>
+            <th>% of Spend</th>
+          </tr>
+        </thead>
+        <tbody id="fb-ad-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div><!-- /page3 -->
+
 
 <script>
 // ══════════════════════════════════════════════════════
@@ -583,9 +858,7 @@ const PHASES=[
 function buildDates(){
   const dates=[],start=new Date(2026,2,6),end=new Date(2026,4,14);
   for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){
-    // GMT+1 (Germany/DACH market)
-    const gmt1=new Date(d.getTime()+60*60*1000);
-    const iso=gmt1.getUTCFullYear()+'-'+String(gmt1.getUTCMonth()+1).padStart(2,'0')+'-'+String(gmt1.getUTCDate()).padStart(2,'0');
+    const iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     const ph=PHASES.find(p=>iso>=p.sd&&iso<=p.ed)||PHASES[0];
     dates.push({
       idx:dates.length,iso,
@@ -728,7 +1001,7 @@ function initActualFromStorage(){
 // ══════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════
-let budFcst    = buildBudgets(250000);
+let budFcst    = buildBudgets(290000);
 let revFcstOvr = new Array(N).fill(null); // null = auto (BudF×ROAS)
 let revFcstMan = new Array(N).fill(false);
 let budActual  = new Array(N).fill(null);
@@ -757,14 +1030,14 @@ function getInp(){
   };
 }
 function onTotalChange(){
-  const t=+document.getElementById('i-total').value||250000;
+  const t=+document.getElementById('i-total').value||290000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
   recalc();
 }
 function onRateChange(){
-  const t=+document.getElementById('i-total').value||250000;
+  const t=+document.getElementById('i-total').value||290000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
@@ -787,9 +1060,9 @@ function calcDay(idx,inp){
   // Revenue Actual
   const revA=revActual[idx];
 
-  // Which budget and revenue to use for profit calc
-  const budUse = bA!=null ? bA : bF;
-  const revUse = revA!=null ? revA : revF;
+  // KPI/Chart luôn dùng Forecast — Actual chỉ để so sánh trong bảng
+  const budUse = bF;
+  const revUse = revF;
 
   // Orders (always from revUse / AOV)
   const orders = inp.aov>0 ? revUse/inp.aov : 0;
@@ -826,7 +1099,7 @@ function pillCls(adPct,phase,avgAdPct){
 // ══════════════════════════════════════════════════════
 //  FORMATTERS
 // ══════════════════════════════════════════════════════
-const fe=v=>'€'+Math.round(v).toLocaleString('de-DE');
+const fe=v=>'$'+Math.round(v).toLocaleString('de-DE');
 const fp=v=>(v*100).toFixed(1)+'%';
 const fn=v=>Math.round(v).toLocaleString('de-DE');
 
@@ -847,7 +1120,7 @@ function recalc(){
   const avgAdPct=totRevU>0?totBU/totRevU:0;
   const avgRoas =totBU>0?totRevU/totBU:0;
   const nmgTot  =totRevU>0?totNP/totRevU:0;
-  const npUSD   =totNP*1.16;
+  const npUSD   =totNP;
 
   const totApiF =rows.reduce((s,r)=>s+r.apiF,0);
   const totApiA =rows.filter(r=>r.apiA!=null).reduce((s,r)=>s+r.apiA,0);
@@ -872,7 +1145,7 @@ function recalc(){
   const hit=npUSD>=30000;
   const tb=document.getElementById('tbadge');
   tb.className='tbadge '+(hit?'thit':'tmiss');
-  tb.textContent=(hit?'✅ ':'❌ ')+fe(totNP)+' (~$'+Math.round(npUSD/1000)+'K)';
+  tb.textContent=(hit?'✅ ':'❌ ')+fe(totNP);
 
   renderTable(rows,avgAdPct,inp);
   updateSummary(rows,avgAdPct);
@@ -910,22 +1183,19 @@ function renderTable(rows,avgAdPct,inp){
       <td class="ec"><input type="number" value="${hs?Math.round(r.revF):''}" min="0" max="999999" step="1"
         class="${r.revFman?'manual':''}" placeholder="—"
         onchange="setRevFcst(${r.idx},this.value)"></td>
-      <td class="ec" style="border-left:1px solid var(--actual-bd)">
-        <input type="number" value="${r.revA!=null?Math.round(r.revA):''}" min="0" max="999999" step="1"
-          class="act-inp" placeholder="—" onchange="setRevActual(${r.idx},this.value)">
+      <td style="border-left:1px solid var(--actual-bd)">
+        <span class="mono" style="color:var(--actual)">${r.revA!=null?fe(r.revA):'—'}</span>
         ${dRHtml}
       </td>
       <td class="ec"><input type="number" value="${r.bF}" min="0" max="20000" step="50"
         onchange="setBudFcst(${r.idx},this.value)"></td>
-      <td class="ec" style="border-left:1px solid var(--actual-bd)">
-        <input type="number" value="${r.bA!=null?Math.round(r.bA):''}" min="0" max="20000" step="50"
-          class="act-inp" placeholder="—" onchange="setBudActual(${r.idx},this.value)">
+      <td style="border-left:1px solid var(--actual-bd)">
+        <span class="mono" style="color:var(--actual)">${r.bA!=null?fe(r.bA):'—'}</span>
         ${dBHtml}
       </td>
       <td class="mono" style="color:#a78bfa">${hs?fe(r.apiF):'—'}</td>
-      <td class="ec" style="border-left:1px solid var(--actual-bd)">
-        <input type="number" value="${r.apiA!=null?Math.round(r.apiA):''}" min="0" max="99999" step="1"
-          class="act-inp" placeholder="—" onchange="setApiActual(${r.idx},this.value)">
+      <td style="border-left:1px solid var(--actual-bd)">
+        <span class="mono" style="color:var(--actual)">${r.apiA!=null?fe(r.apiA):'—'}</span>
         ${r.apiA!=null?`<span class="${(r.apiA-r.apiF)<=0?'delta-pos':'delta-neg'}">${(r.apiA-r.apiF)<=0?'':'+'} ${fe(r.apiA-r.apiF)}</span>`:''}
       </td>
       <td class="mono" style="color:#a78bfa">${hs?r.orders.toFixed(1):'—'}</td>
@@ -1069,7 +1339,7 @@ function filterPhase(ph,el){
   updateSummary(rows,tRU>0?tBU/tRU:0);
 }
 function resetForecast(){
-  const t=+document.getElementById('i-total').value||250000;
+  const t=+document.getElementById('i-total').value||290000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
@@ -1097,6 +1367,8 @@ function clearActual(){
 // ══════════════════════════════════════════════════════
 recalc();
 loadActualFromSheets();
+// Khởi động Page 2 ngầm ngay khi load → sync data vào Page 1
+setTimeout(()=>spInit(), 500);
 
 // ══════════════════════════════════════════════════════
 //  TAB SWITCH
@@ -1105,6 +1377,8 @@ function switchTab(n){
   document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('active',i===n-1));
   document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',i===n-1));
   if(n===2&&!spInited){spInit();}
+  if(n===1&&spInited){spSyncToPage1();}
+  if(n===3&&!fbInited){fbInit();}
 }
 
 // ══════════════════════════════════════════════════════
@@ -1137,13 +1411,17 @@ function spTodayISO(){
 
 let SP_DATES=[];
 let SP_N=0;
-let spRevA=[], spFbA=[], spGgA=[], spSpentA=[], spApiA=[], spOrdA=[];
+let spRevA=[], spFbA=[], spGgA=[], spSpentA=[], spApiA=[], spOrdA=[], spFxA=[];
+let spNpA=[], spPgA=[], spVfA=[], spCogsA=[];
 
 function spInitArrays(){
   SP_DATES=spBuildDates(); SP_N=SP_DATES.length;
   spRevA=new Array(SP_N).fill(null); spFbA=new Array(SP_N).fill(null);
   spGgA=new Array(SP_N).fill(null);  spSpentA=new Array(SP_N).fill(null);
   spApiA=new Array(SP_N).fill(null); spOrdA=new Array(SP_N).fill(null);
+  spFxA=new Array(SP_N).fill(null);
+  spNpA=new Array(SP_N).fill(null); spPgA=new Array(SP_N).fill(null);
+  spVfA=new Array(SP_N).fill(null); spCogsA=new Array(SP_N).fill(null);
 }
 
 // ── localStorage fallback ─────────────────────────────
@@ -1151,14 +1429,19 @@ function spSaveLS(){
   const d={};
   for(let i=0;i<SP_N;i++){
     const iso=SP_DATES[i].iso;
-    if(spRevA[i]!=null||spSpentA[i]!=null||spFbA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null){
+    if(spRevA[i]!=null||spSpentA[i]!=null||spFbA[i]!=null||spApiA[i]!=null||spOrdA[i]!=null
+       ||spNpA[i]!=null||spPgA[i]!=null||spVfA[i]!=null||spCogsA[i]!=null){
       d[iso]={};
-      if(spRevA[i]!=null)   d[iso].r =spRevA[i];
-      if(spSpentA[i]!=null) d[iso].s =spSpentA[i];
-      if(spFbA[i]!=null)    d[iso].fb=spFbA[i];
-      if(spGgA[i]!=null)    d[iso].gg=spGgA[i];
-      if(spApiA[i]!=null)   d[iso].a =spApiA[i];
-      if(spOrdA[i]!=null)   d[iso].o =spOrdA[i];
+      if(spRevA[i]   !=null) d[iso].r   =spRevA[i];
+      if(spSpentA[i] !=null) d[iso].s   =spSpentA[i];
+      if(spFbA[i]    !=null) d[iso].fb  =spFbA[i];
+      if(spGgA[i]    !=null) d[iso].gg  =spGgA[i];
+      if(spApiA[i]   !=null) d[iso].a   =spApiA[i];
+      if(spOrdA[i]   !=null) d[iso].o   =spOrdA[i];
+      if(spNpA[i]    !=null) d[iso].np  =spNpA[i];
+      if(spPgA[i]    !=null) d[iso].pg  =spPgA[i];
+      if(spVfA[i]    !=null) d[iso].vf  =spVfA[i];
+      if(spCogsA[i]  !=null) d[iso].cogs=spCogsA[i];
     }
   }
   try{localStorage.setItem(SP_LS_KEY,JSON.stringify(d));}catch(e){}
@@ -1169,12 +1452,16 @@ function spLoadLS(){
     for(let i=0;i<SP_N;i++){
       const x=d[SP_DATES[i].iso];
       if(x){
-        spRevA[i]  =x.r !=null?+x.r :null;
-        spSpentA[i]=x.s !=null?+x.s :null;
-        spFbA[i]   =x.fb!=null?+x.fb:null;
-        spGgA[i]   =x.gg!=null?+x.gg:null;
-        spApiA[i]  =x.a !=null?+x.a :null;
-        spOrdA[i]  =x.o !=null?+x.o :null;
+        spRevA[i]  =x.r   !=null?+x.r   :null;
+        spSpentA[i]=x.s   !=null?+x.s   :null;
+        spFbA[i]   =x.fb  !=null?+x.fb  :null;
+        spGgA[i]   =x.gg  !=null?+x.gg  :null;
+        spApiA[i]  =x.a   !=null?+x.a   :null;
+        spOrdA[i]  =x.o   !=null?+x.o   :null;
+        spNpA[i]   =x.np  !=null?+x.np  :null;
+        spPgA[i]   =x.pg  !=null?+x.pg  :null;
+        spVfA[i]   =x.vf  !=null?+x.vf  :null;
+        spCogsA[i] =x.cogs!=null?+x.cogs:null;
       }
     }
   }catch(e){}
@@ -1201,14 +1488,20 @@ async function spLoadFromSheets(){
       if(d[iso]){
         spRevA[i]  =d[iso].r !=null?+d[iso].r :spRevA[i];
         spSpentA[i]=d[iso].s !=null?+d[iso].s :spSpentA[i];
-        spFbA[i]   =d[iso].fb!=null?+d[iso].fb:spFbA[i];
-        spGgA[i]   =d[iso].gg!=null?+d[iso].gg:spGgA[i];
-        spApiA[i]  =d[iso].a !=null?+d[iso].a :spApiA[i];
-        spOrdA[i]  =d[iso].o !=null?+d[iso].o :spOrdA[i];
+        spFbA[i]   =d[iso].fb  !=null?+d[iso].fb  :spFbA[i];
+        spGgA[i]   =d[iso].gg  !=null?+d[iso].gg  :spGgA[i];
+        spApiA[i]  =d[iso].a   !=null?+d[iso].a   :spApiA[i];
+        spOrdA[i]  =d[iso].o   !=null?+d[iso].o   :spOrdA[i];
+        spFxA[i]   =d[iso].fx  !=null?+d[iso].fx  :spFxA[i];
+        spNpA[i]   =d[iso].np  !=null?+d[iso].np  :spNpA[i];
+        spPgA[i]   =d[iso].pg  !=null?+d[iso].pg  :spPgA[i];
+        spVfA[i]   =d[iso].vf  !=null?+d[iso].vf  :spVfA[i];
+        spCogsA[i] =d[iso].cogs!=null?+d[iso].cogs:spCogsA[i];
       }
     }
     spSaveLS();
     spBadge('ok','Đã đồng bộ');
+    spSyncToPage1();
     spRecalc();
   }catch(e){
     spLoadLS();
@@ -1216,6 +1509,26 @@ async function spLoadFromSheets(){
     spRecalc();
     console.error('SP GS error',e);
   }
+}
+
+
+// ── Sync Page 2 → Page 1 Actual (USD → EUR) ────────────────────────────
+function spSyncToPage1(){
+  const spIdx={};
+  SP_DATES.forEach((d,i)=>{ spIdx[d.iso]=i; });
+  let count=0;
+  for(let i=0;i<N;i++){
+    const iso=DATES[i].iso;
+    const si=spIdx[iso];
+    if(si===undefined) continue;
+    const rev  =spRevA[si]!=null  ?Math.round(spRevA[si])  :null;
+    const spent=spSpentA[si]!=null?Math.round(spSpentA[si]):null;
+    const api  =spApiA[si]!=null  ?Math.round(spApiA[si])  :null;
+    if(rev!=null)   {revActual[i]=rev;   count++;}
+    if(spent!=null) {budActual[i]=spent;}
+    if(api!=null)   {apiActual[i]=api;}
+  }
+  if(count>0){saveLocalCache();recalc();console.log('Synced '+count+' days P2→P1');}
 }
 
 // ── Ghi manual fields lên Sheets ──────────────────────
@@ -1255,20 +1568,28 @@ function spSetFilter(mode){
 
 // ── Calc per day ────────────────────────────────────────
 function spCalcDay(i){
-  const gm= +document.getElementById('sp-gm').value/100||0.70;
-  const varC=+document.getElementById('sp-var').value/100||0.05;
+  const gm  = +document.getElementById('sp-gm').value/100  || 0.70;
+  const varC= +document.getElementById('sp-var').value/100 || 0.05;
   const rev=spRevA[i], fb=spFbA[i]||0, gg=spGgA[i]||0;
-  const spent=spSpentA[i]!=null?spSpentA[i]:(fb+gg);
-  const api=spApiA[i]||0;
-  const orders=spOrdA[i];
-  if(rev==null&&spent===0) return null;
-  const r=rev||0;
-  const np=r*gm - spent - api - r*varC;
-  return{rev:r,fb,gg,spent,api,orders,
-    roas:spent>0?r/spent:null,
-    poas:r-spent-api,
-    aov:orders&&orders>0?r/orders:null,
-    np, nmg:r>0?np/r:null};
+  // Ưu tiên total spent từ Sheets; nếu không có thì cộng fb+gg
+  const spent = spSpentA[i]!=null ? spSpentA[i] : (fb+gg>0 ? fb+gg : null);
+  const api   = spApiA[i]||0;
+  const orders= spOrdA[i];
+  // COGS, Payment GW, Variable Fee từ Sheets (nếu có)
+  const cogs = spCogsA[i]!=null ? spCogsA[i] : (rev!=null ? (rev||0)*0.30 : 0);
+  const pg   = spPgA[i]  !=null ? spPgA[i]   : 0;
+  const vf   = spVfA[i]  !=null ? spVfA[i]   : (rev!=null ? (rev||0)*varC : 0);
+  if(rev==null && (spent==null||spent===0)) return null;
+  const r=rev||0; const s=spent||0;
+  // Net Profit: ưu tiên giá trị từ Sheets; nếu không có thì tự tính
+  const np = spNpA[i]!=null
+    ? spNpA[i]
+    : (r*gm - s - api - r*varC);
+  return{rev:r, fb, gg, spent:s, api, orders, cogs, pg, vf,
+    roas: s>0 ? r/s : null,
+    poas: r-s-api,
+    aov:  orders&&orders>0 ? r/orders : null,
+    np,   nmg: r>0 ? np/r : null};
 }
 
 const spFD=v=>'$'+Math.round(v).toLocaleString('de-DE');
@@ -1305,6 +1626,9 @@ function spRecalc(){
   document.getElementById('sp-k-adpct').textContent=(adPct*100).toFixed(1)+'%';
   document.getElementById('sp-k-adpct').style.color=adPct<=0.35?'#22d07a':adPct<=0.42?'#25d4e7':adPct<=0.50?'#f5c842':'#f05252';
   document.getElementById('sp-k-adpct-s').textContent=spFE(tSpent)+' / '+spFE(tRev);
+  const tCogs=withData.reduce((s,r)=>s+r.calc.cogs,0);
+  document.getElementById('sp-k-cogs').textContent=spFE(tCogs);
+  document.getElementById('sp-k-cogs-s').textContent=tRev>0?(tCogs/tRev*100).toFixed(1)+'% of Rev':'—';
 
   const rl=spFilterMode==='all'?'toàn năm':fS.slice(5)+' → '+fE.slice(5);
   document.getElementById('sp-range-lbl').textContent='· '+rl;
@@ -1331,7 +1655,7 @@ function spRenderTable(rows,fS,fE){
     if(r.month!==lastM){
       lastM=r.month;
       const collapsed=!!SP_MONTHS_COLLAPSED[r.month];
-      html.push(`<tr class="sp-month-hdr${collapsed?' collapsed':''}" id="sp-mhdr-${r.month}" onclick="spToggleMonth(${r.month})"><td colspan="11"><span class="m-arrow">▼</span>${mNames[r.month]} 2026</td></tr>`);
+      html.push(`<tr class="sp-month-hdr${collapsed?' collapsed':''}" id="sp-mhdr-${r.month}" onclick="spToggleMonth(${r.month})"><td colspan="14"><span class="m-arrow">▼</span>${mNames[r.month]} 2026</td></tr>`);
     }
     const inF=r.iso>=fS&&r.iso<=fE;
     const collapsed=!!SP_MONTHS_COLLAPSED[r.month];
@@ -1344,6 +1668,9 @@ function spRenderTable(rows,fS,fE){
       <td class="ro-cell">${hs&&c.gg?spFD(c.gg):'—'}</td>
       <td class="mono" style="color:#60a5fa">${hs?spFD(c.spent):'—'}</td>
       <td class="ro-cell">${hs&&c.api?spFD(c.api):'—'}</td>
+      <td class="ro-cell" style="color:#f97316">${hs&&c.cogs?spFD(c.cogs):'—'}</td>
+      <td class="ro-cell" style="color:#a78bfa">${hs&&c.pg?spFD(c.pg):'—'}</td>
+      <td class="ro-cell" style="color:#94afd4">${hs&&c.vf?spFD(c.vf):'—'}</td>
       <td class="ro-cell">${hs&&c.orders?c.orders:'—'}</td>
       <td class="mono" style="color:#a78bfa">${hs&&c.aov?spFD(c.aov):'—'}</td>
       <td class="mono" style="color:#fcd34d">${hs&&c.roas?c.roas.toFixed(2)+'x':'—'}</td>
@@ -1356,24 +1683,30 @@ function spRenderTable(rows,fS,fE){
 
 // ── Summary ─────────────────────────────────────────────
 function spUpdateSummary(withData){
-  const tR=withData.reduce((s,r)=>s+r.calc.rev,0);
-  const tS=withData.reduce((s,r)=>s+r.calc.spent,0);
-  const tFb=withData.reduce((s,r)=>s+r.calc.fb,0);
-  const tGg=withData.reduce((s,r)=>s+r.calc.gg,0);
-  const tA=withData.reduce((s,r)=>s+r.calc.api,0);
-  const tO=withData.filter(r=>r.calc.orders).reduce((s,r)=>s+r.calc.orders,0);
-  const tNP=withData.reduce((s,r)=>s+r.calc.np,0);
-  const tP=withData.reduce((s,r)=>s+r.calc.poas,0);
-  document.getElementById('sp-s-rev').textContent=tR?spFE(tR):'—';
-  document.getElementById('sp-s-fb').textContent=tFb?spFE(tFb):'—';
-  document.getElementById('sp-s-gg').textContent=tGg?spFE(tGg):'—';
+  const tR   =withData.reduce((s,r)=>s+r.calc.rev,0);
+  const tS   =withData.reduce((s,r)=>s+r.calc.spent,0);
+  const tFb  =withData.reduce((s,r)=>s+r.calc.fb,0);
+  const tGg  =withData.reduce((s,r)=>s+r.calc.gg,0);
+  const tA   =withData.reduce((s,r)=>s+r.calc.api,0);
+  const tCogs=withData.reduce((s,r)=>s+r.calc.cogs,0);
+  const tPg  =withData.reduce((s,r)=>s+r.calc.pg,0);
+  const tVf  =withData.reduce((s,r)=>s+r.calc.vf,0);
+  const tO   =withData.filter(r=>r.calc.orders).reduce((s,r)=>s+r.calc.orders,0);
+  const tNP  =withData.reduce((s,r)=>s+r.calc.np,0);
+  const tP   =withData.reduce((s,r)=>s+r.calc.poas,0);
+  document.getElementById('sp-s-rev').textContent  =tR?spFE(tR):'—';
+  document.getElementById('sp-s-fb').textContent   =tFb?spFE(tFb):'—';
+  document.getElementById('sp-s-gg').textContent   =tGg?spFE(tGg):'—';
   document.getElementById('sp-s-spent').textContent=tS?spFE(tS):'—';
-  document.getElementById('sp-s-api').textContent=tA?spFE(tA):'—';
-  document.getElementById('sp-s-ord').textContent=tO?spFN(tO):'—';
-  document.getElementById('sp-s-aov').textContent=tO?spFE(tR/tO):'—';
-  document.getElementById('sp-s-roas').textContent=tS?(tR/tS).toFixed(2)+'x':'—';
-  document.getElementById('sp-s-poas').textContent=tP?spFE(tP):'—';
-  document.getElementById('sp-s-np').innerHTML=tNP?`<span class="${tNP>=0?'pos':'neg'}">${tNP>=0?'+':''}${spFE(tNP)}</span><span class="sub-v">${spFP(tR>0?tNP/tR:0)}</span>`:'—';
+  document.getElementById('sp-s-api').textContent  =tA?spFE(tA):'—';
+  document.getElementById('sp-s-cogs').textContent =tCogs?spFE(tCogs):'—';
+  document.getElementById('sp-s-pg').textContent   =tPg?spFE(tPg):'—';
+  document.getElementById('sp-s-vf').textContent   =tVf?spFE(tVf):'—';
+  document.getElementById('sp-s-ord').textContent  =tO?spFN(tO):'—';
+  document.getElementById('sp-s-aov').textContent  =tO?spFE(tR/tO):'—';
+  document.getElementById('sp-s-roas').textContent =tS?(tR/tS).toFixed(2)+'x':'—';
+  document.getElementById('sp-s-poas').textContent =tP?spFE(tP):'—';
+  document.getElementById('sp-s-np').innerHTML     =tNP?`<span class="${tNP>=0?'pos':'neg'}">${tNP>=0?'+':''}${spFE(tNP)}</span><span class="sub-v">${spFP(tR>0?tNP/tR:0)}</span>`:'—';
 }
 
 // ── Chart ────────────────────────────────────────────────
@@ -1442,9 +1775,635 @@ function spSet(field,idx,val){
 function spInit(){
   spInited=true;
   spInitArrays();
+  // Mặc định đóng tháng 1, 2, 3
+  SP_MONTHS_COLLAPSED[0]=true;
+  SP_MONTHS_COLLAPSED[1]=true;
+  SP_MONTHS_COLLAPSED[2]=true;
   spLoadLS();
   spRecalc();
   spLoadFromSheets();
+}
+
+// ══════════════════════════════════════════════════════
+//  PAGE 3 — FACEBOOK ADS ANALYTICS
+// ══════════════════════════════════════════════════════
+const FB_ADS_URL = 'https://script.google.com/macros/s/AKfycbxViEkih39gnsaD3srYjkWe1Wq_tUVCRv1FAIT9MAeRnIZTN5gDaR5mMGsw1KkGOz7n/exec';
+let fbInited   = false;
+let fbRawData  = [];
+let fbGroupBy  = 'niche';
+let fbLineChart= null;
+let fbBarChart = null;
+let fbView     = 'camp';          // 'camp' | 'ad'
+let fbExpanded = new Set();       // expanded campaign keys
+let fbCampSort = {col:'roas', dir:'desc'};
+let fbAdSort   = {col:'spend', dir:'desc'};
+let fbTrendGroup = 'day';         // 'day' | 'ad' | 'country'
+let fbTrendChart = null;
+
+// ── Badge ─────────────────────────────────────────────
+function fbBadge(state,msg){
+  const el=document.getElementById('fb-sync-badge');
+  if(!el)return;
+  el.className='fb-sync '+state;
+  el.textContent={ok:'☁️ ',err:'⚠️ ',load:'⏳ '}[state]+msg;
+}
+
+// ── Load ──────────────────────────────────────────────
+async function fbLoad(){
+  fbBadge('load','Đang tải...');
+  try{
+    const res =await fetch(FB_ADS_URL+'?action=read_fb_ads');
+    const json=await res.json();
+    if(!json.ok) throw new Error(json.error||'API error');
+    fbRawData=json.data||[];
+    fbPopulateFilters();
+    fbApplyFilters();
+    fbBadge('ok','Đã đồng bộ · '+fbRawData.length+' rows');
+  }catch(e){
+    fbBadge('err','Lỗi: '+e.message);
+    console.error('FB Ads load error',e);
+  }
+}
+
+// ── Populate dropdowns ────────────────────────────────
+function fbPopulateFilters(){
+  const events   =[...new Set(fbRawData.map(r=>r.event).filter(Boolean))].sort();
+  const niches   =[...new Set(fbRawData.map(r=>r.niche).filter(Boolean))].sort();
+  const countries=[...new Set(fbRawData.map(r=>r.country).filter(Boolean))].sort();
+  const fill=(id,arr)=>{
+    const sel=document.getElementById(id), cur=sel.value;
+    sel.innerHTML='<option value="all">Tất cả</option>'+arr.map(v=>`<option value="${v}">${v}</option>`).join('');
+    if(arr.includes(cur)) sel.value=cur;
+  };
+  fill('fb-event',events); fill('fb-niche',niches); fill('fb-country',countries);
+}
+
+// ── Range change ──────────────────────────────────────
+function fbRangeChange(){
+  const val=document.getElementById('fb-range').value;
+  const cEl=document.getElementById('fb-custom-range');
+  if(val==='custom'){
+    cEl.style.display='flex';
+    const to=new Date(), from=new Date();
+    from.setDate(from.getDate()-30);
+    document.getElementById('fb-date-to').value  =to.toISOString().slice(0,10);
+    document.getElementById('fb-date-from').value=from.toISOString().slice(0,10);
+  } else { cEl.style.display='none'; }
+  fbApplyFilters();
+}
+
+// ── Filter ────────────────────────────────────────────
+function fbGetFiltered(){
+  const range=document.getElementById('fb-range').value;
+  const event=document.getElementById('fb-event').value;
+  const niche=document.getElementById('fb-niche').value;
+  const ctry =document.getElementById('fb-country').value;
+  let d=fbRawData;
+  if(range==='custom'){
+    const from=document.getElementById('fb-date-from').value;
+    const to  =document.getElementById('fb-date-to').value;
+    if(from) d=d.filter(r=>r.date>=from);
+    if(to)   d=d.filter(r=>r.date<=to);
+  } else if(range!=='all'){
+    const cut=new Date(); cut.setDate(cut.getDate()-parseInt(range));
+    const cs=cut.toISOString().slice(0,10);
+    d=d.filter(r=>r.date>=cs);
+  }
+  if(event!=='all') d=d.filter(r=>r.event===event);
+  if(niche!=='all') d=d.filter(r=>r.niche===niche);
+  if(ctry !=='all') d=d.filter(r=>r.country===ctry);
+  return d;
+}
+
+function fbApplyFilters(){
+  const data=fbGetFiltered();
+  fbUpdateKPIs(data);
+  fbUpdateLineChart(data);
+  fbUpdateBarChart(data,fbGroupBy);
+  fbUpdateTrendChart(data,fbTrendGroup);
+  fbUpdateFatigue(data);
+  if(fbView==='camp') fbUpdateCampTable(data);
+  else                fbUpdateAdTable(data);
+}
+
+// ── View switch ───────────────────────────────────────
+function fbSetView(v){
+  fbView=v;
+  document.getElementById('fb-view-camp').style.display = v==='camp'?'':'none';
+  document.getElementById('fb-view-ad').style.display   = v==='ad'  ?'':'none';
+  document.getElementById('fb-v-camp').classList.toggle('act',v==='camp');
+  document.getElementById('fb-v-ad').classList.toggle('act',v==='ad');
+  document.getElementById('fb-table-title').textContent = v==='camp'?'🏅 By Campaign':'🎨 By Ad';
+  document.getElementById('fb-expand-all-btn').style.display   = v==='camp'?'':'none';
+  document.getElementById('fb-collapse-all-btn').style.display = v==='camp'?'':'none';
+  const data=fbGetFiltered();
+  if(v==='camp') fbUpdateCampTable(data);
+  else           fbUpdateAdTable(data);
+}
+
+// ── Group helper ──────────────────────────────────────
+function fbGroupByCamp(data){
+  const map={};
+  data.forEach(r=>{
+    const key=r.campaign||'Unknown';
+    if(!map[key]) map[key]={campaign:r.campaign,country:r.country,event:r.event,niche:r.niche,
+      spend:0,rev:0,pur:0,imp:0,clicks:0, ads:{}};
+    map[key].spend  +=r.spend;
+    map[key].rev    +=r.revenue;
+    map[key].pur    +=r.purchases;
+    map[key].imp    +=r.impressions;
+    map[key].clicks +=r.clicks;
+    // per-ad breakdown inside this campaign
+    const adKey=r.adName||r.ad||'Unknown Ad';
+    if(!map[key].ads[adKey]) map[key].ads[adKey]={ad:adKey,spend:0,rev:0,pur:0,imp:0,clicks:0};
+    map[key].ads[adKey].spend  +=r.spend;
+    map[key].ads[adKey].rev    +=r.revenue;
+    map[key].ads[adKey].pur    +=r.purchases;
+    map[key].ads[adKey].imp    +=r.impressions;
+    map[key].ads[adKey].clicks +=r.clicks;
+  });
+  return map;
+}
+
+function fbGroupByAd(data){
+  const map={};
+  data.forEach(r=>{
+    const key=r.adName||r.ad||'Unknown Ad';
+    if(!map[key]) map[key]={ad:key,campaign:r.campaign,spend:0,rev:0,pur:0,imp:0,clicks:0};
+    map[key].spend  +=r.spend;
+    map[key].rev    +=r.revenue;
+    map[key].pur    +=r.purchases;
+    map[key].imp    +=r.impressions;
+    map[key].clicks +=r.clicks;
+  });
+  return map;
+}
+
+// ── Sort helpers ──────────────────────────────────────
+function fbSortRows(rows, col, dir){
+  const key={roas:r=>r.spend>0?r.rev/r.spend:0, spend:r=>r.spend, rev:r=>r.rev,
+    pur:r=>r.pur, cpp:r=>r.pur>0?r.spend/r.pur:999999,
+    campaign:r=>(r.campaign||'').toLowerCase(),
+    country:r=>(r.country||'').toLowerCase(),
+    ad:r=>(r.ad||'').toLowerCase(),
+    imp:r=>r.imp}[col]||((r)=>r.spend);
+  return [...rows].sort((a,b)=>{
+    const va=key(a), vb=key(b);
+    return dir==='asc' ? (va>vb?1:-1) : (va<vb?1:-1);
+  });
+}
+
+function fbSortCamp(col){
+  if(fbCampSort.col===col) fbCampSort.dir=fbCampSort.dir==='desc'?'asc':'desc';
+  else { fbCampSort.col=col; fbCampSort.dir='desc'; }
+  // update header arrows
+  document.querySelectorAll('#fb-view-camp .fb-th-sort').forEach(th=>{
+    th.classList.remove('asc','desc');
+    if(th.getAttribute('onclick')===`fbSortCamp('${col}')`) th.classList.add(fbCampSort.dir);
+  });
+  fbUpdateCampTable(fbGetFiltered());
+}
+function fbSortAd(col){
+  if(fbAdSort.col===col) fbAdSort.dir=fbAdSort.dir==='desc'?'asc':'desc';
+  else { fbAdSort.col=col; fbAdSort.dir='desc'; }
+  document.querySelectorAll('#fb-view-ad .fb-th-sort').forEach(th=>{
+    th.classList.remove('asc','desc');
+    if(th.getAttribute('onclick')===`fbSortAd('${col}')`) th.classList.add(fbAdSort.dir);
+  });
+  fbUpdateAdTable(fbGetFiltered());
+}
+
+// ── Expand / Collapse ─────────────────────────────────
+function fbToggleCamp(key){
+  if(fbExpanded.has(key)) fbExpanded.delete(key);
+  else fbExpanded.add(key);
+  fbUpdateCampTable(fbGetFiltered());
+}
+function fbExpandAll(){
+  const map=fbGroupByCamp(fbGetFiltered());
+  Object.keys(map).forEach(k=>fbExpanded.add(k));
+  fbUpdateCampTable(fbGetFiltered());
+}
+function fbCollapseAll(){
+  fbExpanded.clear();
+  fbUpdateCampTable(fbGetFiltered());
+}
+
+// ── KPIs ──────────────────────────────────────────────
+// ── Helper: get previous period data ─────────────────
+function fbGetPrevPeriod(){
+  const range=document.getElementById('fb-range').value;
+  if(range==='all'||range==='custom') return [];
+  const days=parseInt(range)||30;
+  const cut=new Date(); cut.setDate(cut.getDate()-days);
+  const prevCut=new Date(cut); prevCut.setDate(prevCut.getDate()-days);
+  const cs=cut.toISOString().slice(0,10);
+  const ps=prevCut.toISOString().slice(0,10);
+  const event=document.getElementById('fb-event').value;
+  const niche=document.getElementById('fb-niche').value;
+  const ctry =document.getElementById('fb-country').value;
+  let d=fbRawData.filter(r=>r.date>=ps&&r.date<cs);
+  if(event!=='all') d=d.filter(r=>r.event===event);
+  if(niche!=='all') d=d.filter(r=>r.niche===niche);
+  if(ctry !=='all') d=d.filter(r=>r.country===ctry);
+  return d;
+}
+
+function fbCalcCpmCpc(data){
+  const totalImp   =data.reduce((s,r)=>s+(r.impressions||0),0);
+  const totalClicks=data.reduce((s,r)=>s+(r.clicks||0),0);
+  const totalSpend =data.reduce((s,r)=>s+r.spend,0);
+  const cpm=totalImp>0 ? totalSpend/totalImp*1000 : 0;
+  const cpc=totalClicks>0 ? totalSpend/totalClicks : 0;
+  return {cpm,cpc,imp:totalImp,clicks:totalClicks};
+}
+
+function fbDeltaEl(elId, cur, prev, higherIsBad=true){
+  const el=document.getElementById(elId);
+  if(!el||prev===0){el.textContent='vs kỳ trước';el.className='kpi-delta neu';return;}
+  const pct=((cur-prev)/prev*100);
+  const isUp=pct>0;
+  const isBad=higherIsBad?isUp:!isUp;
+  const sign=isUp?'▲':'▼';
+  el.textContent=sign+' '+Math.abs(pct).toFixed(1)+'% vs kỳ trước';
+  el.className='kpi-delta '+(isBad?(isUp?'up-bad':'down-good'):(isUp?'up':'down'));
+}
+
+function fbUpdateKPIs(data){
+  const spend=data.reduce((s,r)=>s+r.spend,0);
+  const rev  =data.reduce((s,r)=>s+r.revenue,0);
+  const pur  =data.reduce((s,r)=>s+r.purchases,0);
+  const roas =spend>0?rev/spend:0;
+  const cpp  =pur>0?spend/pur:0;
+  const fd=v=>'$'+Math.round(v).toLocaleString('de-DE');
+  const fd2=v=>'$'+(v).toFixed(2);
+  document.getElementById('fb-k-spend').textContent  =fd(spend);
+  document.getElementById('fb-k-spend-s').textContent=data.length+' rows';
+  document.getElementById('fb-k-rev').textContent    =fd(rev);
+  document.getElementById('fb-k-rev-s').textContent  ='Purchase value';
+  document.getElementById('fb-k-roas').textContent   =roas.toFixed(2)+'x';
+  document.getElementById('fb-k-roas').style.color   =roas>=2.5?'#22d07a':roas>=1.5?'#f5c842':'#f05252';
+  document.getElementById('fb-k-roas-s').textContent =fd(rev)+' / '+fd(spend);
+  document.getElementById('fb-k-cpp').textContent    =fd(cpp);
+  document.getElementById('fb-k-cpp-s').textContent  ='per purchase';
+  document.getElementById('fb-k-pur').textContent    =Math.round(pur).toLocaleString();
+  document.getElementById('fb-k-pur-s').textContent  ='total orders';
+  // Top Ad
+  const adMap=fbGroupByAd(data);
+  const topAd=Object.values(adMap).filter(r=>r.spend>10).sort((a,b)=>(b.rev/b.spend)-(a.rev/a.spend))[0];
+  if(topAd){
+    const tRoas=topAd.rev/topAd.spend;
+    document.getElementById('fb-k-topad').textContent  =topAd.ad;
+    document.getElementById('fb-k-topad-s').textContent=tRoas.toFixed(2)+'x · '+fd(topAd.spend);
+    document.getElementById('fb-k-topad-s').style.color=tRoas>=2.5?'#22d07a':tRoas>=1.5?'#f5c842':'#f05252';
+  } else {
+    document.getElementById('fb-k-topad').textContent='—';
+    document.getElementById('fb-k-topad-s').textContent='—';
+  }
+  // CPM / CPC + delta
+  const cur =fbCalcCpmCpc(data);
+  const prev=fbCalcCpmCpc(fbGetPrevPeriod());
+  document.getElementById('fb-k-cpm').textContent  =cur.cpm>0?fd2(cur.cpm):'$—';
+  document.getElementById('fb-k-cpm-s').textContent=cur.imp>0?Math.round(cur.imp/1000).toLocaleString()+'K impr':'no data';
+  document.getElementById('fb-k-cpc').textContent  =cur.cpc>0?fd2(cur.cpc):'$—';
+  document.getElementById('fb-k-cpc-s').textContent=cur.clicks>0?cur.clicks.toLocaleString()+' clicks':'no data';
+  fbDeltaEl('fb-k-cpm-delta', cur.cpm, prev.cpm, true);   // CPM up = bad
+  fbDeltaEl('fb-k-cpc-delta', cur.cpc, prev.cpc, true);   // CPC up = bad
+}
+
+// ── Campaign Table (with drill-down) ─────────────────
+function fbUpdateCampTable(data){
+  const map=fbGroupByCamp(data);
+  let rows=Object.values(map).filter(r=>r.spend>0);
+  rows=fbSortRows(rows, fbCampSort.col, fbCampSort.dir);
+  const maxSpend=Math.max(...rows.map(r=>r.spend),1);
+  const fd=v=>'$'+Math.round(v).toLocaleString('de-DE');
+  const totalSpend=rows.reduce((s,r)=>s+r.spend,0);
+
+  document.getElementById('fb-camp-count').textContent=rows.length+' campaigns · '+fbExpanded.size+' expanded';
+  document.getElementById('fb-expand-all-btn').style.display='';
+  document.getElementById('fb-collapse-all-btn').style.display='';
+
+  let html='';
+  rows.forEach(r=>{
+    const roas=r.spend>0?r.rev/r.spend:0;
+    const cpp =r.pur>0?r.spend/r.pur:0;
+    const ctr =r.imp>0?(r.clicks/r.imp*100).toFixed(2)+'%':'—';
+    const rc  =roas>=2.5?'fb-roas-good':roas>=1.5?'fb-roas-ok':'fb-roas-bad';
+    const barW=Math.round(r.spend/maxSpend*100);
+    const isOpen=fbExpanded.has(r.campaign||'Unknown');
+    const adRows=Object.values(r.ads||{}).filter(a=>a.spend>0)
+      .sort((a,b)=>b.spend-a.spend);
+    const hasAds=adRows.length>0;
+
+    // Campaign row
+    html+=`<tr style="cursor:pointer" onclick="fbToggleCamp('${(r.campaign||'Unknown').replace(/'/g,"\\'")}')">
+      <td style="text-align:center"><span class="fb-exp${isOpen?' open':''}${!hasAds?' disabled':''}">${hasAds?(isOpen?'▼':'▶'):'·'}</span></td>
+      <td>
+        <div style="font-size:11px;font-weight:600;color:var(--t1);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.campaign||'—'}</div>
+        <div class="fb-bar" style="width:${barW}%;margin-top:3px"></div>
+      </td>
+      <td style="color:var(--t2);font-size:10px">${r.country||'—'}</td>
+      <td style="color:var(--purple);font-size:10px">${r.event||'—'}</td>
+      <td style="color:var(--cyan);font-size:10px">${r.niche||'—'}</td>
+      <td style="font-family:var(--mono);color:#60a5fa">${fd(r.spend)}</td>
+      <td style="font-family:var(--mono);color:#67e8f9">${fd(r.rev)}</td>
+      <td class="${rc}">${roas.toFixed(2)}x</td>
+      <td style="font-family:var(--mono);color:var(--t2)">${Math.round(r.pur)}</td>
+      <td style="font-family:var(--mono);color:var(--yellow)">${cpp>0?fd(cpp):'—'}</td>
+      <td style="font-family:var(--mono);color:var(--t3)">${Math.round(r.imp).toLocaleString()}</td>
+      <td style="font-family:var(--mono);color:var(--t3)">${ctr}</td>
+    </tr>`;
+
+    // Drill-down ad rows (only if expanded)
+    if(isOpen && hasAds){
+      adRows.forEach((ad,adIdx)=>{
+        const aRoas=ad.spend>0?ad.rev/ad.spend:0;
+        const aCpp =ad.pur>0?ad.spend/ad.pur:0;
+        const aCtr =ad.imp>0?(ad.clicks/ad.imp*100).toFixed(2)+'%':'—';
+        const aRc  =aRoas>=2.5?'fb-roas-good':aRoas>=1.5?'fb-roas-ok':'fb-roas-bad';
+        const spPct=totalSpend>0?(ad.spend/totalSpend*100).toFixed(1)+'%':'—';
+        const adBarW=r.spend>0?Math.round(ad.spend/r.spend*100):0;
+        html+=`<tr class="fb-drill">
+          <td></td>
+          <td colspan="4">
+            <div class="fb-drill-indent">
+              <span style="font-size:9px;color:var(--t3);margin-right:2px">${adIdx+1}</span>
+              <span class="fb-ad-badge">AD</span>
+              <span style="font-size:11px;font-weight:600;color:var(--t2);max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ad.ad}</span>
+            </div>
+            <div class="fb-bar" style="width:${adBarW}%;margin-top:3px;margin-left:28px;background:#9b72f5;height:4px;opacity:.6"></div>
+          </td>
+          <td style="font-family:var(--mono);color:#60a5fa;font-size:10px">${fd(ad.spend)}<span style="display:block;font-size:8px;color:var(--t3)">${spPct} of total</span></td>
+          <td style="font-family:var(--mono);color:#67e8f9;font-size:10px">${fd(ad.rev)}</td>
+          <td class="${aRc}" style="font-size:10px">${aRoas>0?aRoas.toFixed(2)+'x':'—'}</td>
+          <td style="font-family:var(--mono);color:var(--t2);font-size:10px">${Math.round(ad.pur)||'—'}</td>
+          <td style="font-family:var(--mono);color:var(--yellow);font-size:10px">${aCpp>0?fd(aCpp):'—'}</td>
+          <td style="font-family:var(--mono);color:var(--t3);font-size:10px">${Math.round(ad.imp).toLocaleString()}</td>
+          <td style="font-family:var(--mono);color:var(--t3);font-size:10px">${aCtr}</td>
+        </tr>`;
+      });
+    }
+  });
+  document.getElementById('fb-tbody').innerHTML=html;
+}
+
+// ── Ad Breakdown Table (flat) ─────────────────────────
+function fbUpdateAdTable(data){
+  const map=fbGroupByAd(data);
+  let rows=Object.values(map).filter(r=>r.spend>0);
+  rows=fbSortRows(rows, fbAdSort.col, fbAdSort.dir);
+  const totalSpend=rows.reduce((s,r)=>s+r.spend,0);
+  const maxSpend=Math.max(...rows.map(r=>r.spend),1);
+  const fd=v=>'$'+Math.round(v).toLocaleString('de-DE');
+
+  document.getElementById('fb-camp-count').textContent=rows.length+' ads';
+
+  document.getElementById('fb-ad-tbody').innerHTML=rows.map((r,i)=>{
+    const roas=r.spend>0?r.rev/r.spend:0;
+    const cpp =r.pur>0?r.spend/r.pur:0;
+    const ctr =r.imp>0?(r.clicks/r.imp*100).toFixed(2)+'%':'—';
+    const rc  =roas>=2.5?'fb-roas-good':roas>=1.5?'fb-roas-ok':'fb-roas-bad';
+    const spPct=totalSpend>0?(r.spend/totalSpend*100).toFixed(1)+'%':'—';
+    const barW=Math.round(r.spend/maxSpend*100);
+    return`<tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="font-size:9px;color:var(--t4);font-family:var(--mono);min-width:18px">${i+1}</span>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--t1);max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.ad||'—'}</div>
+            <div class="fb-bar" style="width:${barW}%;margin-top:3px"></div>
+          </div>
+        </div>
+      </td>
+      <td style="font-size:10px;color:var(--t3);max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.campaign||'—'}</td>
+      <td style="font-family:var(--mono);color:#60a5fa">${fd(r.spend)}</td>
+      <td style="font-family:var(--mono);color:#67e8f9">${fd(r.rev)}</td>
+      <td class="${rc}">${roas>0?roas.toFixed(2)+'x':'—'}</td>
+      <td style="font-family:var(--mono);color:var(--t2)">${Math.round(r.pur)||'—'}</td>
+      <td style="font-family:var(--mono);color:var(--yellow)">${cpp>0?fd(cpp):'—'}</td>
+      <td style="font-family:var(--mono);color:var(--t3)">${Math.round(r.imp).toLocaleString()}</td>
+      <td style="font-family:var(--mono);color:var(--t3)">${ctr}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:5px">
+          <div style="flex:1;height:5px;background:var(--bd);border-radius:3px;overflow:hidden"><div style="width:${spPct};height:100%;background:#4d8ef5;border-radius:3px"></div></div>
+          <span style="font-size:9px;color:var(--t3);font-family:var(--mono);white-space:nowrap">${spPct}</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Group By (bar chart) ──────────────────────────────
+function fbSetGroupBy(g){
+  fbGroupBy=g;
+  ['niche','country'].forEach(x=>document.getElementById('fb-by-'+x).classList.toggle('act',x===g));
+  fbUpdateBarChart(fbGetFiltered(),g);
+}
+
+// ── CPC/CPM Trend Chart ───────────────────────────────
+function fbSetTrendGroup(g){
+  fbTrendGroup=g;
+  ['day','ad','country'].forEach(x=>document.getElementById('fb-cpm-by-'+x).classList.toggle('act',x===g));
+  fbUpdateTrendChart(fbGetFiltered(),g);
+}
+
+function fbUpdateTrendChart(data, group){
+  const fmt2=v=>'$'+v.toFixed(2);
+  let labels=[], cpmArr=[], cpcArr=[];
+
+  if(group==='day'){
+    const byDate={};
+    data.forEach(r=>{
+      if(!byDate[r.date]) byDate[r.date]={spend:0,imp:0,clicks:0};
+      byDate[r.date].spend +=r.spend;
+      byDate[r.date].imp   +=(r.impressions||0);
+      byDate[r.date].clicks+=(r.clicks||0);
+    });
+    labels=Object.keys(byDate).sort();
+    cpmArr=labels.map(d=>byDate[d].imp>0?+(byDate[d].spend/byDate[d].imp*1000).toFixed(2):null);
+    cpcArr=labels.map(d=>byDate[d].clicks>0?+(byDate[d].spend/byDate[d].clicks).toFixed(2):null);
+  } else {
+    const byGroup={};
+    data.forEach(r=>{
+      const key=r[group]||'Unknown';
+      if(!byGroup[key]) byGroup[key]={spend:0,imp:0,clicks:0};
+      byGroup[key].spend +=r.spend;
+      byGroup[key].imp   +=(r.impressions||0);
+      byGroup[key].clicks+=(r.clicks||0);
+    });
+    labels=Object.entries(byGroup).sort((a,b)=>b[1].spend-a[1].spend).slice(0,15).map(e=>e[0]);
+    cpmArr=labels.map(k=>byGroup[k].imp>0?+(byGroup[k].spend/byGroup[k].imp*1000).toFixed(2):0);
+    cpcArr=labels.map(k=>byGroup[k].clicks>0?+(byGroup[k].spend/byGroup[k].clicks).toFixed(2):0);
+  }
+
+  const ds=[
+    {label:'CPM ($)',data:cpmArr,borderColor:'#67e8f9',backgroundColor:'#67e8f910',tension:0.3,pointRadius:group==='day'?0:3,borderWidth:2,yAxisID:'y',spanGaps:true},
+    {label:'CPC ($)',data:cpcArr,borderColor:'#a78bfa',backgroundColor:'#a78bfa10',tension:0.3,pointRadius:group==='day'?0:3,borderWidth:2,yAxisID:'y2',spanGaps:true},
+  ];
+
+  if(fbTrendChart){
+    fbTrendChart.data.labels=labels;
+    fbTrendChart.data.datasets=ds;
+    fbTrendChart.options.scales.x.type=group==='day'?'category':'category';
+    fbTrendChart.update('none'); return;
+  }
+  const ctx=document.getElementById('fb-trend-chart').getContext('2d');
+  fbTrendChart=new Chart(ctx,{type: group==='day'?'line':'bar',data:{labels,datasets:ds},options:{
+    responsive:true,maintainAspectRatio:false,animation:{duration:120},
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
+      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+        callbacks:{label:c=>`${c.dataset.label}: ${fmt2(c.parsed.y)}`}}
+    },
+    scales:{
+      x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9},maxTicksLimit:20,maxRotation:45}},
+      y:{grid:{color:'#1d335430'},position:'left', ticks:{color:'#67e8f9',font:{size:10},callback:v=>'$'+v.toFixed(1)},title:{display:true,text:'CPM',color:'#67e8f9',font:{size:9}},grace:'10%'},
+      y2:{grid:{display:false},position:'right',ticks:{color:'#a78bfa',font:{size:10},callback:v=>'$'+v.toFixed(2)},title:{display:true,text:'CPC',color:'#a78bfa',font:{size:9}},grace:'10%'}
+    }
+  }});
+}
+
+// ── Creative Fatigue Detection ────────────────────────
+function fbUpdateFatigue(data){
+  // Compare last 7 days vs previous 7 days, per ad
+  const today=new Date().toISOString().slice(0,10);
+  const d7=new Date(); d7.setDate(d7.getDate()-7);
+  const d14=new Date(); d14.setDate(d14.getDate()-14);
+  const s7 =d7.toISOString().slice(0,10);
+  const s14=d14.toISOString().slice(0,10);
+
+  const cur7 ={}, prev7={};
+  data.forEach(r=>{
+    const adKey=r.adName||r.ad||'Unknown';
+    if(r.date>=s7&&r.date<=today){
+      if(!cur7[adKey]) cur7[adKey]={spend:0,imp:0,clicks:0};
+      cur7[adKey].spend +=r.spend;
+      cur7[adKey].imp   +=(r.impressions||0);
+      cur7[adKey].clicks+=(r.clicks||0);
+    }
+    if(r.date>=s14&&r.date<s7){
+      if(!prev7[adKey]) prev7[adKey]={spend:0,imp:0,clicks:0};
+      prev7[adKey].spend +=r.spend;
+      prev7[adKey].imp   +=(r.impressions||0);
+      prev7[adKey].clicks+=(r.clicks||0);
+    }
+  });
+
+  const ads=Object.keys(cur7).filter(k=>cur7[k].spend>5);
+  const rows=ads.map(k=>{
+    const c=cur7[k], p=prev7[k]||{spend:0,imp:0,clicks:0};
+    const cCpm=c.imp>0?c.spend/c.imp*1000:0;
+    const pCpm=p.imp>0?p.spend/p.imp*1000:0;
+    const cCtr=c.imp>0?c.clicks/c.imp*100:0;
+    const pCtr=p.imp>0?p.clicks/p.imp*100:0;
+    const cpmDelta=pCpm>0?(cCpm-pCpm)/pCpm*100:null;
+    const ctrDelta=pCtr>0?(cCtr-pCtr)/pCtr*100:null;
+    // Fatigue score: CPM up >20% = warn, >40% = crit; CTR down >20% = warn
+    let status='ok';
+    if(cpmDelta!=null&&cpmDelta>40) status='crit';
+    else if(cpmDelta!=null&&cpmDelta>20) status='warn';
+    else if(ctrDelta!=null&&ctrDelta<-20) status='warn';
+    return{ad:k,cCpm,pCpm,cCtr,pCtr,cpmDelta,ctrDelta,spend:c.spend,status};
+  }).sort((a,b)=>{
+    const order={crit:0,warn:1,ok:2};
+    return order[a.status]-order[b.status]||b.spend-a.spend;
+  });
+
+  const crit=rows.filter(r=>r.status==='crit').length;
+  const warn=rows.filter(r=>r.status==='warn').length;
+  document.getElementById('fb-fatigue-count').innerHTML=
+    `<span style="color:#f05252;font-weight:700">${crit} 🔴 Critical</span> · <span style="color:#f5c842;font-weight:700">${warn} 🟡 Warning</span> · <span style="color:#22d07a">${rows.length-crit-warn} ✅ OK</span>`;
+
+  const fd2=v=>'$'+v.toFixed(2);
+  const pct=v=>v!=null?(v>=0?'+':'')+v.toFixed(1)+'%':'—';
+  const statusBadge={
+    ok:  `<span class="fatigue-badge fb-ok-badge">✅ Healthy</span>`,
+    warn:`<span class="fatigue-badge fb-warn-badge">⚠️ Warning</span>`,
+    crit:`<span class="fatigue-badge fb-crit-badge">🔴 Fatigue</span>`,
+  };
+
+  document.getElementById('fb-fatigue-tbody').innerHTML=rows.slice(0,20).map(r=>{
+    const cpmDeltaColor=r.cpmDelta==null?'var(--t3)':r.cpmDelta>20?'#f05252':r.cpmDelta<-10?'#22d07a':'#f5c842';
+    const ctrDeltaColor=r.ctrDelta==null?'var(--t3)':r.ctrDelta<-20?'#f05252':r.ctrDelta>10?'#22d07a':'#f5c842';
+    return`<tr class="fatigue-${r.status}">
+      <td style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;font-weight:600;color:var(--t1)">${r.ad}</td>
+      <td>${statusBadge[r.status]}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:#67e8f9">${r.cCpm>0?fd2(r.cCpm):'—'}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:${cpmDeltaColor};font-weight:700">${pct(r.cpmDelta)}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:var(--t2)">${r.cCtr>0?r.cCtr.toFixed(2)+'%':'—'}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:${ctrDeltaColor};font-weight:700">${pct(r.ctrDelta)}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:#60a5fa">${'$'+Math.round(r.spend).toLocaleString()}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Line Chart ────────────────────────────────────────
+function fbUpdateLineChart(data){
+  const byDate={};
+  data.forEach(r=>{
+    if(!byDate[r.date]) byDate[r.date]={spend:0,rev:0};
+    byDate[r.date].spend+=r.spend; byDate[r.date].rev+=r.revenue;
+  });
+  const labels=Object.keys(byDate).sort();
+  const spends=labels.map(d=>Math.round(byDate[d].spend));
+  const revs  =labels.map(d=>Math.round(byDate[d].rev));
+  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v);
+  if(fbLineChart){
+    fbLineChart.data.labels=labels;
+    fbLineChart.data.datasets[0].data=spends;
+    fbLineChart.data.datasets[1].data=revs;
+    fbLineChart.update('none'); return;
+  }
+  const ctx=document.getElementById('fb-line-chart').getContext('2d');
+  fbLineChart=new Chart(ctx,{type:'line',data:{labels,datasets:[
+    {label:'Spend',  data:spends,borderColor:'#f5922d',backgroundColor:'#f5922d10',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
+    {label:'Revenue',data:revs,  borderColor:'#25d4e7',backgroundColor:'#25d4e710',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:120},
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
+      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
+    scales:{x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9},maxTicksLimit:20,maxRotation:45}},
+      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt},grace:'5%'}}}});
+}
+
+// ── Bar Chart ─────────────────────────────────────────
+function fbUpdateBarChart(data,groupBy){
+  const byGroup={};
+  data.forEach(r=>{
+    const key=r[groupBy]||'Unknown';
+    if(!byGroup[key]) byGroup[key]={spend:0,rev:0,pur:0};
+    byGroup[key].spend+=r.spend; byGroup[key].rev+=r.revenue; byGroup[key].pur+=r.purchases;
+  });
+  const labels=Object.entries(byGroup).sort((a,b)=>b[1].rev-a[1].rev).map(e=>e[0]);
+  const spends=labels.map(k=>Math.round(byGroup[k].spend));
+  const revs  =labels.map(k=>Math.round(byGroup[k].rev));
+  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v);
+  if(fbBarChart){
+    fbBarChart.data.labels=labels;
+    fbBarChart.data.datasets[0].data=spends;
+    fbBarChart.data.datasets[1].data=revs;
+    fbBarChart.update('none'); return;
+  }
+  const ctx=document.getElementById('fb-bar-chart').getContext('2d');
+  fbBarChart=new Chart(ctx,{type:'bar',data:{labels,datasets:[
+    {label:'Spend',  data:spends,backgroundColor:'#f5922d88',borderColor:'#f5922d',borderWidth:1},
+    {label:'Revenue',data:revs,  backgroundColor:'#25d4e788',borderColor:'#25d4e7',borderWidth:1},
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:120},
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
+      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
+    scales:{x:{grid:{display:false},ticks:{color:'#4a6d94',font:{size:10},maxRotation:0}},
+      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt}}}}});
+}
+
+// ── Init ──────────────────────────────────────────────
+function fbInit(){
+  fbInited=true;
+  fbLoad();
 }
 
 </script>
