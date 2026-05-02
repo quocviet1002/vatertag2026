@@ -276,7 +276,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div class="ibox accent">
       <label>💰 Tổng Spent Ads</label>
       <div class="ir"><span class="u">$</span>
-        <input type="number" id="i-total" value="300000" min="5000" max="400000" step="1000" oninput="onTotalChange()">
+        <input type="number" id="i-total" value="200000" min="5000" max="400000" step="1000" oninput="onTotalChange()">
       </div>
     </div>
     <div class="ibox">
@@ -1001,7 +1001,7 @@ function initActualFromStorage(){
 // ══════════════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════════════
-let budFcst    = buildBudgets(300000);
+let budFcst    = buildBudgets(200000);
 let revFcstOvr = new Array(N).fill(null); // null = auto (BudF×ROAS)
 let revFcstMan = new Array(N).fill(false);
 let budActual  = new Array(N).fill(null);
@@ -1030,14 +1030,14 @@ function getInp(){
   };
 }
 function onTotalChange(){
-  const t=+document.getElementById('i-total').value||300000;
+  const t=+document.getElementById('i-total').value||200000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
   recalc();
 }
 function onRateChange(){
-  const t=+document.getElementById('i-total').value||300000;
+  const t=+document.getElementById('i-total').value||200000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
@@ -1339,7 +1339,7 @@ function filterPhase(ph,el){
   updateSummary(rows,tRU>0?tBU/tRU:0);
 }
 function resetForecast(){
-  const t=+document.getElementById('i-total').value||300000;
+  const t=+document.getElementById('i-total').value||200000;
   budFcst=buildBudgets(t);
   revFcstOvr=new Array(N).fill(null);
   revFcstMan=new Array(N).fill(false);
@@ -1568,7 +1568,7 @@ function spSetFilter(mode){
 
 // ── Calc per day ────────────────────────────────────────
 function spCalcDay(i){
-  const gm  = +document.getElementById('sp-gm').value/100  || 0.70;
+  const gm  = +document.getElementById('sp-gm').value/100  || 0.75;
   const varC= +document.getElementById('sp-var').value/100 || 0.05;
   const rev=spRevA[i], fb=spFbA[i]||0, gg=spGgA[i]||0;
   // Ưu tiên total spent từ Sheets; nếu không có thì cộng fb+gg
