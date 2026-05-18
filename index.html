@@ -276,14 +276,16 @@ tr:hover td{background:rgba(255,255,255,.013)}
 .gg-roas-ok{color:#f5c842;font-family:var(--mono);font-weight:700}
 .gg-roas-bad{color:#f05252;font-family:var(--mono);font-weight:700}
 .gg-tw{overflow-x:auto}
-.gg-tw table{width:100%;border-collapse:collapse;font-size:11px}
-.gg-tw thead th{padding:7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5;cursor:pointer;user-select:none}
+.gg-tw table{width:100%;border-collapse:collapse;font-size:11px;table-layout:fixed}
+.gg-tw thead th{padding:7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5;cursor:pointer;user-select:none;overflow:hidden;text-overflow:ellipsis}
 .gg-tw thead th:hover{color:var(--t1)}
 .gg-tw thead th.asc::after{content:' ↑'}.gg-tw thead th.desc::after{content:' ↓'}
 .gg-tw td{padding:5px 7px;border-bottom:1px solid #1d335422;vertical-align:middle}
 .gg-tw tr:hover td{background:rgba(255,255,255,.018)}
 .gg-thumb{width:38px;height:38px;border-radius:6px;object-fit:cover;background:var(--s2);border:1px solid var(--bd);flex-shrink:0}
-.gg-thumb-wrap{display:flex;align-items:center;gap:8px}
+.gg-thumb-wrap{display:flex;align-items:center;gap:8px;position:relative}
+.gg-thumb-wrap:hover .gg-thumb-preview{display:block}
+.gg-thumb-preview{display:none;position:fixed;z-index:9999;width:200px;height:200px;object-fit:cover;border-radius:10px;border:2px solid var(--bd2);box-shadow:0 8px 32px #00000088;pointer-events:none;}
 .gg-title-cell{max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;font-weight:600;color:var(--t1)}
 .gg-title-sub{font-size:9px;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
 .gg-waster-row td{background:#7f1d1d10!important;border-left:3px solid #f0525444}
@@ -903,12 +905,18 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <!-- CONTROLS -->
 <div class="gg-ctrl">
   <span class="gg-ctrl-lbl">Range →</span>
-  <select class="gg-sel" id="gg-range" onchange="ggApply()">
+  <select class="gg-sel" id="gg-range" onchange="ggRangeChange()">
     <option value="7">7 ngày</option>
     <option value="14">14 ngày</option>
     <option value="30" selected>30 ngày</option>
     <option value="all">Tất cả</option>
+    <option value="custom">Custom...</option>
   </select>
+  <div id="gg-custom-range" style="display:none;align-items:center;gap:6px">
+    <input type="date" id="gg-date-from" class="gg-sel" style="min-width:130px" onchange="ggApply()">
+    <span style="color:var(--t3);font-size:11px">→</span>
+    <input type="date" id="gg-date-to" class="gg-sel" style="min-width:130px" onchange="ggApply()">
+  </div>
   <span class="gg-ctrl-lbl" style="margin-left:8px">Account →</span>
   <select class="gg-sel" id="gg-account" onchange="ggApply()">
     <option value="all">Tất cả</option>
@@ -1008,18 +1016,29 @@ tr:hover td{background:rgba(255,255,255,.013)}
       <span style="font-size:10px;color:var(--t3)" id="gg-prod-count">—</span>
     </div>
     <div class="gg-tw" style="max-height:480px;overflow-y:auto">
-      <table>
+      <table style="table-layout:fixed;width:100%">
+        <colgroup>
+          <col style="width:52px">
+          <col style="width:240px">
+          <col style="width:72px">
+          <col style="width:80px">
+          <col style="width:80px">
+          <col style="width:68px">
+          <col style="width:90px">
+          <col style="width:80px">
+          <col style="width:72px">
+        </colgroup>
         <thead>
           <tr>
             <th style="width:52px">Ảnh</th>
             <th onclick="ggSortTable('title')">Product</th>
-            <th onclick="ggSortTable('clicks')">Clicks</th>
-            <th onclick="ggSortTable('cpc')">Avg CPC</th>
-            <th onclick="ggSortTable('cost')">Cost</th>
-            <th onclick="ggSortTable('conv')">Conv.</th>
-            <th onclick="ggSortTable('costConv')">Cost/Conv</th>
-            <th onclick="ggSortTable('revenue')">Revenue</th>
-            <th onclick="ggSortTable('roas')">ROAS</th>
+            <th style="text-align:right" onclick="ggSortTable('clicks')">Clicks</th>
+            <th style="text-align:right" onclick="ggSortTable('cpc')">Avg CPC</th>
+            <th style="text-align:right" onclick="ggSortTable('cost')">Cost</th>
+            <th style="text-align:right" onclick="ggSortTable('conv')">Conv.</th>
+            <th style="text-align:right" onclick="ggSortTable('costConv')">Cost/Conv</th>
+            <th style="text-align:right" onclick="ggSortTable('revenue')">Revenue</th>
+            <th style="text-align:right" onclick="ggSortTable('roas')">ROAS</th>
           </tr>
         </thead>
         <tbody id="gg-prod-tbody"></tbody>
@@ -2679,18 +2698,37 @@ function ggPopulateAccounts(){
   sel.innerHTML='<option value="all">Tất cả</option>'+accts.map(a=>`<option value="${a}">${a}</option>`).join('');
 }
 
+// ── Range change ──────────────────────────────────────
+function ggRangeChange(){
+  const val=document.getElementById('gg-range').value;
+  const cEl=document.getElementById('gg-custom-range');
+  if(val==='custom'){
+    cEl.style.display='flex';
+    const to=new Date(), from=new Date();
+    from.setDate(from.getDate()-30);
+    document.getElementById('gg-date-to').value  =to.toISOString().slice(0,10);
+    document.getElementById('gg-date-from').value=from.toISOString().slice(0,10);
+  } else {
+    cEl.style.display='none';
+  }
+  ggApply();
+}
+
 // ── Filter & Apply ────────────────────────────────────
 function ggApply(){
   const range  = document.getElementById('gg-range').value;
   const account= document.getElementById('gg-account').value;
-  const today  = new Date().toISOString().slice(0,10);
-  let cutoff   = '';
-  if(range!=='all'){
+  let cutoff='', ceiling='';
+  if(range==='custom'){
+    cutoff  = document.getElementById('gg-date-from').value;
+    ceiling = document.getElementById('gg-date-to').value;
+  } else if(range!=='all'){
     const d=new Date(); d.setDate(d.getDate()-parseInt(range));
     cutoff=d.toISOString().slice(0,10);
   }
   ggFiltered = ggRawData.filter(r=>{
-    if(cutoff && r.date<cutoff) return false;
+    if(cutoff  && r.date<cutoff)  return false;
+    if(ceiling && r.date>ceiling) return false;
     if(account!=='all' && r.account!==account) return false;
     return true;
   });
@@ -2894,7 +2932,7 @@ function ggRenderTable(){
     const rowCls =ggView==='stars'?'gg-star-row':ggView==='wasters'?'gg-waster-row':'';
     const imgSrc =r.img?r.img.split(',')[0].trim():'';
     const thumb  =imgSrc
-      ?`<img class="gg-thumb" src="${imgSrc}" onerror="this.style.display='none'">`
+      ?`<img class="gg-thumb" src="${imgSrc}" onerror="this.style.display='none'"><img class="gg-thumb-preview" src="${imgSrc}">`
       :`<div class="gg-thumb" style="display:flex;align-items:center;justify-content:center;font-size:16px">🛍</div>`;
     const shortTitle=r.title.length>55?r.title.slice(0,55)+'…':r.title;
     return`<tr class="${rowCls}">
@@ -2920,6 +2958,20 @@ function ggRenderTable(){
 function ggInit(){
   ggInited=true;
   ggLoad();
+  // Mouse-follow preview for product images
+  document.addEventListener('mousemove', e=>{
+    const preview=document.querySelector('.gg-thumb-preview:hover, .gg-thumb-wrap:hover .gg-thumb-preview');
+    document.querySelectorAll('.gg-thumb-preview').forEach(p=>{
+      const wrap=p.closest('.gg-thumb-wrap');
+      if(wrap && wrap.matches(':hover')){
+        const x=e.clientX, y=e.clientY;
+        const right=x+220>window.innerWidth;
+        const bottom=y+220>window.innerHeight;
+        p.style.left  = right  ? (x-220)+'px' : (x+12)+'px';
+        p.style.top   = bottom ? (y-220)+'px' : (y+12)+'px';
+      }
+    });
+  });
 }
 
 </script>
