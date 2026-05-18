@@ -251,6 +251,52 @@ tr:hover td{background:rgba(255,255,255,.013)}
 /* ── TOP AD KPI ── */
 .fb-kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
 .fb-top-ad{font-size:11px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+
+/* ── GOOGLE ADS PAGE 4 ── */
+.gg-hdr{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.gg-hdr h1{font-size:15px;font-weight:700}
+.gg-hdr p{font-size:10px;color:var(--t3);margin-top:2px}
+.gg-ctrl{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.gg-ctrl-lbl{font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-right:2px}
+.gg-sel{background:var(--s2);border:1px solid var(--bd);border-radius:7px;color:var(--t1);font-size:12px;font-weight:600;padding:6px 10px;outline:none;cursor:pointer;font-family:var(--font);transition:border-color .15s;min-width:120px}
+.gg-sel:focus{border-color:var(--green)}
+.gg-sel option{background:var(--s2)}
+.gg-kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
+.gg-main{padding:13px 18px;display:flex;flex-direction:column;gap:11px}
+.gg-charts{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.gg-chart-wrap{height:220px;position:relative}
+.gg-sync{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
+.gg-sync.ok{color:#22d07a;border-color:#22d07a44}
+.gg-sync.err{color:#f5c842;border-color:#f5c84244}
+.gg-sync.load{color:#4d8ef5;border-color:#4d8ef544}
+.gg-view-tabs{display:flex;gap:5px;align-items:center}
+.gg-view-tab{padding:4px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);cursor:pointer;font-size:10px;font-weight:700;color:var(--t3);transition:all .15s;white-space:nowrap}
+.gg-view-tab.act{background:#22d07a20;border-color:var(--green);color:var(--green)}
+.gg-roas-good{color:#22d07a;font-family:var(--mono);font-weight:700}
+.gg-roas-ok{color:#f5c842;font-family:var(--mono);font-weight:700}
+.gg-roas-bad{color:#f05252;font-family:var(--mono);font-weight:700}
+.gg-tw{overflow-x:auto}
+.gg-tw table{width:100%;border-collapse:collapse;font-size:11px}
+.gg-tw thead th{padding:7px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--s1);border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5;cursor:pointer;user-select:none}
+.gg-tw thead th:hover{color:var(--t1)}
+.gg-tw thead th.asc::after{content:' ↑'}.gg-tw thead th.desc::after{content:' ↓'}
+.gg-tw td{padding:5px 7px;border-bottom:1px solid #1d335422;vertical-align:middle}
+.gg-tw tr:hover td{background:rgba(255,255,255,.018)}
+.gg-thumb{width:38px;height:38px;border-radius:6px;object-fit:cover;background:var(--s2);border:1px solid var(--bd);flex-shrink:0}
+.gg-thumb-wrap{display:flex;align-items:center;gap:8px}
+.gg-title-cell{max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;font-weight:600;color:var(--t1)}
+.gg-title-sub{font-size:9px;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
+.gg-waster-row td{background:#7f1d1d10!important;border-left:3px solid #f0525444}
+.gg-star-row td{background:#14532d10!important;border-left:3px solid #22d07a44}
+.gg-acct-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.gg-acct-card{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:13px 15px}
+.gg-acct-name{font-size:11px;font-weight:700;margin-bottom:10px;color:var(--t2)}
+.gg-acct-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.gg-acct-kpi{text-align:center}
+.gg-acct-kpi-val{font-size:15px;font-weight:700;font-family:var(--mono);line-height:1}
+.gg-acct-kpi-lbl{font-size:9px;color:var(--t3);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+.gg-bar-mini{height:5px;border-radius:3px;margin-top:5px;background:var(--bd2)}
+.gg-bar-fill{height:5px;border-radius:3px;transition:width .4s}
 </style>
 </head>
 <body>
@@ -261,6 +307,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <div class="nav-tab active" id="tab1" onclick="switchTab(1)">📋 Campaign Forecast</div>
   <div class="nav-tab" id="tab2" onclick="switchTab(2)">📊 Store Performance</div>
   <div class="nav-tab" id="tab3" onclick="switchTab(3)">📣 Facebook Ads</div>
+  <div class="nav-tab" id="tab4" onclick="switchTab(4)">🛍 Google Ads</div>
 </div>
 
 <!-- ══ PAGE 1 — CAMPAIGN FORECAST ══ -->
@@ -838,6 +885,151 @@ tr:hover td{background:rgba(255,255,255,.013)}
 
 </div><!-- /page3 -->
 
+<!-- ══ PAGE 4 — GOOGLE ADS ══ -->
+<div id="page4" class="page">
+
+<!-- HEADER -->
+<div class="gg-hdr">
+  <div>
+    <h1>🛍 Google Ads — Shopping Analytics</h1>
+    <p>All Gads · Product-level · USD · Dữ liệu từ Google Sheets ☁️</p>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <div class="gg-sync load" id="gg-sync-badge">⏳ Chưa tải</div>
+    <button class="rbtn" onclick="ggLoad()">🔄 Sync</button>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="gg-ctrl">
+  <span class="gg-ctrl-lbl">Range →</span>
+  <select class="gg-sel" id="gg-range" onchange="ggApply()">
+    <option value="7">7 ngày</option>
+    <option value="14">14 ngày</option>
+    <option value="30" selected>30 ngày</option>
+    <option value="all">Tất cả</option>
+  </select>
+  <span class="gg-ctrl-lbl" style="margin-left:8px">Account →</span>
+  <select class="gg-sel" id="gg-account" onchange="ggApply()">
+    <option value="all">Tất cả</option>
+  </select>
+</div>
+
+<!-- KPI STRIP (6) -->
+<div class="gg-kpi">
+  <div class="kpi kb">
+    <div class="kpi-lbl">💰 Total Cost</div>
+    <div class="kpi-val" id="gg-k-cost" style="color:#60a5fa">$0</div>
+    <div class="kpi-delta neu" id="gg-k-cost-d">—</div>
+  </div>
+  <div class="kpi kc">
+    <div class="kpi-lbl">📈 Conv. Value</div>
+    <div class="kpi-val" id="gg-k-rev" style="color:#67e8f9">$0</div>
+    <div class="kpi-delta neu" id="gg-k-rev-d">—</div>
+  </div>
+  <div class="kpi kg">
+    <div class="kpi-lbl">🔥 ROAS</div>
+    <div class="kpi-val" id="gg-k-roas" style="color:#4ade80">0x</div>
+    <div class="kpi-delta neu" id="gg-k-roas-d">—</div>
+  </div>
+  <div class="kpi ky">
+    <div class="kpi-lbl">🖱 Total Clicks</div>
+    <div class="kpi-val" id="gg-k-clicks" style="color:#fcd34d">0</div>
+    <div class="kpi-delta neu" id="gg-k-clicks-d">—</div>
+  </div>
+  <div class="kpi kp">
+    <div class="kpi-lbl">💲 Avg CPC</div>
+    <div class="kpi-val" id="gg-k-cpc" style="color:#c4b5fd">$0</div>
+    <div class="kpi-delta neu" id="gg-k-cpc-d">—</div>
+  </div>
+  <div class="kpi ko">
+    <div class="kpi-lbl">✅ Conversions</div>
+    <div class="kpi-val" id="gg-k-conv" style="color:#fdba74">0</div>
+    <div class="kpi-delta neu" id="gg-k-conv-d">—</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="gg-main">
+
+  <!-- Row 1: Charts -->
+  <div class="gg-charts">
+    <div class="card">
+      <div class="ch">
+        <div class="ct">📈 Cost vs Conv. Value theo ngày</div>
+        <div class="ld-row">
+          <div class="ld"><div class="ld-ln" style="color:#60a5fa;border-top-style:solid"></div>Cost</div>
+          <div class="ld"><div class="ld-ln" style="color:#22d07a;border-top-style:solid"></div>Revenue</div>
+        </div>
+      </div>
+      <div class="gg-chart-wrap"><canvas id="gg-line-chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ch">
+        <div class="ct">🏆 Top Products by</div>
+        <div style="display:flex;gap:4px">
+          <div class="gg-view-tab act" id="gg-bar-roas"    onclick="ggSetBarMode('roas')">ROAS</div>
+          <div class="gg-view-tab"     id="gg-bar-revenue" onclick="ggSetBarMode('revenue')">Revenue</div>
+          <div class="gg-view-tab"     id="gg-bar-clicks"  onclick="ggSetBarMode('clicks')">Clicks</div>
+        </div>
+      </div>
+      <div class="gg-chart-wrap"><canvas id="gg-bar-chart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Row 2: Account Comparison -->
+  <div class="card">
+    <div class="ch"><div class="ct">🏦 So sánh 2 Account</div></div>
+    <div class="gg-acct-grid" id="gg-acct-grid">
+      <div class="gg-acct-card" id="gg-acct-0">
+        <div class="gg-acct-name" id="gg-acct-name-0">Account 1</div>
+        <div class="gg-acct-kpis" id="gg-acct-kpis-0"></div>
+        <div class="gg-bar-mini"><div class="gg-bar-fill" id="gg-acct-bar-0" style="background:#60a5fa;width:50%"></div></div>
+      </div>
+      <div class="gg-acct-card" id="gg-acct-1">
+        <div class="gg-acct-name" id="gg-acct-name-1">Account 2</div>
+        <div class="gg-acct-kpis" id="gg-acct-kpis-1"></div>
+        <div class="gg-bar-mini"><div class="gg-bar-fill" id="gg-acct-bar-1" style="background:#22d07a;width:50%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3: Product Table -->
+  <div class="card">
+    <div class="ch">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="ct">🛒 Product Performance</div>
+        <div class="gg-view-tabs">
+          <div class="gg-view-tab act" id="gg-v-all"    onclick="ggSetView('all')">📋 All</div>
+          <div class="gg-view-tab"     id="gg-v-stars"  onclick="ggSetView('stars')">⭐ Star Products</div>
+          <div class="gg-view-tab"     id="gg-v-wasters" onclick="ggSetView('wasters')">🚨 Budget Wasters</div>
+        </div>
+      </div>
+      <span style="font-size:10px;color:var(--t3)" id="gg-prod-count">—</span>
+    </div>
+    <div class="gg-tw" style="max-height:480px;overflow-y:auto">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:52px">Ảnh</th>
+            <th onclick="ggSortTable('title')">Product</th>
+            <th onclick="ggSortTable('clicks')">Clicks</th>
+            <th onclick="ggSortTable('cpc')">Avg CPC</th>
+            <th onclick="ggSortTable('cost')">Cost</th>
+            <th onclick="ggSortTable('conv')">Conv.</th>
+            <th onclick="ggSortTable('costConv')">Cost/Conv</th>
+            <th onclick="ggSortTable('revenue')">Revenue</th>
+            <th onclick="ggSortTable('roas')">ROAS</th>
+          </tr>
+        </thead>
+        <tbody id="gg-prod-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /gg-main -->
+</div><!-- /page4 -->
+
 
 <script>
 // ══════════════════════════════════════════════════════
@@ -1379,6 +1571,7 @@ function switchTab(n){
   if(n===2&&!spInited){spInit();}
   if(n===1&&spInited){spSyncToPage1();}
   if(n===3&&!fbInited){fbInit();}
+  if(n===4&&!ggInited){ggInit();}
 }
 
 // ══════════════════════════════════════════════════════
@@ -2404,6 +2597,329 @@ function fbUpdateBarChart(data,groupBy){
 function fbInit(){
   fbInited=true;
   fbLoad();
+}
+
+// ══════════════════════════════════════════════════════
+//  PAGE 4 — GOOGLE ADS ANALYTICS
+// ══════════════════════════════════════════════════════
+const GG_ADS_URL = 'https://script.google.com/macros/s/AKfycbxViEkih39gnsaD3srYjkWe1Wq_tUVCRv1FAIT9MAeRnIZTN5gDaR5mMGsw1KkGOz7n/exec';
+let ggInited    = false;
+let ggRawData   = [];
+let ggFiltered  = [];
+let ggBarMode   = 'roas';
+let ggView      = 'all';
+let ggSort      = {col:'roas', dir:'desc'};
+let ggLineChart = null;
+let ggBarChart  = null;
+
+// ── Badge ─────────────────────────────────────────────
+function ggBadge(state,msg){
+  const el=document.getElementById('gg-sync-badge');
+  if(!el)return;
+  el.className='gg-sync '+state;
+  el.textContent={ok:'☁️ ',err:'⚠️ ',load:'⏳ '}[state]+msg;
+}
+
+// ── Load từ Sheets ────────────────────────────────────
+async function ggLoad(){
+  ggBadge('load','Đang tải...');
+  try{
+    const res  = await fetch(GG_ADS_URL+'?action=read_gg_ads');
+    const json = await res.json();
+    if(!json.ok) throw new Error(json.error||'API error');
+    ggRawData = json.data||[];
+    ggBadge('ok','Đã đồng bộ · '+ggRawData.length+' rows');
+  }catch(e){
+    ggBadge('err','Lỗi: '+e.message);
+    // Dùng demo data nếu lỗi API
+    ggRawData = ggDemoData();
+  }
+  ggPopulateAccounts();
+  ggApply();
+}
+
+// ── Demo Data (fallback khi chưa có API) ─────────────
+function ggDemoData(){
+  const accounts=['Adsible 169_Hamyso_Biz T01','Hamyso HK 2'];
+  const products=[
+    {id:'shopify_de_15592399274382_5648421434201',title:'Personalisierte Anime Karte im TCG-Stil – Individuelles Familien Geschenk mit eigenem Foto',img:''},
+    {id:'shopify_de_15003800273914_5648214538818',title:'Personalisierte Anime Karte im TCG-Stil – Individuelles Paar Geschenk mit eigenem Foto',img:''},
+    {id:'shopify_de_15666400557690_56525004422010',title:'Personalisierte Anime Karte im TCG-Stil – Individuelles Familien Geschenk mit Foto & Wunsch-Hintergrund',img:''},
+    {id:'shopify_de_70041003777887_55178129179002',title:'Personalisierte Babydecke | personalisierte Geschenke für Mama | Hallo Mama Ich liebe dich',img:''},
+    {id:'shopify_de_70044786008731_55178128852474',title:'Personalisierte Babydecke | personalisierte Geschenke für Mama | Hallo Mama, Papa hat mir gesagt',img:''},
+    {id:'shopify_de_80082129112911_55184200215886',title:'Personalisiertes T-shirt für Papa | personalisierte Geschenke für Vater | Ich bin dein Vater',img:''},
+    {id:'shopify_de_7057380752859_55184021881210',title:'Personalisiertes T-shirt für Papa | personalisierte Geschenke für Vater | Dieser tolle Papa Bär gehört.',img:''},
+    {id:'shopify_de_15622581453178_5648214571388',title:'Personalisierte Haustier Karte im Anime TCG-Stil – Individuelle Sammelkarte mit eigenem Foto',img:''},
+  ];
+  const rows=[];
+  const now=new Date();
+  for(let d=0;d<60;d++){
+    const dt=new Date(now); dt.setDate(dt.getDate()-d);
+    const iso=dt.toISOString().slice(0,10);
+    products.forEach(p=>{
+      const acct=accounts[Math.random()>0.7?1:0];
+      const impr=Math.floor(Math.random()*800+50);
+      const clicks=Math.floor(impr*(0.005+Math.random()*0.04));
+      const cost=+(clicks*(0.8+Math.random()*1.2)).toFixed(2);
+      const conv=Math.random()>0.6?+(Math.random()*3).toFixed(1):0;
+      const rev=+(conv*(35+Math.random()*30)).toFixed(2);
+      rows.push({date:iso,account:acct,itemId:p.id,title:p.title,img:p.img,
+        clicks,impressions:impr,ctr:impr>0?clicks/impr:0,
+        avgCpc:clicks>0?cost/clicks:0,cost,conversions:conv,
+        costConv:conv>0?cost/conv:0,convValue:rev,roas:cost>0?rev/cost:0});
+    });
+  }
+  return rows;
+}
+
+// ── Populate account filter ───────────────────────────
+function ggPopulateAccounts(){
+  const accts=[...new Set(ggRawData.map(r=>r.account).filter(Boolean))].sort();
+  const sel=document.getElementById('gg-account');
+  sel.innerHTML='<option value="all">Tất cả</option>'+accts.map(a=>`<option value="${a}">${a}</option>`).join('');
+}
+
+// ── Filter & Apply ────────────────────────────────────
+function ggApply(){
+  const range  = document.getElementById('gg-range').value;
+  const account= document.getElementById('gg-account').value;
+  const today  = new Date().toISOString().slice(0,10);
+  let cutoff   = '';
+  if(range!=='all'){
+    const d=new Date(); d.setDate(d.getDate()-parseInt(range));
+    cutoff=d.toISOString().slice(0,10);
+  }
+  ggFiltered = ggRawData.filter(r=>{
+    if(cutoff && r.date<cutoff) return false;
+    if(account!=='all' && r.account!==account) return false;
+    return true;
+  });
+  ggUpdateKPIs();
+  ggUpdateLineChart();
+  ggRenderBarChart();
+  ggRenderAccountComparison();
+  ggRenderTable();
+}
+
+// ── KPIs ──────────────────────────────────────────────
+function ggUpdateKPIs(){
+  const d=ggFiltered;
+  const tCost  = d.reduce((s,r)=>s+r.cost,0);
+  const tRev   = d.reduce((s,r)=>s+r.convValue,0);
+  const tClicks= d.reduce((s,r)=>s+r.clicks,0);
+  const tConv  = d.reduce((s,r)=>s+r.conversions,0);
+  const roas   = tCost>0?tRev/tCost:0;
+  const avgCpc = tClicks>0?tCost/tClicks:0;
+
+  const fd2=v=>'$'+v.toFixed(2);
+  const fk=v=>'$'+(v>=1000?(v/1000).toFixed(1)+'K':Math.round(v).toLocaleString());
+  const fn=v=>Math.round(v).toLocaleString();
+  const roasCls=roas>=3?'gg-roas-good':roas>=1?'gg-roas-ok':'gg-roas-bad';
+
+  document.getElementById('gg-k-cost').textContent   = fk(tCost);
+  document.getElementById('gg-k-rev').textContent    = fk(tRev);
+  document.getElementById('gg-k-roas').textContent   = roas.toFixed(2)+'x';
+  document.getElementById('gg-k-roas').className     = 'kpi-val '+roasCls;
+  document.getElementById('gg-k-clicks').textContent = fn(tClicks);
+  document.getElementById('gg-k-cpc').textContent    = fd2(avgCpc);
+  document.getElementById('gg-k-conv').textContent   = tConv.toFixed(1);
+}
+
+// ── Line Chart ────────────────────────────────────────
+function ggUpdateLineChart(){
+  const byDate={};
+  ggFiltered.forEach(r=>{
+    if(!byDate[r.date]) byDate[r.date]={cost:0,rev:0};
+    byDate[r.date].cost+=r.cost;
+    byDate[r.date].rev +=r.convValue;
+  });
+  const labels=Object.keys(byDate).sort();
+  const costs =labels.map(d=>+byDate[d].cost.toFixed(2));
+  const revs  =labels.map(d=>+byDate[d].rev.toFixed(2));
+  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0));
+  if(ggLineChart){
+    ggLineChart.data.labels=labels;
+    ggLineChart.data.datasets[0].data=costs;
+    ggLineChart.data.datasets[1].data=revs;
+    ggLineChart.update('none'); return;
+  }
+  const ctx=document.getElementById('gg-line-chart').getContext('2d');
+  ggLineChart=new Chart(ctx,{type:'line',data:{labels,datasets:[
+    {label:'Cost',     data:costs,borderColor:'#60a5fa',backgroundColor:'#60a5fa10',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
+    {label:'Revenue',  data:revs, borderColor:'#22d07a',backgroundColor:'#22d07a10',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:120},
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
+      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
+    scales:{x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9},maxTicksLimit:20,maxRotation:45}},
+      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt},grace:'5%'}}}});
+}
+
+// ── Bar Chart ─────────────────────────────────────────
+function ggSetBarMode(m){
+  ggBarMode=m;
+  ['roas','revenue','clicks'].forEach(x=>document.getElementById('gg-bar-'+x).classList.toggle('act',x===m));
+  ggRenderBarChart();
+}
+
+function ggRenderBarChart(){
+  // Aggregate by product title
+  const byProd={};
+  ggFiltered.forEach(r=>{
+    const k=(r.title||r.itemId||'Unknown').slice(0,50);
+    if(!byProd[k]) byProd[k]={cost:0,rev:0,clicks:0,conv:0};
+    byProd[k].cost   +=r.cost;
+    byProd[k].rev    +=r.convValue;
+    byProd[k].clicks +=r.clicks;
+    byProd[k].conv   +=r.conversions;
+  });
+  const entries=Object.entries(byProd).map(([k,v])=>({
+    k, roas:v.cost>0?v.rev/v.cost:0, revenue:v.rev, clicks:v.clicks, cost:v.cost
+  }));
+  const sorted=entries.sort((a,b)=>b[ggBarMode]-a[ggBarMode]).slice(0,10);
+  const labels=sorted.map(e=>e.k.length>28?e.k.slice(0,28)+'…':e.k);
+  const vals  =sorted.map(e=>+e[ggBarMode].toFixed(2));
+  const colors=ggBarMode==='roas'
+    ? sorted.map(e=>e.roas>=3?'#22d07a88':e.roas>=1?'#f5c84288':'#f0525288')
+    : '#4d8ef588';
+  const fmtTip=v=>ggBarMode==='roas'?v.toFixed(2)+'x':ggBarMode==='clicks'?Math.round(v).toString():'$'+Math.round(v).toLocaleString();
+  if(ggBarChart){
+    ggBarChart.data.labels=labels;
+    ggBarChart.data.datasets[0].data=vals;
+    ggBarChart.data.datasets[0].backgroundColor=colors;
+    ggBarChart.options.plugins.tooltip.callbacks.label=c=>fmtTip(c.parsed.y);
+    ggBarChart.update('none'); return;
+  }
+  const ctx=document.getElementById('gg-bar-chart').getContext('2d');
+  ggBarChart=new Chart(ctx,{type:'bar',data:{labels,datasets:[
+    {label:ggBarMode,data:vals,backgroundColor:colors,borderWidth:0,borderRadius:4}
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:120},
+    indexAxis:'y',
+    plugins:{legend:{display:false},
+      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+        callbacks:{label:c=>fmtTip(c.parsed.x)}}},
+    scales:{x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9}}},
+      y:{grid:{display:false},ticks:{color:'#94afd4',font:{size:9}}}}}});
+}
+
+// ── Account Comparison ────────────────────────────────
+function ggRenderAccountComparison(){
+  const byAcct={};
+  ggFiltered.forEach(r=>{
+    const k=r.account||'Unknown';
+    if(!byAcct[k]) byAcct[k]={cost:0,rev:0,clicks:0,conv:0};
+    byAcct[k].cost+=r.cost; byAcct[k].rev+=r.convValue;
+    byAcct[k].clicks+=r.clicks; byAcct[k].conv+=r.conversions;
+  });
+  const accts=Object.keys(byAcct);
+  const totalCost=Object.values(byAcct).reduce((s,v)=>s+v.cost,0);
+  const colors=['#60a5fa','#22d07a'];
+  accts.slice(0,2).forEach((name,i)=>{
+    const v=byAcct[name];
+    const roas=v.cost>0?v.rev/v.cost:0;
+    const pct=totalCost>0?v.cost/totalCost*100:50;
+    const shortName=name.length>30?name.slice(0,30)+'…':name;
+    const el=document.getElementById('gg-acct-name-'+i);
+    if(el) el.textContent=shortName;
+    const kpis=document.getElementById('gg-acct-kpis-'+i);
+    if(kpis) kpis.innerHTML=[
+      {lbl:'Cost',    val:'$'+Math.round(v.cost).toLocaleString()},
+      {lbl:'Revenue', val:'$'+Math.round(v.rev).toLocaleString()},
+      {lbl:'ROAS',    val:roas.toFixed(2)+'x'},
+      {lbl:'Clicks',  val:Math.round(v.clicks).toLocaleString()},
+      {lbl:'Conv.',   val:v.conv.toFixed(1)},
+      {lbl:'CPC',     val:v.clicks>0?'$'+(v.cost/v.clicks).toFixed(2):'—'},
+    ].map(({lbl,val})=>`<div class="gg-acct-kpi"><div class="gg-acct-kpi-val" style="color:${colors[i]}">${val}</div><div class="gg-acct-kpi-lbl">${lbl}</div></div>`).join('');
+    const bar=document.getElementById('gg-acct-bar-'+i);
+    if(bar) bar.style.width=pct+'%';
+  });
+}
+
+// ── Product Table ─────────────────────────────────────
+function ggSetView(v){
+  ggView=v;
+  ['all','stars','wasters'].forEach(x=>document.getElementById('gg-v-'+x).classList.toggle('act',x===v));
+  ggRenderTable();
+}
+function ggSortTable(col){
+  if(ggSort.col===col) ggSort.dir=ggSort.dir==='desc'?'asc':'desc';
+  else{ggSort.col=col;ggSort.dir='desc';}
+  ggRenderTable();
+}
+
+function ggRenderTable(){
+  // Aggregate by product
+  const byProd={};
+  ggFiltered.forEach(r=>{
+    const k=r.itemId||r.title||'Unknown';
+    if(!byProd[k]) byProd[k]={title:r.title||k,img:r.img||r.imageLink||'',cost:0,rev:0,clicks:0,conv:0,impr:0};
+    byProd[k].cost   +=r.cost;
+    byProd[k].rev    +=r.convValue;
+    byProd[k].clicks +=r.clicks;
+    byProd[k].conv   +=r.conversions;
+    byProd[k].impr   +=r.impressions||0;
+    if(!byProd[k].img && r.img) byProd[k].img=r.img;
+    if(!byProd[k].img && r.imageLink) byProd[k].img=r.imageLink;
+  });
+
+  let rows=Object.values(byProd).map(v=>({
+    ...v,
+    cpc:   v.clicks>0?v.cost/v.clicks:0,
+    costConv: v.conv>0?v.cost/v.conv:0,
+    roas:  v.cost>0?v.rev/v.cost:0,
+  }));
+
+  // Filter view
+  if(ggView==='stars')   rows=rows.filter(r=>r.roas>=3);
+  if(ggView==='wasters') rows=rows.filter(r=>r.cost>5&&r.conv===0);
+
+  // Sort
+  const {col,dir}=ggSort;
+  rows.sort((a,b)=>{
+    const av=typeof a[col]==='string'?a[col]:a[col]||0;
+    const bv=typeof b[col]==='string'?b[col]:b[col]||0;
+    return dir==='desc'?(bv>av?1:-1):(av>bv?1:-1);
+  });
+
+  document.getElementById('gg-prod-count').textContent=rows.length+' sản phẩm';
+
+  const fd2=v=>'$'+v.toFixed(2);
+  const fk =v=>'$'+(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(2));
+  const fn =v=>Math.round(v).toLocaleString();
+
+  const tbody=document.getElementById('gg-prod-tbody');
+  tbody.innerHTML=rows.slice(0,80).map(r=>{
+    const roasCls=r.roas>=3?'gg-roas-good':r.roas>=1?'gg-roas-ok':'gg-roas-bad';
+    const rowCls =ggView==='stars'?'gg-star-row':ggView==='wasters'?'gg-waster-row':'';
+    const imgSrc =r.img?r.img.split(',')[0].trim():'';
+    const thumb  =imgSrc
+      ?`<img class="gg-thumb" src="${imgSrc}" onerror="this.style.display='none'">`
+      :`<div class="gg-thumb" style="display:flex;align-items:center;justify-content:center;font-size:16px">🛍</div>`;
+    const shortTitle=r.title.length>55?r.title.slice(0,55)+'…':r.title;
+    return`<tr class="${rowCls}">
+      <td><div class="gg-thumb-wrap">${thumb}</div></td>
+      <td><div class="gg-title-cell" title="${r.title}">${shortTitle}</div></td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:#fcd34d">${fn(r.clicks)}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:#c4b5fd">${fd2(r.cpc)}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:#60a5fa">${fk(r.cost)}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:#fdba74">${r.conv.toFixed(1)}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:${r.conv>0?'#94afd4':'#4a6d94'}">${r.conv>0?fk(r.costConv):'—'}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:#67e8f9">${fk(r.rev)}</td>
+      <td style="text-align:right"><span class="${roasCls}" style="font-size:11px">${r.roas.toFixed(2)}x</span></td>
+    </tr>`;
+  }).join('');
+
+  // Update sort headers
+  document.querySelectorAll('.gg-tw thead th').forEach(th=>{
+    th.classList.remove('asc','desc');
+  });
+}
+
+// ── Init ──────────────────────────────────────────────
+function ggInit(){
+  ggInited=true;
+  ggLoad();
 }
 
 </script>
