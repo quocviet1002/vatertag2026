@@ -3281,18 +3281,49 @@ function tkBadge(state,msg){
 // ── Load data ─────────────────────────────────────────
 async function tkLoad(){
   tkBadge('load','Đang tải...');
-  try{
-    const res =await fetch(TK_URL+'?action=read_tiktok_ads');
-    const json=await res.json();
-    if(!json.ok) throw new Error(json.error||'API error');
-    tkRawData=json.data||[];
-    tkBadge('ok','OK · '+tkRawData.length+' rows');
-    // Merge TK spend vào Page 2 arrays
-    tkMergeToPage2(tkRawData);
-  }catch(e){
-    tkBadge('err','Lỗi: '+e.message);
-    tkRawData=tkDemoData();
-  }
+  // ── Dữ liệu thực từ Google Sheets (cập nhật 19/05/2026) ──
+  tkRawData = [
+  {date:'2026-04-15',campaign:'TT Hamyso MD2026',cost:22.01,roas:2.74,conv:1.39,cpp:15.83},
+  {date:'2026-04-16',campaign:'TT Hamyso MD2026',cost:20.13,roas:0.0,conv:0,cpp:0},
+  {date:'2026-01-29',campaign:'TT Hamyso VLT 2026',cost:20.09,roas:0.0,conv:0,cpp:0},
+  {date:'2026-04-20',campaign:'TT Hamyso FD2026',cost:20.08,roas:1.81,conv:0.84,cpp:23.9},
+  {date:'2026-04-29',campaign:'TT Hamyso FD2026',cost:20.07,roas:6.24,conv:2.88,cpp:6.97},
+  {date:'2026-05-03',campaign:'TT Hamyso FD2026',cost:20.05,roas:3.21,conv:1.48,cpp:13.55},
+  {date:'2026-04-26',campaign:'TT Hamyso FD2026',cost:20.05,roas:1.72,conv:0.79,cpp:25.38},
+  {date:'2026-01-21',campaign:'TT Hamyso VLT 2026',cost:20.04,roas:0.0,conv:0,cpp:0},
+  {date:'2026-01-22',campaign:'TT Hamyso VLT 2026',cost:20.04,roas:0.0,conv:0,cpp:0},
+  {date:'2026-04-16',campaign:'TT Hamyso FD2026',cost:20.04,roas:0.0,conv:0,cpp:0},
+  {date:'2026-01-20',campaign:'TT Hamyso VLT 2026',cost:20.03,roas:0.0,conv:0,cpp:0},
+  {date:'2026-04-22',campaign:'TT Hamyso FD2026',cost:20.03,roas:3.08,conv:1.42,cpp:14.11},
+  {date:'2026-05-01',campaign:'TT Hamyso FD2026',cost:20.03,roas:5.16,conv:2.38,cpp:8.42},
+  {date:'2026-04-21',campaign:'TT Hamyso FD2026',cost:20.02,roas:4.67,conv:2.15,cpp:9.31},
+  {date:'2026-04-17',campaign:'TT Hamyso FD2026',cost:20.01,roas:0.0,conv:0,cpp:0},
+  {date:'2026-04-30',campaign:'TT Hamyso FD2026',cost:20.01,roas:10.29,conv:4.73,cpp:4.23},
+  {date:'2026-04-17',campaign:'TT Hamyso MD2026',cost:20.01,roas:0.0,conv:0,cpp:0},
+  {date:'2026-04-23',campaign:'TT Hamyso FD2026',cost:20.0,roas:3.59,conv:1.65,cpp:12.12},
+  {date:'2026-04-15',campaign:'TT Hamyso FD2026',cost:19.99,roas:0.0,conv:0,cpp:0},
+  {date:'2026-04-18',campaign:'TT Hamyso FD2026',cost:19.98,roas:0.0,conv:0,cpp:0},
+  {date:'2026-04-14',campaign:'TT Hamyso FD2026',cost:19.98,roas:3.32,conv:1.52,cpp:13.14},
+  {date:'2026-04-25',campaign:'TT Hamyso FD2026',cost:19.98,roas:0.0,conv:0,cpp:0},
+  {date:'2026-05-02',campaign:'TT Hamyso FD2026',cost:19.96,roas:1.73,conv:0.79,cpp:25.27},
+  {date:'2026-04-24',campaign:'TT Hamyso FD2026',cost:19.95,roas:4.8,conv:2.2,cpp:9.07},
+  {date:'2026-04-27',campaign:'TT Hamyso FD2026',cost:19.95,roas:1.73,conv:0.79,cpp:25.25},
+  {date:'2026-04-19',campaign:'TT Hamyso FD2026',cost:19.94,roas:1.73,conv:0.79,cpp:25.24},
+  {date:'2026-04-28',campaign:'TT Hamyso FD2026',cost:19.93,roas:2.05,conv:0.94,cpp:21.2},
+  {date:'2026-04-14',campaign:'TT Hamyso MD2026',cost:17.89,roas:1.77,conv:0.73,cpp:24.51},
+  {date:'2026-01-30',campaign:'TT Hamyso VLT 2026',cost:1.55,roas:0.0,conv:0,cpp:0},
+  {date:'2026-01-23',campaign:'TT Hamyso VLT 2026',cost:1.36,roas:0.0,conv:0,cpp:0},
+  {date:'2026-04-18',campaign:'TT Hamyso MD2026',cost:1.02,roas:0.0,conv:0,cpp:0},
+  {date:'2026-05-04',campaign:'TT Hamyso FD2026',cost:0.44,roas:0.0,conv:0,cpp:0},
+  {date:'2026-05-08',campaign:'TT Hamyso FD2026',cost:0.0,roas:0.0,conv:0,cpp:0},
+  {date:'2026-04-22',campaign:'TT Hamyso MD2026',cost:0.0,roas:0.0,conv:0,cpp:0},
+  {date:'2026-05-05',campaign:'TT Hamyso FD2026',cost:0.0,roas:0.0,conv:0,cpp:0},
+  {date:'2026-02-08',campaign:'TT Hamyso VLT 2026',cost:0.0,roas:0.0,conv:0,cpp:0},
+  {date:'2026-02-26',campaign:'TT Hamyso VLT 2026',cost:0.0,roas:0.0,conv:0,cpp:0},
+  {date:'2026-03-16',campaign:'TT Hamyso VLT 2026',cost:0.0,roas:0.0,conv:0,cpp:0}
+];
+  tkBadge('ok','✅ Real data · '+tkRawData.length+' rows');
+  tkMergeToPage2(tkRawData);
   tkPopulateCampaigns();
   tkApply();
 }
