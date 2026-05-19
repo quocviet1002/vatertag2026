@@ -299,6 +299,25 @@ tr:hover td{background:rgba(255,255,255,.013)}
 .gg-acct-kpi-lbl{font-size:9px;color:var(--t3);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
 .gg-bar-mini{height:5px;border-radius:3px;margin-top:5px;background:var(--bd2)}
 .gg-bar-fill{height:5px;border-radius:3px;transition:width .4s}
+
+/* ── TIKTOK PAGE 5 ── */
+.tk-hdr{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.tk-hdr h1{font-size:15px;font-weight:700}
+.tk-hdr p{font-size:10px;color:var(--t3);margin-top:2px}
+.tk-ctrl{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tk-ctrl-lbl{font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+.tk-sel{background:var(--s2);border:1px solid var(--bd);border-radius:7px;color:var(--t1);font-size:12px;font-weight:600;padding:6px 10px;outline:none;cursor:pointer;font-family:var(--font);min-width:130px}
+.tk-sel:focus{border-color:#ee3244}
+.tk-kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
+.tk-main{padding:13px 18px;display:flex;flex-direction:column;gap:11px}
+.tk-charts{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.tk-chart-wrap{height:220px;position:relative}
+.tk-sync{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
+.tk-sync.ok{color:#22d07a;border-color:#22d07a44}
+.tk-sync.err{color:#f5c842;border-color:#f5c84244}
+.tk-sync.load{color:#ee3244;border-color:#ee324444}
+.tk-view-tab{padding:4px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);cursor:pointer;font-size:10px;font-weight:700;color:var(--t3);transition:all .15s;white-space:nowrap}
+.tk-view-tab.act{background:#ee324420;border-color:#ee3244;color:#ee3244}
 </style>
 </head>
 <body>
@@ -310,6 +329,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <div class="nav-tab" id="tab2" onclick="switchTab(2)">📊 Store Performance</div>
   <div class="nav-tab" id="tab3" onclick="switchTab(3)">📣 Facebook Ads</div>
   <div class="nav-tab" id="tab4" onclick="switchTab(4)">🛍 Google Ads</div>
+  <div class="nav-tab" id="tab5" onclick="switchTab(5)">🎵 TikTok Ads</div>
 </div>
 
 <!-- ══ PAGE 1 — CAMPAIGN FORECAST ══ -->
@@ -656,6 +676,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
               <th>Revenue</th>
               <th>FB Spent</th>
               <th>GG Spent</th>
+              <th style="color:#ee3244">TK Spent</th>
               <th>Total Spent</th>
               <th>API Cost</th>
               <th style="color:#f97316">COGS</th>
@@ -675,6 +696,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
               <td id="sp-s-rev">—</td>
               <td id="sp-s-fb">—</td>
               <td id="sp-s-gg">—</td>
+              <td id="sp-s-tk" style="color:#ee3244">—</td>
               <td id="sp-s-spent">—</td>
               <td id="sp-s-api">—</td>
               <td id="sp-s-cogs">—</td>
@@ -1088,6 +1110,111 @@ tr:hover td{background:rgba(255,255,255,.013)}
 
 </div><!-- /gg-main -->
 </div><!-- /page4 -->
+
+<!-- ══ PAGE 5 — TIKTOK ADS ══ -->
+<div id="page5" class="page">
+
+<div class="tk-hdr">
+  <div>
+    <h1>🎵 TikTok Ads Analytics</h1>
+    <p>Hamyso TikTok · USD · Dữ liệu từ Google Sheets ☁️</p>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <div class="tk-sync load" id="tk-sync-badge">⏳ Chưa tải</div>
+    <button class="rbtn" onclick="tkLoad()">🔄 Sync</button>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="tk-ctrl">
+  <span class="tk-ctrl-lbl">Range →</span>
+  <select class="tk-sel" id="tk-range" onchange="tkRangeChange()">
+    <option value="7">7 ngày</option>
+    <option value="14">14 ngày</option>
+    <option value="30" selected>30 ngày</option>
+    <option value="all">Tất cả</option>
+    <option value="custom">Custom...</option>
+  </select>
+  <div id="tk-custom-range" style="display:none;align-items:center;gap:6px">
+    <input type="date" id="tk-date-from" class="tk-sel" style="min-width:130px" onchange="tkApply()">
+    <span style="color:var(--t3);font-size:11px">→</span>
+    <input type="date" id="tk-date-to"   class="tk-sel" style="min-width:130px" onchange="tkApply()">
+  </div>
+  <span class="tk-ctrl-lbl" style="margin-left:8px">Campaign →</span>
+  <select class="tk-sel" id="tk-campaign" onchange="tkApply()">
+    <option value="all">Tất cả</option>
+  </select>
+</div>
+
+<!-- KPI STRIP -->
+<div class="tk-kpi">
+  <div class="kpi kb"><div class="kpi-lbl">💰 Total Spend</div><div class="kpi-val" id="tk-k-spend" style="color:#60a5fa">$0</div><div class="kpi-delta neu" id="tk-k-spend-d">—</div></div>
+  <div class="kpi kc"><div class="kpi-lbl">📈 Revenue (est.)</div><div class="kpi-val" id="tk-k-rev" style="color:#67e8f9">$0</div><div class="kpi-delta neu">Cost × ROAS</div></div>
+  <div class="kpi kg"><div class="kpi-lbl">🔥 Avg ROAS</div><div class="kpi-val" id="tk-k-roas" style="color:#4ade80">0x</div><div class="kpi-delta neu" id="tk-k-roas-d">—</div></div>
+  <div class="kpi ky"><div class="kpi-lbl">✅ Conversions</div><div class="kpi-val" id="tk-k-conv" style="color:#fcd34d">0</div><div class="kpi-delta neu" id="tk-k-conv-d">—</div></div>
+  <div class="kpi kp"><div class="kpi-lbl">💲 Cost/Purchase</div><div class="kpi-val" id="tk-k-cpp" style="color:#c4b5fd">$0</div><div class="kpi-delta neu" id="tk-k-cpp-d">—</div></div>
+  <div class="kpi ko"><div class="kpi-lbl">📅 Active Days</div><div class="kpi-val" id="tk-k-days" style="color:#fdba74">0</div><div class="kpi-delta neu">với spend > 0</div></div>
+</div>
+
+<!-- MAIN -->
+<div class="tk-main">
+
+  <!-- Charts row -->
+  <div class="tk-charts">
+    <div class="card">
+      <div class="ch">
+        <div class="ct">📈 Daily Spend vs Revenue</div>
+        <div style="display:flex;gap:4px">
+          <div class="ld"><div class="ld-ln" style="color:#ee3244;border-top-style:solid"></div>Spend</div>
+          <div class="ld"><div class="ld-ln" style="color:#22d07a;border-top-style:solid"></div>Revenue</div>
+        </div>
+      </div>
+      <div class="tk-chart-wrap"><canvas id="tk-line-chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ch">
+        <div class="ct">🏆 Campaign Performance</div>
+        <div style="display:flex;gap:4px">
+          <div class="tk-view-tab act" id="tk-bar-roas"  onclick="tkSetBarMode('roas')">ROAS</div>
+          <div class="tk-view-tab"     id="tk-bar-spend" onclick="tkSetBarMode('spend')">Spend</div>
+          <div class="tk-view-tab"     id="tk-bar-conv"  onclick="tkSetBarMode('conv')">Conv.</div>
+        </div>
+      </div>
+      <div class="tk-chart-wrap"><canvas id="tk-bar-chart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Campaign table -->
+  <div class="card">
+    <div class="ch">
+      <div class="ct">📋 Campaign Detail</div>
+      <span style="font-size:10px;color:var(--t3)" id="tk-tbl-count">—</span>
+    </div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;table-layout:fixed">
+        <colgroup>
+          <col style="width:200px"><col style="width:90px"><col style="width:90px">
+          <col style="width:90px"><col style="width:90px"><col style="width:90px">
+          <col style="width:90px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th onclick="tkSort('campaign')" style="background:var(--s1);position:sticky;top:0;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer;text-align:left">Campaign ↕</th>
+            <th onclick="tkSort('days')"    style="background:var(--s1);position:sticky;top:0;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer;text-align:right">Days ↕</th>
+            <th onclick="tkSort('spend')"   style="background:var(--s1);position:sticky;top:0;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer;text-align:right">Spend ↕</th>
+            <th onclick="tkSort('rev')"     style="background:var(--s1);position:sticky;top:0;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer;text-align:right">Revenue ↕</th>
+            <th onclick="tkSort('conv')"    style="background:var(--s1);position:sticky;top:0;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer;text-align:right">Conv. ↕</th>
+            <th onclick="tkSort('cpp')"     style="background:var(--s1);position:sticky;top:0;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer;text-align:right">CPP ↕</th>
+            <th onclick="tkSort('roas')"    style="background:var(--s1);position:sticky;top:0;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer;text-align:right">ROAS ↕</th>
+          </tr>
+        </thead>
+        <tbody id="tk-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /tk-main -->
+</div><!-- /page5 -->
 
 
 <script>
@@ -1631,6 +1758,7 @@ function switchTab(n){
   if(n===1&&spInited){spSyncToPage1();}
   if(n===3&&!fbInited){fbInit();}
   if(n===4&&!ggInited){ggInit();}
+  if(n===5&&!tkInited){tkInit();}
 }
 
 // ══════════════════════════════════════════════════════
@@ -1664,7 +1792,7 @@ function spTodayISO(){
 let SP_DATES=[];
 let SP_N=0;
 let spRevA=[], spFbA=[], spGgA=[], spSpentA=[], spApiA=[], spOrdA=[], spFxA=[];
-let spNpA=[], spPgA=[], spVfA=[], spCogsA=[];
+let spNpA=[], spPgA=[], spVfA=[], spCogsA=[], spTkA=[];
 
 function spInitArrays(){
   SP_DATES=spBuildDates(); SP_N=SP_DATES.length;
@@ -1674,6 +1802,7 @@ function spInitArrays(){
   spFxA=new Array(SP_N).fill(null);
   spNpA=new Array(SP_N).fill(null); spPgA=new Array(SP_N).fill(null);
   spVfA=new Array(SP_N).fill(null); spCogsA=new Array(SP_N).fill(null);
+  spTkA=new Array(SP_N).fill(null);
 }
 
 // ── localStorage fallback ─────────────────────────────
@@ -1694,6 +1823,7 @@ function spSaveLS(){
       if(spPgA[i]    !=null) d[iso].pg  =spPgA[i];
       if(spVfA[i]    !=null) d[iso].vf  =spVfA[i];
       if(spCogsA[i]  !=null) d[iso].cogs=spCogsA[i];
+      if(spTkA[i]    !=null) d[iso].tk  =spTkA[i];
     }
   }
   try{localStorage.setItem(SP_LS_KEY,JSON.stringify(d));}catch(e){}
@@ -1714,6 +1844,7 @@ function spLoadLS(){
         spPgA[i]   =x.pg  !=null?+x.pg  :null;
         spVfA[i]   =x.vf  !=null?+x.vf  :null;
         spCogsA[i] =x.cogs!=null?+x.cogs:null;
+        spTkA[i]   =x.tk  !=null?+x.tk  :null;
       }
     }
   }catch(e){}
@@ -1931,9 +2062,9 @@ function spSetFilter(mode){
 function spCalcDay(i){
   const gm  = +document.getElementById('sp-gm').value/100  || 0.75;
   const varC= +document.getElementById('sp-var').value/100 || 0.05;
-  const rev=spRevA[i], fb=spFbA[i]||0, gg=spGgA[i]||0;
-  // Ưu tiên total spent từ Sheets; nếu không có thì cộng fb+gg
-  const spent = spSpentA[i]!=null ? spSpentA[i] : (fb+gg>0 ? fb+gg : null);
+  const rev=spRevA[i], fb=spFbA[i]||0, gg=spGgA[i]||0, tk=spTkA[i]||0;
+  // Ưu tiên total spent từ Sheets; nếu không có thì cộng fb+gg+tk
+  const spent = spSpentA[i]!=null ? spSpentA[i] : (fb+gg+tk>0 ? fb+gg+tk : null);
   const api   = spApiA[i]||0;
   const orders= spOrdA[i];
   // COGS, Payment GW, Variable Fee từ Sheets (nếu có)
@@ -1946,7 +2077,7 @@ function spCalcDay(i){
   const np = spNpA[i]!=null
     ? spNpA[i]
     : (r*gm - s - api - r*varC);
-  return{rev:r, fb, gg, spent:s, api, orders, cogs, pg, vf,
+  return{rev:r, fb, gg, tk, spent:s, api, orders, cogs, pg, vf,
     roas: s>0 ? r/s : null,
     poas: r-s-api,
     aov:  orders&&orders>0 ? r/orders : null,
@@ -1971,11 +2102,12 @@ function spRecalc(){
   const tOrd  =withData.filter(r=>r.calc.orders).reduce((s,r)=>s+r.calc.orders,0);
   const tFb   =withData.reduce((s,r)=>s+r.calc.fb,0);
   const tGg   =withData.reduce((s,r)=>s+r.calc.gg,0);
+  const tTk   =withData.reduce((s,r)=>s+r.calc.tk,0);
   const avgRoas=tSpent>0?tRev/tSpent:0;
   const nmg   =tRev>0?tNP/tRev:0;
 
   document.getElementById('sp-k-spent').textContent=spFE(tSpent);
-  document.getElementById('sp-k-spent-s').textContent='FB '+spFE(tFb)+' · GG '+spFE(tGg);
+  document.getElementById('sp-k-spent-s').textContent='FB '+spFE(tFb)+' · GG '+spFE(tGg)+(tTk>0?' · TK '+spFE(tTk):'');
   document.getElementById('sp-k-rev').textContent=spFE(tRev);
   document.getElementById('sp-k-rev-s').textContent=spFN(tOrd)+' orders';
   document.getElementById('sp-k-np').textContent=spFE(tNP);
@@ -2027,6 +2159,7 @@ function spRenderTable(rows,fS,fE){
       <td class="mono" style="color:#67e8f9">${hs&&c.rev?spFD(c.rev):'—'}</td>
       <td class="ro-cell">${hs&&c.fb?spFD(c.fb):'—'}</td>
       <td class="ro-cell">${hs&&c.gg?spFD(c.gg):'—'}</td>
+      <td class="ro-cell" style="color:#ee3244">${hs&&c.tk?spFD(c.tk):'—'}</td>
       <td class="mono" style="color:#60a5fa">${hs?spFD(c.spent):'—'}</td>
       <td class="ro-cell">${hs&&c.api?spFD(c.api):'—'}</td>
       <td class="ro-cell" style="color:#f97316">${hs&&c.cogs?spFD(c.cogs):'—'}</td>
@@ -2048,6 +2181,7 @@ function spUpdateSummary(withData){
   const tS   =withData.reduce((s,r)=>s+r.calc.spent,0);
   const tFb  =withData.reduce((s,r)=>s+r.calc.fb,0);
   const tGg  =withData.reduce((s,r)=>s+r.calc.gg,0);
+  const tTk  =withData.reduce((s,r)=>s+r.calc.tk,0);
   const tA   =withData.reduce((s,r)=>s+r.calc.api,0);
   const tCogs=withData.reduce((s,r)=>s+r.calc.cogs,0);
   const tPg  =withData.reduce((s,r)=>s+r.calc.pg,0);
@@ -2058,6 +2192,7 @@ function spUpdateSummary(withData){
   document.getElementById('sp-s-rev').textContent  =tR?spFE(tR):'—';
   document.getElementById('sp-s-fb').textContent   =tFb?spFE(tFb):'—';
   document.getElementById('sp-s-gg').textContent   =tGg?spFE(tGg):'—';
+  document.getElementById('sp-s-tk').textContent   =tTk?spFE(tTk):'—';
   document.getElementById('sp-s-spent').textContent=tS?spFE(tS):'—';
   document.getElementById('sp-s-api').textContent  =tA?spFE(tA):'—';
   document.getElementById('sp-s-cogs').textContent =tCogs?spFE(tCogs):'—';
@@ -3123,6 +3258,266 @@ function ggInit(){
   });
 }
 
-</script>
+// ══════════════════════════════════════════════════════
+//  PAGE 5 — TIKTOK ADS ANALYTICS
+// ══════════════════════════════════════════════════════
+const TK_URL = 'https://script.google.com/macros/s/AKfycbxViEkih39gnsaD3srYjkWe1Wq_tUVCRv1FAIT9MAeRnIZTN5gDaR5mMGsw1KkGOz7n/exec';
+let tkInited    = false;
+let tkRawData   = [];
+let tkFiltered  = [];
+let tkBarMode   = 'roas';
+let tkSortCol   = 'spend';
+let tkSortDir   = 'desc';
+let tkLineChart = null;
+let tkBarChart  = null;
+
+function tkBadge(state,msg){
+  const el=document.getElementById('tk-sync-badge');
+  if(!el)return;
+  el.className='tk-sync '+state;
+  el.textContent={ok:'☁️ ',err:'⚠️ ',load:'⏳ '}[state]+msg;
+}
+
+// ── Load data ─────────────────────────────────────────
+async function tkLoad(){
+  tkBadge('load','Đang tải...');
+  try{
+    const res =await fetch(TK_URL+'?action=read_tiktok_ads');
+    const json=await res.json();
+    if(!json.ok) throw new Error(json.error||'API error');
+    tkRawData=json.data||[];
+    tkBadge('ok','OK · '+tkRawData.length+' rows');
+    // Merge TK spend vào Page 2 arrays
+    tkMergeToPage2(tkRawData);
+  }catch(e){
+    tkBadge('err','Lỗi: '+e.message);
+    tkRawData=tkDemoData();
+  }
+  tkPopulateCampaigns();
+  tkApply();
+}
+
+// ── Merge TK data vào spTkA để Page 2 hiển thị ───────
+function tkMergeToPage2(data){
+  const byDate={};
+  data.forEach(r=>{
+    if(!byDate[r.date]) byDate[r.date]=0;
+    byDate[r.date]+=Number(r.cost)||0;
+  });
+  const spIdx={};
+  SP_DATES.forEach((d,i)=>spIdx[d.iso]=i);
+  Object.entries(byDate).forEach(([date,cost])=>{
+    const i=spIdx[date];
+    if(i!==undefined) spTkA[i]=+(spTkA[i]||0)+cost;
+  });
+  if(typeof spRecalc==='function') spRecalc();
+}
+
+// ── Demo data fallback ────────────────────────────────
+function tkDemoData(){
+  const campaigns=['TT Hamyso FD2026','TT Hamyso VLT 2026','TT Hamyso MD2026'];
+  const rows=[];
+  const now=new Date();
+  for(let d=0;d<60;d++){
+    const dt=new Date(now); dt.setDate(dt.getDate()-d);
+    const iso=dt.toISOString().slice(0,10);
+    campaigns.forEach(c=>{
+      const cost=+(5+Math.random()*18).toFixed(2);
+      const roas=+(0.5+Math.random()*4).toFixed(2);
+      const conv=+(Math.random()*5).toFixed(2);
+      rows.push({date:iso,campaign:c,cost,conv,cpp:conv>0?cost/conv:0,roas});
+    });
+  }
+  return rows;
+}
+
+// ── Populate campaign filter ──────────────────────────
+function tkPopulateCampaigns(){
+  const camps=[...new Set(tkRawData.map(r=>r.campaign).filter(Boolean))].sort();
+  const sel=document.getElementById('tk-campaign');
+  sel.innerHTML='<option value="all">Tất cả</option>'+camps.map(c=>`<option value="${c}">${c}</option>`).join('');
+}
+
+// ── Range change ──────────────────────────────────────
+function tkRangeChange(){
+  const val=document.getElementById('tk-range').value;
+  const cr =document.getElementById('tk-custom-range');
+  if(cr) cr.style.display=val==='custom'?'flex':'none';
+  if(val==='custom'){
+    const today=new Date().toISOString().slice(0,10);
+    const from=new Date(); from.setDate(from.getDate()-29);
+    document.getElementById('tk-date-from').value=from.toISOString().slice(0,10);
+    document.getElementById('tk-date-to').value  =today;
+  }
+  tkApply();
+}
+
+// ── Filter ────────────────────────────────────────────
+function tkApply(){
+  const range   =document.getElementById('tk-range').value;
+  const campaign=document.getElementById('tk-campaign').value;
+  const today   =new Date().toISOString().slice(0,10);
+  let cutoff='', ceiling='';
+  if(range==='custom'){
+    cutoff =document.getElementById('tk-date-from').value;
+    ceiling=document.getElementById('tk-date-to').value;
+  } else if(range!=='all'){
+    const d=new Date(); d.setDate(d.getDate()-parseInt(range));
+    cutoff=d.toISOString().slice(0,10);
+  }
+  tkFiltered=tkRawData.filter(r=>{
+    if(cutoff  && r.date<cutoff)  return false;
+    if(ceiling && r.date>ceiling) return false;
+    if(campaign!=='all' && r.campaign!==campaign) return false;
+    return true;
+  });
+  tkUpdateKPIs();
+  tkUpdateLineChart();
+  tkRenderBarChart();
+  tkRenderTable();
+}
+
+// ── KPIs ──────────────────────────────────────────────
+function tkUpdateKPIs(){
+  const d=tkFiltered;
+  const tSpend=d.reduce((s,r)=>s+Number(r.cost||0),0);
+  const tConv =d.reduce((s,r)=>s+Number(r.conv||0),0);
+  const tRev  =d.reduce((s,r)=>s+(Number(r.cost||0)*Number(r.roas||0)),0);
+  const avgRoas=tSpend>0?tRev/tSpend:0;
+  const avgCpp =tConv>0?tSpend/tConv:0;
+  const days  =new Set(d.filter(r=>Number(r.cost||0)>0).map(r=>r.date)).size;
+  const fd2=v=>'$'+v.toFixed(2);
+  const fk =v=>'$'+(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0));
+  const roasCls=avgRoas>=3?'#4ade80':avgRoas>=1?'#fcd34d':'#f87171';
+  document.getElementById('tk-k-spend').textContent=fk(tSpend);
+  document.getElementById('tk-k-rev').textContent  =fk(tRev);
+  document.getElementById('tk-k-roas').textContent =avgRoas.toFixed(2)+'x';
+  document.getElementById('tk-k-roas').style.color =roasCls;
+  document.getElementById('tk-k-conv').textContent =tConv.toFixed(1);
+  document.getElementById('tk-k-cpp').textContent  =tConv>0?fd2(avgCpp):'—';
+  document.getElementById('tk-k-days').textContent =days;
+}
+
+// ── Line Chart ────────────────────────────────────────
+function tkUpdateLineChart(){
+  const byDate={};
+  tkFiltered.forEach(r=>{
+    if(!byDate[r.date]) byDate[r.date]={spend:0,rev:0};
+    byDate[r.date].spend+=Number(r.cost||0);
+    byDate[r.date].rev  +=Number(r.cost||0)*Number(r.roas||0);
+  });
+  const labels=Object.keys(byDate).sort();
+  const spends=labels.map(d=>+byDate[d].spend.toFixed(2));
+  const revs  =labels.map(d=>+byDate[d].rev.toFixed(2));
+  const fmt=v=>'$'+(Math.abs(v)>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0));
+  if(tkLineChart){
+    tkLineChart.data.labels=labels;
+    tkLineChart.data.datasets[0].data=spends;
+    tkLineChart.data.datasets[1].data=revs;
+    tkLineChart.update('none'); return;
+  }
+  const ctx=document.getElementById('tk-line-chart').getContext('2d');
+  tkLineChart=new Chart(ctx,{type:'line',data:{labels,datasets:[
+    {label:'Spend',  data:spends,borderColor:'#ee3244',backgroundColor:'#ee324410',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
+    {label:'Revenue',data:revs,  borderColor:'#22d07a',backgroundColor:'#22d07a10',tension:0.3,pointRadius:0,borderWidth:2,fill:true},
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:120},
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:true,position:'top',labels:{color:'#94afd4',font:{size:10},boxWidth:12,padding:12}},
+      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
+    scales:{x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9},maxTicksLimit:20,maxRotation:45}},
+      y:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:10},callback:fmt},grace:'5%'}}}});
+}
+
+// ── Bar Chart ─────────────────────────────────────────
+function tkSetBarMode(m){
+  tkBarMode=m;
+  ['roas','spend','conv'].forEach(x=>document.getElementById('tk-bar-'+x).classList.toggle('act',x===m));
+  tkRenderBarChart();
+}
+function tkRenderBarChart(){
+  const byCamp={};
+  tkFiltered.forEach(r=>{
+    const k=r.campaign||'Unknown';
+    if(!byCamp[k]) byCamp[k]={spend:0,rev:0,conv:0};
+    byCamp[k].spend+=Number(r.cost||0);
+    byCamp[k].rev  +=Number(r.cost||0)*Number(r.roas||0);
+    byCamp[k].conv +=Number(r.conv||0);
+  });
+  const entries=Object.entries(byCamp).map(([k,v])=>({
+    k, roas:v.spend>0?v.rev/v.spend:0, spend:v.spend, conv:v.conv
+  }));
+  const sorted=entries.sort((a,b)=>b[tkBarMode]-a[tkBarMode]).slice(0,10);
+  const labels=sorted.map(e=>e.k.length>30?e.k.slice(0,30)+'…':e.k);
+  const vals  =sorted.map(e=>+e[tkBarMode].toFixed(2));
+  const colors=tkBarMode==='roas'
+    ? sorted.map(e=>e.roas>=3?'#22d07a88':e.roas>=1?'#f5c84288':'#ee324488')
+    : '#ee324488';
+  const fmtTip=v=>tkBarMode==='roas'?v.toFixed(2)+'x':tkBarMode==='conv'?v.toFixed(1):'$'+v.toFixed(0);
+  if(tkBarChart){
+    tkBarChart.data.labels=labels;
+    tkBarChart.data.datasets[0].data=vals;
+    tkBarChart.data.datasets[0].backgroundColor=colors;
+    tkBarChart.options.plugins.tooltip.callbacks.label=c=>fmtTip(c.parsed.x);
+    tkBarChart.update('none'); return;
+  }
+  const ctx=document.getElementById('tk-bar-chart').getContext('2d');
+  tkBarChart=new Chart(ctx,{type:'bar',data:{labels,datasets:[
+    {label:tkBarMode,data:vals,backgroundColor:colors,borderWidth:0,borderRadius:4}
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:120},
+    indexAxis:'y',
+    plugins:{legend:{display:false},
+      tooltip:{backgroundColor:'#0c1a2e',borderColor:'#1d3354',borderWidth:1,titleColor:'#94afd4',bodyColor:'#e8f0fe',padding:10,
+        callbacks:{label:c=>fmtTip(c.parsed.x)}}},
+    scales:{x:{grid:{color:'#1d335430'},ticks:{color:'#4a6d94',font:{size:9}}},
+      y:{grid:{display:false},ticks:{color:'#94afd4',font:{size:9}}}}}});
+}
+
+// ── Campaign Table ────────────────────────────────────
+function tkSort(col){
+  if(tkSortCol===col) tkSortDir=tkSortDir==='desc'?'asc':'desc';
+  else{tkSortCol=col;tkSortDir='desc';}
+  tkRenderTable();
+}
+function tkRenderTable(){
+  const byCamp={};
+  tkFiltered.forEach(r=>{
+    const k=r.campaign||'Unknown';
+    if(!byCamp[k]) byCamp[k]={campaign:k,days:new Set(),spend:0,rev:0,conv:0};
+    byCamp[k].days.add(r.date);
+    byCamp[k].spend+=Number(r.cost||0);
+    byCamp[k].rev  +=Number(r.cost||0)*Number(r.roas||0);
+    byCamp[k].conv +=Number(r.conv||0);
+  });
+  let rows=Object.values(byCamp).map(v=>({
+    ...v,
+    days:v.days.size,
+    cpp: v.conv>0?v.spend/v.conv:0,
+    roas:v.spend>0?v.rev/v.spend:0,
+  }));
+  rows.sort((a,b)=>{
+    const av=a[tkSortCol]||0, bv=b[tkSortCol]||0;
+    return tkSortDir==='desc'?(bv>av?1:-1):(av>bv?1:-1);
+  });
+  document.getElementById('tk-tbl-count').textContent=rows.length+' campaigns';
+  const fk=v=>'$'+(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(2));
+  const roasCls=v=>v>=3?'#4ade80':v>=1?'#fcd34d':'#f87171';
+  document.getElementById('tk-tbody').innerHTML=rows.map(r=>`
+    <tr style="border-bottom:1px solid #1d335422">
+      <td style="padding:6px 7px;font-size:10px;font-weight:600;color:var(--t1)">${r.campaign}</td>
+      <td style="padding:6px 7px;text-align:right;font-family:var(--mono);font-size:10px;color:var(--t3)">${r.days}</td>
+      <td style="padding:6px 7px;text-align:right;font-family:var(--mono);font-size:11px;color:#ee3244;font-weight:600">${fk(r.spend)}</td>
+      <td style="padding:6px 7px;text-align:right;font-family:var(--mono);font-size:11px;color:#67e8f9">${fk(r.rev)}</td>
+      <td style="padding:6px 7px;text-align:right;font-family:var(--mono);font-size:11px;color:#fdba74">${r.conv.toFixed(1)}</td>
+      <td style="padding:6px 7px;text-align:right;font-family:var(--mono);font-size:11px;color:#c4b5fd">${r.conv>0?fk(r.cpp):'—'}</td>
+      <td style="padding:6px 7px;text-align:right;font-family:var(--mono);font-size:12px;font-weight:700;color:${roasCls(r.roas)}">${r.roas.toFixed(2)}x</td>
+    </tr>`).join('');
+}
+
+// ── Init ──────────────────────────────────────────────
+function tkInit(){
+  tkInited=true;
+  tkLoad();
+}
 </body>
 </html>
