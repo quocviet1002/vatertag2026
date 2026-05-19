@@ -601,120 +601,127 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <div class="fpill"     id="spf-mtd"  onclick="spSetFilter('mtd')">This Month</div>
   <div class="fpill"     id="spf-lm"   onclick="spSetFilter('lm')">Last Month</div>
   <div class="fpill act" id="spf-ytd"  onclick="spSetFilter('ytd')">YTD</div>
+  <div class="fpill"     id="spf-custom" onclick="spSetFilter('custom')">Custom...</div>
+  <div id="sp-custom-range" style="display:none;align-items:center;gap:6px;margin-left:4px">
+    <input type="date" id="sp-date-from" style="background:var(--s2);border:1px solid var(--bd);border-radius:7px;color:var(--t1);font-size:11px;padding:4px 8px;outline:none;font-family:var(--font)" onchange="spRecalc();psRender()">
+    <span style="color:var(--t3);font-size:11px">→</span>
+    <input type="date" id="sp-date-to"   style="background:var(--s2);border:1px solid var(--bd);border-radius:7px;color:var(--t1);font-size:11px;padding:4px 8px;outline:none;font-family:var(--font)" onchange="spRecalc();psRender()">
+  </div>
 </div>
 
-<!-- SP MAIN -->
-<div class="sp-main">
-  <!-- Chart -->
-  <div class="card">
-    <div class="ch">
-      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-        <div class="ct">📈 Biểu đồ Profit</div>
-        <div class="ld-row">
-          <div class="ld"><div class="ld-ln" style="color:#25d4e7;border-top-style:solid"></div>Revenue</div>
-          <div class="ld"><div class="ld-ln" style="color:#f5922d;border-top-style:solid"></div>Spent</div>
-          <div class="ld"><div class="ld-ln" style="color:#22d07a"></div>Profit</div>
-          <div class="ld"><div class="ld-ln" style="color:#4d8ef5;border-top-style:solid"></div>Lũy kế</div>
+<!-- SP MAIN — 2 cột -->
+<div style="display:grid;grid-template-columns:1fr 340px;gap:11px;padding:13px 18px">
+
+  <!-- CỘT TRÁI: Chart + Daily Table -->
+  <div style="display:flex;flex-direction:column;gap:11px;min-width:0">
+
+    <!-- Chart -->
+    <div class="card">
+      <div class="ch">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <div class="ct">📈 Biểu đồ Profit</div>
+          <div class="ld-row">
+            <div class="ld"><div class="ld-ln" style="color:#25d4e7;border-top-style:solid"></div>Revenue</div>
+            <div class="ld"><div class="ld-ln" style="color:#f5922d;border-top-style:solid"></div>Spent</div>
+            <div class="ld"><div class="ld-ln" style="color:#22d07a"></div>Profit</div>
+            <div class="ld"><div class="ld-ln" style="color:#4d8ef5;border-top-style:solid"></div>Lũy kế</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:4px">
+          <div class="ptab act" id="sp-btn-daily" onclick="spSetChart('daily')">Daily</div>
+          <div class="ptab" id="sp-btn-cumul" onclick="spSetChart('cumul')">Lũy kế</div>
+          <div class="ptab" id="sp-btn-both"  onclick="spSetChart('both')">Cả 2</div>
         </div>
       </div>
-      <div style="display:flex;gap:4px">
-        <div class="ptab act" id="sp-btn-daily" onclick="spSetChart('daily')">Daily</div>
-        <div class="ptab" id="sp-btn-cumul" onclick="spSetChart('cumul')">Lũy kế</div>
-        <div class="ptab" id="sp-btn-both"  onclick="spSetChart('both')">Cả 2</div>
-      </div>
+      <div class="sp-chart-wrap"><canvas id="sp-chart"></canvas></div>
     </div>
-    <div class="sp-chart-wrap"><canvas id="sp-chart"></canvas></div>
-  </div>
 
-  <!-- Table -->
-  <div class="card">
-    <div class="ch">
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <div class="ct">📋 Dữ liệu từng ngày <span id="sp-range-lbl" style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px"></span></div>
-        <div class="actual-legend">🔒 Tất cả dữ liệu tự động từ Google Sheets</div>
+    <!-- Daily Table -->
+    <div class="card">
+      <div class="ch">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <div class="ct">📋 Dữ liệu từng ngày <span id="sp-range-lbl" style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0;font-size:10px"></span></div>
+          <div class="actual-legend">🔒 Tất cả dữ liệu tự động từ Google Sheets</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <div id="sp-sync-badge" class="sp-sync load">⏳ Đang tải...</div>
+          <button class="rbtn" onclick="spLoadFromSheets()">🔄 Refresh</button>
+        </div>
       </div>
-      <div style="display:flex;gap:6px;align-items:center">
-        <div id="sp-sync-badge" class="sp-sync load">⏳ Đang tải...</div>
-        <button class="rbtn" onclick="spLoadFromSheets()">🔄 Refresh</button>
+      <div class="sp-tw-wrap">
+        <table class="sp-tw">
+          <thead>
+            <tr>
+              <th>Ngày</th>
+              <th>Revenue</th>
+              <th>FB Spent</th>
+              <th>GG Spent</th>
+              <th>Total Spent</th>
+              <th>API Cost</th>
+              <th style="color:#f97316">COGS</th>
+              <th style="color:#a78bfa">Payment GW</th>
+              <th style="color:#94afd4">Variable Fee</th>
+              <th>Orders</th>
+              <th>AOV</th>
+              <th>ROAS</th>
+              <th>POAS ($)</th>
+              <th>Net Profit<br>% Margin</th>
+            </tr>
+          </thead>
+          <tbody id="sp-tbody"></tbody>
+          <tfoot>
+            <tr class="sp-sum">
+              <td>📊 TỔNG/TB</td>
+              <td id="sp-s-rev">—</td>
+              <td id="sp-s-fb">—</td>
+              <td id="sp-s-gg">—</td>
+              <td id="sp-s-spent">—</td>
+              <td id="sp-s-api">—</td>
+              <td id="sp-s-cogs">—</td>
+              <td id="sp-s-pg">—</td>
+              <td id="sp-s-vf">—</td>
+              <td id="sp-s-ord">—</td>
+              <td id="sp-s-aov">—</td>
+              <td id="sp-s-roas">—</td>
+              <td id="sp-s-poas">—</td>
+              <td id="sp-s-np">—</td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
-    <div class="sp-tw-wrap">
-      <table class="sp-tw">
-        <thead>
-          <tr>
-            <th>Ngày</th>
-            <th>Revenue</th>
-            <th>FB Spent</th>
-            <th>GG Spent</th>
-            <th>Total Spent</th>
-            <th>API Cost</th>
-            <th style="color:#f97316">COGS</th>
-            <th style="color:#a78bfa">Payment GW</th>
-            <th style="color:#94afd4">Variable Fee</th>
-            <th>Orders</th>
-            <th>AOV</th>
-            <th>ROAS</th>
-            <th>POAS ($)</th>
-            <th>Net Profit<br>% Margin</th>
-          </tr>
-        </thead>
-        <tbody id="sp-tbody"></tbody>
-        <tfoot>
-          <tr class="sp-sum">
-            <td>📊 TỔNG/TB</td>
-            <td id="sp-s-rev">—</td>
-            <td id="sp-s-fb">—</td>
-            <td id="sp-s-gg">—</td>
-            <td id="sp-s-spent">—</td>
-            <td id="sp-s-api">—</td>
-            <td id="sp-s-cogs">—</td>
-            <td id="sp-s-pg">—</td>
-            <td id="sp-s-vf">—</td>
-            <td id="sp-s-ord">—</td>
-            <td id="sp-s-aov">—</td>
-            <td id="sp-s-roas">—</td>
-            <td id="sp-s-poas">—</td>
-            <td id="sp-s-np">—</td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-</div>
 
-  <!-- PRODUCT SALES TABLE -->
-  <div class="card">
-    <div class="ch">
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <div class="ct">🛍 Top Products by Sales</div>
-        <div class="actual-legend" id="ps-range-lbl"></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:10px;color:var(--t3)" id="ps-count">—</span>
-        <div id="ps-sync-badge" class="sp-sync load">⏳</div>
-      </div>
-    </div>
-    <div class="sp-tw-wrap" style="max-height:520px;overflow-y:auto">
-      <table style="width:100%;border-collapse:collapse;table-layout:fixed">
-        <colgroup>
-          <col style="width:52px">
-          <col style="width:auto">
-          <col style="width:90px">
-          <col style="width:100px">
-        </colgroup>
-        <thead>
-          <tr>
-            <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd)">Ảnh</th>
-            <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer" onclick="psSortBy('title')">Product ↕</th>
-            <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);text-align:right;cursor:pointer" onclick="psSortBy('qty')">Items Sold ↕</th>
-            <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);text-align:right;cursor:pointer" onclick="psSortBy('sales')">Total Sales ↕</th>
-          </tr>
-        </thead>
-        <tbody id="ps-tbody"></tbody>
-      </table>
-    </div>
-  </div>
+  </div><!-- /cột trái -->
 
-</div>
+  <!-- CỘT PHẢI: Top Products -->
+  <div style="display:flex;flex-direction:column;gap:11px;min-width:0">
+    <div class="card" style="height:100%">
+      <div class="ch">
+        <div style="display:flex;flex-direction:column;gap:3px">
+          <div class="ct">🛍 Top Products</div>
+          <div style="font-size:9px;color:var(--t3)" id="ps-range-lbl"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:10px;color:var(--t3)" id="ps-count">—</span>
+          <div id="ps-sync-badge" class="sp-sync load">⏳</div>
+        </div>
+      </div>
+      <div style="overflow-y:auto;max-height:calc(100vh - 280px)">
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:6px 5px;font-size:8px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);width:40px">Ảnh</th>
+              <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:6px 5px;font-size:8px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer" onclick="psSortBy('title')">Product ↕</th>
+              <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:6px 5px;font-size:8px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);text-align:right;cursor:pointer;white-space:nowrap" onclick="psSortBy('sales')">Sales ↕</th>
+            </tr>
+          </thead>
+          <tbody id="ps-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- /cột phải -->
+
+</div><!-- /sp-main 2 cột -->
 
 </div><!-- /page2 -->
 
@@ -1832,20 +1839,19 @@ function psRender(){
     const shortTitle=r.title.length>60?r.title.slice(0,60)+'…':r.title;
     const rankColor=i===0?'#fcd34d':i===1?'#e2e8f0':i===2?'#f97316':'var(--t3)';
     return`<tr style="border-bottom:1px solid #1d335422">
-      <td style="padding:5px 7px">${thumb}</td>
-      <td style="padding:5px 7px">
-        <div style="display:flex;align-items:center;gap:7px">
-          <span style="font-size:10px;font-weight:700;color:${rankColor};min-width:16px;text-align:right">#${i+1}</span>
-          <div>
-            <div style="font-size:10px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px" title="${r.title}">${shortTitle}</div>
-            <div style="margin-top:3px;height:3px;border-radius:2px;background:var(--bd);width:100%;max-width:340px">
+      <td style="padding:4px 5px">${thumb}</td>
+      <td style="padding:4px 5px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:9px;font-weight:700;color:${rankColor};min-width:14px;text-align:right;flex-shrink:0">#${i+1}</span>
+          <div style="min-width:0">
+            <div style="font-size:9px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px" title="${r.title}">${shortTitle}</div>
+            <div style="margin-top:2px;height:3px;border-radius:2px;background:var(--bd)">
               <div style="height:3px;border-radius:2px;background:linear-gradient(90deg,#22d07a,#4d8ef5);width:${pct.toFixed(1)}%;transition:width .3s"></div>
             </div>
           </div>
         </div>
       </td>
-      <td style="padding:5px 7px;text-align:right;font-family:var(--mono);font-size:11px;color:#fdba74;font-weight:600">${Math.round(r.qty).toLocaleString()}</td>
-      <td style="padding:5px 7px;text-align:right;font-family:var(--mono);font-size:12px;font-weight:700;color:#67e8f9">€${r.sales.toFixed(2)}</td>
+      <td style="padding:4px 5px;text-align:right;font-family:var(--mono);font-size:11px;font-weight:700;color:#67e8f9;white-space:nowrap">€${r.sales.toFixed(0)}</td>
     </tr>`;
   }).join('');
 }
@@ -1893,6 +1899,11 @@ function spGetRange(){
     case 'mtd':   return [today.slice(0,7)+'-01',today];
     case 'lm':    {const lm=new Date(td.getFullYear(),td.getMonth()-1,1);const le=new Date(td.getFullYear(),td.getMonth(),0);return [lm.getFullYear()+'-'+String(lm.getMonth()+1).padStart(2,'0')+'-'+String(lm.getDate()).padStart(2,'0'),le.getFullYear()+'-'+String(le.getMonth()+1).padStart(2,'0')+'-'+String(le.getDate()).padStart(2,'0')];}
     case 'ytd':   return ['2026-01-01',today];
+    case 'custom':{
+      const f=document.getElementById('sp-date-from')?.value||'2026-01-01';
+      const t=document.getElementById('sp-date-to')?.value||today;
+      return [f,t];
+    }
     default:      return ['2026-01-01','2026-12-31'];
   }
 }
@@ -1901,6 +1912,17 @@ function spSetFilter(mode){
   document.querySelectorAll('.fpill').forEach(el=>el.classList.remove('act'));
   const el=document.getElementById('spf-'+mode);
   if(el)el.classList.add('act');
+  const cr=document.getElementById('sp-custom-range');
+  if(cr){
+    cr.style.display=mode==='custom'?'flex':'none';
+    if(mode==='custom'){
+      const today=spTodayISO();
+      const d=new Date(today+'T00:00:00');d.setDate(d.getDate()-29);
+      const from=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      if(!document.getElementById('sp-date-from').value) document.getElementById('sp-date-from').value=from;
+      if(!document.getElementById('sp-date-to').value)   document.getElementById('sp-date-to').value=today;
+    }
+  }
   spRecalc();
   psRender();
 }
