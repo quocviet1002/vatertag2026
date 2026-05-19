@@ -679,9 +679,42 @@ tr:hover td{background:rgba(255,255,255,.013)}
         </tfoot>
       </table>
     </div>
-  </div>
 </div>
 
+  <!-- PRODUCT SALES TABLE -->
+  <div class="card">
+    <div class="ch">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="ct">🛍 Top Products by Sales</div>
+        <div class="actual-legend" id="ps-range-lbl"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:10px;color:var(--t3)" id="ps-count">—</span>
+        <div id="ps-sync-badge" class="sp-sync load">⏳</div>
+      </div>
+    </div>
+    <div class="sp-tw-wrap" style="max-height:520px;overflow-y:auto">
+      <table style="width:100%;border-collapse:collapse;table-layout:fixed">
+        <colgroup>
+          <col style="width:52px">
+          <col style="width:auto">
+          <col style="width:90px">
+          <col style="width:100px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd)">Ảnh</th>
+            <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer" onclick="psSortBy('title')">Product ↕</th>
+            <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);text-align:right;cursor:pointer" onclick="psSortBy('qty')">Items Sold ↕</th>
+            <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:7px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);text-align:right;cursor:pointer" onclick="psSortBy('sales')">Total Sales ↕</th>
+          </tr>
+        </thead>
+        <tbody id="ps-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
 
 </div><!-- /page2 -->
 
@@ -1724,6 +1757,99 @@ async function spLoadFromSheets(){
 }
 
 
+// ══════════════════════════════════════════════
+//  PRODUCT SALES TABLE — Page 2
+// ══════════════════════════════════════════════
+let psRawData  = [];
+let psSortCol  = 'sales';
+let psSortDir  = 'desc';
+
+function psBadge(state,msg){
+  const el=document.getElementById('ps-sync-badge');
+  if(!el)return;
+  el.className='sp-sync '+state;
+  el.textContent={ok:'☁️ ',err:'⚠️ ',load:'⏳ '}[state]+msg;
+}
+
+async function psLoad(){
+  psBadge('load','Đang tải...');
+  try{
+    const res =await fetch(SP_GS_URL+'?action=read_product_sales');
+    const json=await res.json();
+    if(!json.ok) throw new Error(json.error||'API error');
+    psRawData=json.data||[];
+    psBadge('ok','OK · '+psRawData.length+' rows');
+  }catch(e){
+    psBadge('err','Lỗi API');
+    console.error('PS load error',e);
+  }
+  psRender();
+}
+
+function psSortBy(col){
+  if(psSortCol===col) psSortDir=psSortDir==='desc'?'asc':'desc';
+  else{psSortCol=col;psSortDir='desc';}
+  psRender();
+}
+
+function psRender(){
+  const [from,to]=spGetRange();
+  const filtered=psRawData.filter(r=>r.date>=from&&r.date<=to);
+
+  // Aggregate by product title
+  const map={};
+  filtered.forEach(r=>{
+    const k=r.title||'Unknown';
+    if(!map[k]) map[k]={title:k,img:r.img||'',qty:0,sales:0};
+    map[k].qty  +=Number(r.qty)||0;
+    map[k].sales+=Number(r.sales)||0;
+    if(!map[k].img&&r.img) map[k].img=r.img;
+  });
+
+  let rows=Object.values(map);
+  rows.sort((a,b)=>{
+    const av=typeof a[psSortCol]==='string'?a[psSortCol]:a[psSortCol]||0;
+    const bv=typeof b[psSortCol]==='string'?b[psSortCol]:b[psSortCol]||0;
+    return psSortDir==='desc'?(bv>av?1:-1):(av>bv?1:-1);
+  });
+
+  // Range label
+  const lbl=document.getElementById('ps-range-lbl');
+  if(lbl) lbl.textContent=from+' → '+to+' · '+rows.length+' sản phẩm';
+  const cnt=document.getElementById('ps-count');
+  if(cnt) cnt.textContent=rows.length+' products';
+
+  const maxSales=rows.length?rows[0].sales:1;
+
+  const tbody=document.getElementById('ps-tbody');
+  if(!tbody)return;
+  tbody.innerHTML=rows.map((r,i)=>{
+    const imgSrc=r.img?r.img.split(',')[0].trim():'';
+    const thumb=imgSrc
+      ?`<div class="gg-thumb-wrap"><img class="gg-thumb" src="${imgSrc}" onerror="this.style.display='none'"><img class="gg-thumb-preview" src="${imgSrc}"></div>`
+      :`<div class="gg-thumb" style="display:flex;align-items:center;justify-content:center;font-size:16px">🛍</div>`;
+    const pct=maxSales>0?r.sales/maxSales*100:0;
+    const shortTitle=r.title.length>60?r.title.slice(0,60)+'…':r.title;
+    const rankColor=i===0?'#fcd34d':i===1?'#e2e8f0':i===2?'#f97316':'var(--t3)';
+    return`<tr style="border-bottom:1px solid #1d335422">
+      <td style="padding:5px 7px">${thumb}</td>
+      <td style="padding:5px 7px">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="font-size:10px;font-weight:700;color:${rankColor};min-width:16px;text-align:right">#${i+1}</span>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px" title="${r.title}">${shortTitle}</div>
+            <div style="margin-top:3px;height:3px;border-radius:2px;background:var(--bd);width:100%;max-width:340px">
+              <div style="height:3px;border-radius:2px;background:linear-gradient(90deg,#22d07a,#4d8ef5);width:${pct.toFixed(1)}%;transition:width .3s"></div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td style="padding:5px 7px;text-align:right;font-family:var(--mono);font-size:11px;color:#fdba74;font-weight:600">${Math.round(r.qty).toLocaleString()}</td>
+      <td style="padding:5px 7px;text-align:right;font-family:var(--mono);font-size:12px;font-weight:700;color:#67e8f9">€${r.sales.toFixed(2)}</td>
+    </tr>`;
+  }).join('');
+}
+
 // ── Sync Page 2 → Page 1 Actual (USD → EUR) ────────────────────────────
 function spSyncToPage1(){
   const spIdx={};
@@ -1776,6 +1902,7 @@ function spSetFilter(mode){
   const el=document.getElementById('spf-'+mode);
   if(el)el.classList.add('act');
   spRecalc();
+  psRender();
 }
 
 // ── Calc per day ────────────────────────────────────────
@@ -1987,13 +2114,13 @@ function spSet(field,idx,val){
 function spInit(){
   spInited=true;
   spInitArrays();
-  // Mặc định đóng tháng 1, 2, 3
   SP_MONTHS_COLLAPSED[0]=true;
   SP_MONTHS_COLLAPSED[1]=true;
   SP_MONTHS_COLLAPSED[2]=true;
   spLoadLS();
   spRecalc();
   spLoadFromSheets();
+  psLoad();
 }
 
 // ══════════════════════════════════════════════════════
