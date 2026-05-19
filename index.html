@@ -712,7 +712,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
             <tr>
               <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:6px 5px;font-size:8px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);width:40px">Ảnh</th>
               <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:6px 5px;font-size:8px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);cursor:pointer" onclick="psSortBy('title')">Product ↕</th>
-              <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:6px 5px;font-size:8px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);text-align:right;cursor:pointer;white-space:nowrap" onclick="psSortBy('sales')">Sales ↕</th>
+              <th style="background:var(--s1);position:sticky;top:0;z-index:5;padding:6px 5px;font-size:8px;font-weight:700;color:var(--t3);text-transform:uppercase;border-bottom:2px solid var(--bd);text-align:right;cursor:pointer;white-space:nowrap" onclick="psSortBy('qty')">Items Sold ↕</th>
             </tr>
           </thead>
           <tbody id="ps-tbody"></tbody>
@@ -1768,7 +1768,7 @@ async function spLoadFromSheets(){
 //  PRODUCT SALES TABLE — Page 2
 // ══════════════════════════════════════════════
 let psRawData  = [];
-let psSortCol  = 'sales';
+let psSortCol  = 'qty';
 let psSortDir  = 'desc';
 
 function psBadge(state,msg){
@@ -1826,7 +1826,7 @@ function psRender(){
   const cnt=document.getElementById('ps-count');
   if(cnt) cnt.textContent=rows.length+' products';
 
-  const maxSales=rows.length?rows[0].sales:1;
+  const maxVal=rows.length?rows[0].qty:1;
 
   const tbody=document.getElementById('ps-tbody');
   if(!tbody)return;
@@ -1835,7 +1835,7 @@ function psRender(){
     const thumb=imgSrc
       ?`<div class="gg-thumb-wrap"><img class="gg-thumb" src="${imgSrc}" onerror="this.style.display='none'"><img class="gg-thumb-preview" src="${imgSrc}"></div>`
       :`<div class="gg-thumb" style="display:flex;align-items:center;justify-content:center;font-size:16px">🛍</div>`;
-    const pct=maxSales>0?r.sales/maxSales*100:0;
+    const pct=maxVal>0?r.qty/maxVal*100:0;
     const shortTitle=r.title.length>60?r.title.slice(0,60)+'…':r.title;
     const rankColor=i===0?'#fcd34d':i===1?'#e2e8f0':i===2?'#f97316':'var(--t3)';
     return`<tr style="border-bottom:1px solid #1d335422">
@@ -1851,7 +1851,7 @@ function psRender(){
           </div>
         </div>
       </td>
-      <td style="padding:4px 5px;text-align:right;font-family:var(--mono);font-size:11px;font-weight:700;color:#67e8f9;white-space:nowrap">€${r.sales.toFixed(0)}</td>
+      <td style="padding:4px 5px;text-align:right;font-family:var(--mono);font-size:11px;font-weight:700;color:#fdba74;white-space:nowrap">${Math.round(r.qty).toLocaleString()} items</td>
     </tr>`;
   }).join('');
 }
