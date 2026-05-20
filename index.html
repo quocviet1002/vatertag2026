@@ -1307,14 +1307,19 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div id="ov-event-pills" style="display:flex;gap:5px;flex-wrap:wrap">
       <button class="ov-fpill act-ev" data-ev="all" onclick="ovSetEvent(this)">Tất cả</button>
     </div>
+    <span id="ov-filter-ev-info" style="font-size:9px;color:var(--t4);margin-left:4px"></span>
   </div>
   <div class="ov-filter-row">
     <span class="ov-flbl">🏷 Niche</span>
     <div id="ov-niche-pills" style="display:flex;gap:5px;flex-wrap:wrap">
       <button class="ov-fpill act-ni" data-ni="all" onclick="ovSetNiche(this)">Tất cả</button>
     </div>
+    <span id="ov-filter-ni-info" style="font-size:9px;color:var(--t4);margin-left:4px"></span>
   </div>
 </div>
+
+<!-- DEBUG PANEL (ẩn mặc định, hiện khi GG thiếu event/niche) -->
+<div id="ov-debug-panel" style="display:none;background:#1c2a18;border:1px solid #f5c84244;border-left:3px solid #f5c842;padding:10px 18px;font-size:11px;color:var(--t2)"></div>
 
 <!-- KPI STRIP -->
 <div class="ov-kpi-strip">
@@ -3872,33 +3877,102 @@ function ovBadge(state, msg){
   el.textContent = ({ok:'☁️ ', err:'⚠️ ', load:'⏳ '}[state] || '') + msg;
 }
 
+// ── Normalize GG row: map mọi biến thể tên cột → chuẩn ─
+function ovNormalizeGg(row){
+  // Apps Script có thể trả về nhiều dạng tên khác nhau
+  // Thử tất cả biến thể có thể có của 'event' và 'niche'
+  const ev = row.event || row.Event || row['Event'] || row.event_name || row.eventName || '';
+  const ni = row.niche || row.Niche || row['Niche'] || row.niche_type || row.nicheType || '';
+  return { ...row, event: ev, niche: ni };
+}
+// ── Normalize FB row (cũng để an toàn) ───────────────
+function ovNormalizeFb(row){
+  const ev = row.event || row.Event || row['Event'] || '';
+  const ni = row.niche || row.Niche || row['Niche'] || '';
+  return { ...row, event: ev, niche: ni };
+}
+
 async function ovLoad(){
   ovBadge('load', 'Đang tải...');
   try {
-    // Try reusing already-loaded global data first
+    // FB: reuse global nếu đã load, hoặc fetch mới
     if(fbRawData && fbRawData.length > 0) {
-      ovFbData = fbRawData;
+      ovFbData = fbRawData.map(ovNormalizeFb);
     } else {
       const r = await fetch(OV_FB_URL + '?action=read_fb_ads');
       const j = await r.json();
       if(!j.ok) throw new Error(j.error || 'FB API error');
-      ovFbData = j.data || [];
+      ovFbData = (j.data || []).map(ovNormalizeFb);
     }
-    if(ggRawData && ggRawData.length > 0) {
-      ovGgData = ggRawData;
-    } else {
+
+    // GG: luôn fetch fresh để đảm bảo có đủ fields (ggRawData có thể là demo data thiếu niche/event)
+    let ggFresh = null;
+    try {
       const r = await fetch(OV_GG_URL + '?action=read_gg_ads');
       const j = await r.json();
-      if(!j.ok) throw new Error(j.error || 'GG API error');
-      ovGgData = j.data || [];
+      if(j.ok && j.data && j.data.length > 0) {
+        ggFresh = j.data;
+        // Cập nhật global ggRawData nếu data fresh hơn
+        if(!ggRawData || ggRawData.length === 0) { ggRawData = ggFresh; }
+      }
+    } catch(e2) { console.warn('OV GG fetch error:', e2); }
+
+    const ggSource = ggFresh || (ggRawData && ggRawData.length > 0 ? ggRawData : []);
+    ovGgData = ggSource.map(ovNormalizeGg);
+
+    // Debug: kiểm tra xem GG data có event/niche không
+    const ggWithEv = ovGgData.filter(r => r.event).length;
+    const ggWithNi = ovGgData.filter(r => r.niche).length;
+    console.log(`[OV] GG rows: ${ovGgData.length} | with event: ${ggWithEv} | with niche: ${ggWithNi}`);
+
+    // Nếu GG data KHÔNG có event/niche, hiển thị cảnh báo
+    if(ovGgData.length > 0 && ggWithEv === 0){
+      ovShowFieldDebug();
+    } else {
+      document.getElementById('ov-debug-panel').style.display = 'none';
     }
-    ovBadge('ok', `☁️ FB ${ovFbData.length} · GG ${ovGgData.length} rows`);
+
+    ovBadge('ok', `☁️ FB ${ovFbData.length} · GG ${ovGgData.length} rows · GG event: ${ggWithEv} · niche: ${ggWithNi}`);
     ovPopulateFilters();
     ovApply();
   } catch(e) {
     ovBadge('err', 'Lỗi: ' + e.message);
     console.error('OV load error', e);
   }
+}
+
+// ── Debug panel: hiện khi GG thiếu event/niche ────────
+function ovShowFieldDebug(){
+  const panel = document.getElementById('ov-debug-panel');
+  if(!panel) return;
+  const sample = ovGgData.slice(0, 3);
+  const keys = sample.length > 0 ? Object.keys(sample[0]) : [];
+  const hasEv = keys.filter(k => k.toLowerCase().includes('event'));
+  const hasNi = keys.filter(k => k.toLowerCase().includes('niche'));
+  panel.style.display = 'block';
+  panel.innerHTML = `
+    <div style="display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:10px;font-weight:700;color:#f5c842;margin-bottom:4px">⚠️ GG Data thiếu Event/Niche</div>
+        <div style="font-size:9px;color:var(--t3);line-height:1.8">
+          GG data <b style="color:var(--t1)">${ovGgData.length} rows</b> nhưng không có field <code style="color:#f5922d">event</code>/<code style="color:#25d4e7">niche</code>.<br>
+          Field tìm thấy có chứa "event": <b style="color:#4ade80">${hasEv.length > 0 ? hasEv.join(', ') : 'không có'}</b><br>
+          Field tìm thấy có chứa "niche": <b style="color:#4ade80">${hasNi.length > 0 ? hasNi.join(', ') : 'không có'}</b>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--t3);margin-bottom:4px">All fields của GG row đầu tiên:</div>
+        <div style="font-size:9px;color:#60a5fa;font-family:var(--mono);line-height:1.7;max-width:500px;word-break:break-all">
+          ${keys.map(k => `<span style="color:var(--t3)">${k}</span>: <span style="color:var(--t1)">${JSON.stringify(sample[0]?.[k])?.slice(0,30)}</span>`).join(' · ')}
+        </div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:var(--t3);line-height:1.7;max-width:280px">
+          👉 <b style="color:var(--t1)">Fix:</b> Mở Apps Script → action <code>read_gg_ads</code> → thêm column <code>Niche</code> và <code>Event</code> vào response.<br>
+          Tên field trả về phải là <code style="color:#4ade80">niche</code> và <code style="color:#4ade80">event</code> (chữ thường).
+        </div>
+      </div>
+    </div>`;
 }
 
 // ── Populate filter pills ─────────────────────────────
@@ -3911,6 +3985,10 @@ function ovPopulateFilters(){
   const ggNi = ovGgData.map(r => r.niche).filter(Boolean);
   const niches = [...new Set([...fbNi, ...ggNi])].sort();
 
+  // Hiển thị số liệu debug bên cạnh filter label
+  const ggEvCount = ggEv.length;
+  const ggNiCount = ggNi.length;
+
   const evContainer = document.getElementById('ov-event-pills');
   evContainer.innerHTML = `<button class="ov-fpill act-ev" data-ev="all" onclick="ovSetEvent(this)">Tất cả</button>` +
     events.map(ev => `<button class="ov-fpill" data-ev="${ev}" onclick="ovSetEvent(this)">${ev}</button>`).join('');
@@ -3918,6 +3996,12 @@ function ovPopulateFilters(){
   const niContainer = document.getElementById('ov-niche-pills');
   niContainer.innerHTML = `<button class="ov-fpill act-ni" data-ni="all" onclick="ovSetNiche(this)">Tất cả</button>` +
     niches.map(ni => `<button class="ov-fpill" data-ni="${ni}" onclick="ovSetNiche(this)">${ni}</button>`).join('');
+
+  // Cập nhật label để biết bao nhiêu từ GG
+  document.getElementById('ov-filter-ev-info').textContent =
+    `(FB: ${[...new Set(fbEv)].length} · GG: ${[...new Set(ggEv)].length})`;
+  document.getElementById('ov-filter-ni-info').textContent =
+    `(FB: ${[...new Set(fbNi)].length} · GG: ${[...new Set(ggNi)].length})`;
 }
 
 function ovSetEvent(btn){
