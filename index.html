@@ -318,6 +318,74 @@ tr:hover td{background:rgba(255,255,255,.013)}
 .tk-sync.load{color:#ee3244;border-color:#ee324444}
 .tk-view-tab{padding:4px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);cursor:pointer;font-size:10px;font-weight:700;color:var(--t3);transition:all .15s;white-space:nowrap}
 .tk-view-tab.act{background:#ee324420;border-color:#ee3244;color:#ee3244}
+
+/* ── PAGE 6 — AD OVERVIEW ── */
+.ov-hdr{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.ov-hdr h1{font-size:15px;font-weight:700}
+.ov-hdr p{font-size:10px;color:var(--t3);margin-top:2px}
+.ov-sync{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--s2)}
+.ov-sync.ok{color:#22d07a;border-color:#22d07a44}.ov-sync.err{color:#f5c842;border-color:#f5c84244}.ov-sync.load{color:#4d8ef5;border-color:#4d8ef544}
+
+/* filter bar */
+.ov-filter{background:var(--s1);border-bottom:1px solid var(--bd);padding:8px 18px;display:flex;flex-direction:column;gap:6px}
+.ov-filter-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ov-flbl{font-size:9px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;white-space:nowrap;min-width:46px}
+.ov-fpill{padding:3px 11px;border-radius:20px;border:1px solid var(--bd);background:transparent;color:var(--t3);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap}
+.ov-fpill:hover{background:var(--s2);color:var(--t2)}
+.ov-fpill.act-ev{background:#9b72f520;border-color:var(--purple);color:var(--purple)}
+.ov-fpill.act-ni{background:#25d4e720;border-color:var(--cyan);color:var(--cyan)}
+
+/* kpi strip */
+.ov-kpi-strip{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
+.ov-kpi{background:var(--s1);padding:10px 13px;position:relative;overflow:hidden}
+.ov-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.ov-kpi.kb::before{background:var(--blue)}.ov-kpi.kg::before{background:var(--green)}.ov-kpi.ky::before{background:var(--yellow)}.ov-kpi.kc::before{background:var(--cyan)}.ov-kpi.kp::before{background:var(--purple)}.ov-kpi.ko::before{background:var(--orange)}.ov-kpi.kr::before{background:var(--red)}.ov-kpi.kw::before{background:#ffffff30}
+.ov-kpi-lbl{font-size:9px;color:var(--t3);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px}
+.ov-kpi-val{font-size:17px;font-weight:700;font-family:var(--mono);line-height:1}
+.ov-kpi-sub{font-size:9px;color:var(--t3);margin-top:2px}
+
+/* main layout */
+.ov-main{padding:12px 18px;display:flex;flex-direction:column;gap:11px}
+.ov-platform-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.ov-plat-card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:13px 15px}
+.ov-plat-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ov-plat-icon{font-size:14px}
+.ov-plat-title{font-size:11px;font-weight:700;color:var(--t1)}
+.ov-plat-sub{font-size:9px;color:var(--t3);margin-left:auto}
+.ov-plat-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.ov-pk{background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:7px 9px;text-align:center}
+.ov-pk-val{font-size:13px;font-weight:700;font-family:var(--mono);line-height:1}
+.ov-pk-lbl{font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.ov-pk-sub{font-size:8px;color:var(--t4);margin-top:1px}
+
+/* charts */
+.ov-charts-row{display:grid;grid-template-columns:1.3fr 1fr;gap:11px}
+.ov-chart-wrap{height:220px;position:relative}
+
+/* breakdown table */
+.ov-tw{overflow-x:auto;max-height:460px;overflow-y:auto;border-radius:8px}
+.ov-tw::-webkit-scrollbar{width:4px;height:4px}
+.ov-tw table{width:100%;border-collapse:collapse;font-size:11px}
+.ov-tw thead th{position:sticky;top:0;z-index:10;padding:7px 8px;text-align:left;font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--s1);border-bottom:2px solid var(--bd);cursor:pointer;user-select:none}
+.ov-tw thead th:hover{color:var(--t1)}
+.ov-tw thead th.asc::after{content:' ↑'}.ov-tw thead th.desc::after{content:' ↓'}
+.ov-tw thead th.fb-col{background:#0c1a2e;color:#f5922d;border-left:1px solid #f5922d22}
+.ov-tw thead th.gg-col{background:#0c1a2e;color:#4d8ef5;border-left:1px solid #4d8ef522}
+.ov-tw thead th.tot-col{background:#131f32;color:var(--green);border-left:1px solid #22d07a44}
+.ov-tw td{padding:6px 8px;border-bottom:1px solid #1d335420;vertical-align:middle}
+.ov-tw tr:hover td{background:rgba(255,255,255,.015)}
+.ov-sum-row td{position:sticky;bottom:0;z-index:10;background:var(--s2);border-top:2px solid var(--bd2);font-weight:700;font-family:var(--mono);font-size:11px}
+.ov-roas-g{color:#22d07a;font-family:var(--mono);font-weight:700}
+.ov-roas-y{color:#f5c842;font-family:var(--mono);font-weight:700}
+.ov-roas-r{color:#f05252;font-family:var(--mono);font-weight:700}
+.ov-bar-mini{height:4px;border-radius:2px;margin-top:3px;background:var(--bd2);overflow:hidden}
+.ov-bar-fill{height:4px;border-radius:2px}
+.ov-sort-tabs{display:flex;gap:5px}
+.ov-sort-tab{padding:4px 10px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);cursor:pointer;font-size:10px;font-weight:700;color:var(--t3);transition:all .15s}
+.ov-sort-tab.act{background:#22d07a20;border-color:var(--green);color:var(--green)}
+.ov-share-bar{display:flex;height:6px;border-radius:3px;overflow:hidden;margin-top:4px;gap:1px}
+.ov-share-fb{background:#f5922d;border-radius:3px 0 0 3px}
+.ov-share-gg{background:#4d8ef5;border-radius:0 3px 3px 0}
 </style>
 </head>
 <body>
@@ -330,6 +398,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
   <div class="nav-tab" id="tab3" onclick="switchTab(3)">📣 Facebook Ads</div>
   <div class="nav-tab" id="tab4" onclick="switchTab(4)">🛍 Google Ads</div>
   <div class="nav-tab" id="tab5" onclick="switchTab(5)">🎵 TikTok Ads</div>
+  <div class="nav-tab" id="tab6" onclick="switchTab(6)">🔭 Ad Overview</div>
 </div>
 
 <!-- ══ PAGE 1 — CAMPAIGN FORECAST ══ -->
@@ -1216,6 +1285,233 @@ tr:hover td{background:rgba(255,255,255,.013)}
 </div><!-- /tk-main -->
 </div><!-- /page5 -->
 
+<!-- ══ PAGE 6 — AD OVERVIEW ══ -->
+<div id="page6" class="page">
+
+<!-- HEADER -->
+<div class="ov-hdr">
+  <div>
+    <h1>🔭 Ad Performance Overview</h1>
+    <p>Facebook + Google Ads · Tổng hợp theo Event & Niche · USD</p>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <div class="ov-sync load" id="ov-sync-badge">⏳ Chưa tải</div>
+    <button class="rbtn" onclick="ovLoad()">🔄 Sync</button>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="ov-filter">
+  <div class="ov-filter-row">
+    <span class="ov-flbl">🎯 Event</span>
+    <div id="ov-event-pills" style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="ov-fpill act-ev" data-ev="all" onclick="ovSetEvent(this)">Tất cả</button>
+    </div>
+  </div>
+  <div class="ov-filter-row">
+    <span class="ov-flbl">🏷 Niche</span>
+    <div id="ov-niche-pills" style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="ov-fpill act-ni" data-ni="all" onclick="ovSetNiche(this)">Tất cả</button>
+    </div>
+  </div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="ov-kpi-strip">
+  <div class="ov-kpi kb">
+    <div class="ov-kpi-lbl">💰 Total Spend</div>
+    <div class="ov-kpi-val" id="ov-k-spend" style="color:#60a5fa">—</div>
+    <div class="ov-kpi-sub" id="ov-k-spend-s">FB + GG</div>
+  </div>
+  <div class="ov-kpi kc">
+    <div class="ov-kpi-lbl">📈 Total Revenue</div>
+    <div class="ov-kpi-val" id="ov-k-rev" style="color:#25d4e7">—</div>
+    <div class="ov-kpi-sub" id="ov-k-rev-s">FB + GG</div>
+  </div>
+  <div class="ov-kpi kg">
+    <div class="ov-kpi-lbl">🔥 Overall ROAS</div>
+    <div class="ov-kpi-val" id="ov-k-roas" style="color:#22d07a">—</div>
+    <div class="ov-kpi-sub" id="ov-k-roas-s">Rev / Spend</div>
+  </div>
+  <div class="ov-kpi ky">
+    <div class="ov-kpi-lbl">🛒 Purchases + Conv.</div>
+    <div class="ov-kpi-val" id="ov-k-conv" style="color:#fcd34d">—</div>
+    <div class="ov-kpi-sub" id="ov-k-conv-s">FB + GG</div>
+  </div>
+  <div class="ov-kpi ko">
+    <div class="ov-kpi-lbl">📣 FB Spend</div>
+    <div class="ov-kpi-val" id="ov-k-fb-spend" style="color:#f5922d">—</div>
+    <div class="ov-kpi-sub" id="ov-k-fb-spend-s">ROAS —</div>
+  </div>
+  <div class="ov-kpi kb">
+    <div class="ov-kpi-lbl">🛍 GG Spend</div>
+    <div class="ov-kpi-val" id="ov-k-gg-spend" style="color:#4d8ef5">—</div>
+    <div class="ov-kpi-sub" id="ov-k-gg-spend-s">ROAS —</div>
+  </div>
+  <div class="ov-kpi kp">
+    <div class="ov-kpi-lbl">💲 Avg CPP</div>
+    <div class="ov-kpi-val" id="ov-k-cpp" style="color:#c4b5fd">—</div>
+    <div class="ov-kpi-sub" id="ov-k-cpp-s">Total / Conv.</div>
+  </div>
+  <div class="ov-kpi kw">
+    <div class="ov-kpi-lbl">📅 Active Days</div>
+    <div class="ov-kpi-val" id="ov-k-days" style="color:var(--t2)">—</div>
+    <div class="ov-kpi-sub" id="ov-k-days-s">with spend > 0</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="ov-main">
+
+  <!-- Platform Side-by-Side -->
+  <div class="ov-platform-row">
+    <!-- FB Card -->
+    <div class="ov-plat-card" style="border-color:#f5922d33">
+      <div class="ov-plat-hdr">
+        <span class="ov-plat-icon">📣</span>
+        <span class="ov-plat-title" style="color:#f5922d">Facebook Ads</span>
+        <span class="ov-plat-sub" id="ov-fb-rows">— rows</span>
+      </div>
+      <div class="ov-plat-kpis">
+        <div class="ov-pk" style="border-color:#f5922d33">
+          <div class="ov-pk-val" id="ov-fb-spend" style="color:#f5922d">—</div>
+          <div class="ov-pk-lbl">Spend</div>
+        </div>
+        <div class="ov-pk" style="border-color:#25d4e733">
+          <div class="ov-pk-val" id="ov-fb-rev" style="color:#25d4e7">—</div>
+          <div class="ov-pk-lbl">Revenue</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-fb-roas">—</div>
+          <div class="ov-pk-lbl">ROAS</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-fb-pur" style="color:#fcd34d">—</div>
+          <div class="ov-pk-lbl">Purchases</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-fb-cpp" style="color:#c4b5fd">—</div>
+          <div class="ov-pk-lbl">Cost/Purchase</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-fb-cpm" style="color:#94afd4">—</div>
+          <div class="ov-pk-lbl">CPM</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-fb-cpc" style="color:#94afd4">—</div>
+          <div class="ov-pk-lbl">CPC</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-fb-imp" style="color:#4a6d94">—</div>
+          <div class="ov-pk-lbl">Impressions</div>
+        </div>
+      </div>
+    </div>
+    <!-- GG Card -->
+    <div class="ov-plat-card" style="border-color:#4d8ef533">
+      <div class="ov-plat-hdr">
+        <span class="ov-plat-icon">🛍</span>
+        <span class="ov-plat-title" style="color:#4d8ef5">Google Ads</span>
+        <span class="ov-plat-sub" id="ov-gg-rows">— rows</span>
+      </div>
+      <div class="ov-plat-kpis">
+        <div class="ov-pk" style="border-color:#60a5fa33">
+          <div class="ov-pk-val" id="ov-gg-spend" style="color:#60a5fa">—</div>
+          <div class="ov-pk-lbl">Cost</div>
+        </div>
+        <div class="ov-pk" style="border-color:#22d07a33">
+          <div class="ov-pk-val" id="ov-gg-rev" style="color:#22d07a">—</div>
+          <div class="ov-pk-lbl">Conv. Value</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-gg-roas">—</div>
+          <div class="ov-pk-lbl">ROAS</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-gg-conv" style="color:#fcd34d">—</div>
+          <div class="ov-pk-lbl">Conversions</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-gg-cpp" style="color:#c4b5fd">—</div>
+          <div class="ov-pk-lbl">Cost/Conv.</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-gg-ctr" style="color:#94afd4">—</div>
+          <div class="ov-pk-lbl">CTR</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-gg-cpc" style="color:#94afd4">—</div>
+          <div class="ov-pk-lbl">Avg. CPC</div>
+        </div>
+        <div class="ov-pk">
+          <div class="ov-pk-val" id="ov-gg-imp" style="color:#4a6d94">—</div>
+          <div class="ov-pk-lbl">Impressions</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="ov-charts-row">
+    <div class="card">
+      <div class="ch">
+        <div class="ct">📈 Daily Spend vs Revenue</div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="ld"><div class="ld-ln" style="color:#f5922d;border-top-style:solid"></div><span style="font-size:9px">FB Spend</span></div>
+          <div class="ld"><div class="ld-ln" style="color:#4d8ef5;border-top-style:solid"></div><span style="font-size:9px">GG Cost</span></div>
+          <div class="ld"><div class="ld-ln" style="color:#22d07a;border-top-style:dashed"></div><span style="font-size:9px">Revenue</span></div>
+        </div>
+      </div>
+      <div class="ov-chart-wrap"><canvas id="ov-trend-chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ch">
+        <div class="ct">🏷 ROAS by Niche</div>
+        <div style="display:flex;gap:5px">
+          <div class="ov-sort-tab act" id="ov-chart-roas" onclick="ovSetChartMode('roas')">ROAS</div>
+          <div class="ov-sort-tab" id="ov-chart-rev"  onclick="ovSetChartMode('rev')">Revenue</div>
+          <div class="ov-sort-tab" id="ov-chart-spend" onclick="ovSetChartMode('spend')">Spend</div>
+        </div>
+      </div>
+      <div class="ov-chart-wrap"><canvas id="ov-niche-chart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Breakdown Table -->
+  <div class="card">
+    <div class="ch">
+      <div class="ct" id="ov-tbl-title">📊 Breakdown by Event</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:10px;color:var(--t3)" id="ov-tbl-count">—</span>
+      </div>
+    </div>
+    <div class="ov-tw">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="ovSort('name')" id="ovth-name" style="min-width:120px">Group ↕</th>
+            <th class="fb-col" onclick="ovSort('fb_spend')" id="ovth-fb_spend" style="text-align:right">FB Spend</th>
+            <th class="fb-col" onclick="ovSort('fb_rev')"   id="ovth-fb_rev"   style="text-align:right">FB Revenue</th>
+            <th class="fb-col" onclick="ovSort('fb_roas')"  id="ovth-fb_roas"  style="text-align:right">FB ROAS</th>
+            <th class="fb-col" onclick="ovSort('fb_pur')"   id="ovth-fb_pur"   style="text-align:right">FB Purchases</th>
+            <th class="gg-col" onclick="ovSort('gg_spend')" id="ovth-gg_spend" style="text-align:right">GG Cost</th>
+            <th class="gg-col" onclick="ovSort('gg_rev')"   id="ovth-gg_rev"   style="text-align:right">GG Revenue</th>
+            <th class="gg-col" onclick="ovSort('gg_roas')"  id="ovth-gg_roas"  style="text-align:right">GG ROAS</th>
+            <th class="gg-col" onclick="ovSort('gg_conv')"  id="ovth-gg_conv"  style="text-align:right">GG Conv.</th>
+            <th class="tot-col" onclick="ovSort('tot_spend')" id="ovth-tot_spend" style="text-align:right">Total Spend</th>
+            <th class="tot-col" onclick="ovSort('tot_rev')"   id="ovth-tot_rev"   style="text-align:right">Total Rev.</th>
+            <th class="tot-col" onclick="ovSort('tot_roas')"  id="ovth-tot_roas"  style="text-align:right">Overall ROAS</th>
+          </tr>
+        </thead>
+        <tbody id="ov-tbody"></tbody>
+        <tfoot><tr class="ov-sum-row" id="ov-sum-row"></tr></tfoot>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /ov-main -->
+</div><!-- /page6 -->
+
 
 <script>
 // ══════════════════════════════════════════════════════
@@ -1759,6 +2055,7 @@ function switchTab(n){
   if(n===3&&!fbInited){fbInit();}
   if(n===4&&!ggInited){ggInit();}
   if(n===5&&!tkInited){tkInit();}
+  if(n===6&&!ovInited){ovInit();}
 }
 
 // ══════════════════════════════════════════════════════
@@ -3549,6 +3846,433 @@ function tkRenderTable(){
 function tkInit(){
   tkInited=true;
   tkLoad();
+}
+
+// ══════════════════════════════════════════════════════
+//  PAGE 6 — AD OVERVIEW (FB + GG combined)
+// ══════════════════════════════════════════════════════
+let ovInited     = false;
+let ovFbData     = [];   // raw FB rows
+let ovGgData     = [];   // raw GG rows
+let ovEvFilter   = 'all';
+let ovNiFilter   = 'all';
+let ovTrendChart = null;
+let ovNicheChart = null;
+let ovSortCol    = 'tot_roas';
+let ovSortDir    = 'desc';
+let ovChartMode  = 'roas';
+
+const OV_FB_URL = 'https://script.google.com/macros/s/AKfycbxViEkih39gnsaD3srYjkWe1Wq_tUVCRv1FAIT9MAeRnIZTN5gDaR5mMGsw1KkGOz7n/exec';
+const OV_GG_URL = 'https://script.google.com/macros/s/AKfycbxViEkih39gnsaD3srYjkWe1Wq_tUVCRv1FAIT9MAeRnIZTN5gDaR5mMGsw1KkGOz7n/exec';
+
+function ovBadge(state, msg){
+  const el = document.getElementById('ov-sync-badge');
+  if(!el) return;
+  el.className = 'ov-sync ' + state;
+  el.textContent = ({ok:'☁️ ', err:'⚠️ ', load:'⏳ '}[state] || '') + msg;
+}
+
+async function ovLoad(){
+  ovBadge('load', 'Đang tải...');
+  try {
+    // Try reusing already-loaded global data first
+    if(fbRawData && fbRawData.length > 0) {
+      ovFbData = fbRawData;
+    } else {
+      const r = await fetch(OV_FB_URL + '?action=read_fb_ads');
+      const j = await r.json();
+      if(!j.ok) throw new Error(j.error || 'FB API error');
+      ovFbData = j.data || [];
+    }
+    if(ggRawData && ggRawData.length > 0) {
+      ovGgData = ggRawData;
+    } else {
+      const r = await fetch(OV_GG_URL + '?action=read_gg_ads');
+      const j = await r.json();
+      if(!j.ok) throw new Error(j.error || 'GG API error');
+      ovGgData = j.data || [];
+    }
+    ovBadge('ok', `☁️ FB ${ovFbData.length} · GG ${ovGgData.length} rows`);
+    ovPopulateFilters();
+    ovApply();
+  } catch(e) {
+    ovBadge('err', 'Lỗi: ' + e.message);
+    console.error('OV load error', e);
+  }
+}
+
+// ── Populate filter pills ─────────────────────────────
+function ovPopulateFilters(){
+  const fbEv = ovFbData.map(r => r.event).filter(Boolean);
+  const ggEv = ovGgData.map(r => r.event).filter(Boolean);
+  const events = [...new Set([...fbEv, ...ggEv])].sort();
+
+  const fbNi = ovFbData.map(r => r.niche).filter(Boolean);
+  const ggNi = ovGgData.map(r => r.niche).filter(Boolean);
+  const niches = [...new Set([...fbNi, ...ggNi])].sort();
+
+  const evContainer = document.getElementById('ov-event-pills');
+  evContainer.innerHTML = `<button class="ov-fpill act-ev" data-ev="all" onclick="ovSetEvent(this)">Tất cả</button>` +
+    events.map(ev => `<button class="ov-fpill" data-ev="${ev}" onclick="ovSetEvent(this)">${ev}</button>`).join('');
+
+  const niContainer = document.getElementById('ov-niche-pills');
+  niContainer.innerHTML = `<button class="ov-fpill act-ni" data-ni="all" onclick="ovSetNiche(this)">Tất cả</button>` +
+    niches.map(ni => `<button class="ov-fpill" data-ni="${ni}" onclick="ovSetNiche(this)">${ni}</button>`).join('');
+}
+
+function ovSetEvent(btn){
+  ovEvFilter = btn.dataset.ev;
+  document.querySelectorAll('#ov-event-pills .ov-fpill').forEach(b => b.classList.remove('act-ev'));
+  btn.classList.add('act-ev');
+  ovApply();
+}
+function ovSetNiche(btn){
+  ovNiFilter = btn.dataset.ni;
+  document.querySelectorAll('#ov-niche-pills .ov-fpill').forEach(b => b.classList.remove('act-ni'));
+  btn.classList.add('act-ni');
+  ovApply();
+}
+
+// ── Filter helpers ────────────────────────────────────
+function ovGetFb(){
+  let d = ovFbData;
+  if(ovEvFilter !== 'all') d = d.filter(r => r.event === ovEvFilter);
+  if(ovNiFilter !== 'all') d = d.filter(r => r.niche === ovNiFilter);
+  return d;
+}
+function ovGetGg(){
+  let d = ovGgData;
+  if(ovEvFilter !== 'all') d = d.filter(r => r.event === ovEvFilter);
+  if(ovNiFilter !== 'all') d = d.filter(r => r.niche === ovNiFilter);
+  return d;
+}
+
+// ── Main apply ────────────────────────────────────────
+function ovApply(){
+  const fb = ovGetFb();
+  const gg = ovGetGg();
+  ovUpdateKPIs(fb, gg);
+  ovUpdatePlatformCards(fb, gg);
+  ovUpdateTrendChart(fb, gg);
+  ovRenderNicheChart(fb, gg);
+  ovRenderTable(fb, gg);
+}
+
+// ── Format helpers ────────────────────────────────────
+const ovFk  = v => '$' + (Math.abs(v) >= 1000 ? (v/1000).toFixed(1)+'K' : Math.round(v).toLocaleString());
+const ovFk2 = v => '$' + (Math.abs(v) >= 1000 ? (v/1000).toFixed(1)+'K' : v.toFixed(2));
+const ovFn  = v => Math.round(v).toLocaleString();
+const ovRoasCls = v => v >= 3 ? 'ov-roas-g' : v >= 1.5 ? 'ov-roas-y' : 'ov-roas-r';
+
+// ── KPI Strip ─────────────────────────────────────────
+function ovUpdateKPIs(fb, gg){
+  const fbSpend = fb.reduce((s,r) => s + (r.spend||0), 0);
+  const fbRev   = fb.reduce((s,r) => s + (r.revenue||0), 0);
+  const fbPur   = fb.reduce((s,r) => s + (r.purchases||0), 0);
+  const ggSpend = gg.reduce((s,r) => s + (r.cost||0), 0);
+  const ggRev   = gg.reduce((s,r) => s + (r.convValue||0), 0);
+  const ggConv  = gg.reduce((s,r) => s + (r.conversions||0), 0);
+
+  const totSpend = fbSpend + ggSpend;
+  const totRev   = fbRev + ggRev;
+  const totConv  = fbPur + ggConv;
+  const totRoas  = totSpend > 0 ? totRev / totSpend : 0;
+  const totCpp   = totConv > 0 ? totSpend / totConv : 0;
+  const fbRoas   = fbSpend > 0 ? fbRev / fbSpend : 0;
+  const ggRoas   = ggSpend > 0 ? ggRev / ggSpend : 0;
+
+  const fbDates = new Set(fb.filter(r=>r.spend>0).map(r=>r.date));
+  const ggDates = new Set(gg.filter(r=>r.cost>0).map(r=>r.date));
+  const allDates = new Set([...fbDates, ...ggDates]);
+
+  document.getElementById('ov-k-spend').textContent   = ovFk(totSpend);
+  document.getElementById('ov-k-spend-s').textContent = `FB ${ovFk(fbSpend)} · GG ${ovFk(ggSpend)}`;
+  document.getElementById('ov-k-rev').textContent     = ovFk(totRev);
+  document.getElementById('ov-k-rev-s').textContent   = `FB ${ovFk(fbRev)} · GG ${ovFk(ggRev)}`;
+  document.getElementById('ov-k-roas').textContent    = totRoas.toFixed(2) + 'x';
+  document.getElementById('ov-k-roas').className      = 'ov-kpi-val ' + ovRoasCls(totRoas);
+  document.getElementById('ov-k-roas-s').textContent  = `${ovFk(totRev)} / ${ovFk(totSpend)}`;
+  document.getElementById('ov-k-conv').textContent    = ovFn(totConv);
+  document.getElementById('ov-k-conv-s').textContent  = `FB ${ovFn(fbPur)} · GG ${ggConv.toFixed(1)}`;
+  document.getElementById('ov-k-fb-spend').textContent    = ovFk(fbSpend);
+  document.getElementById('ov-k-fb-spend-s').textContent  = `ROAS ${fbRoas.toFixed(2)}x`;
+  document.getElementById('ov-k-gg-spend').textContent    = ovFk(ggSpend);
+  document.getElementById('ov-k-gg-spend-s').textContent  = `ROAS ${ggRoas.toFixed(2)}x`;
+  document.getElementById('ov-k-cpp').textContent     = totCpp > 0 ? ovFk(totCpp) : '—';
+  document.getElementById('ov-k-cpp-s').textContent   = `${ovFn(totConv)} conversions`;
+  document.getElementById('ov-k-days').textContent    = allDates.size;
+  document.getElementById('ov-k-days-s').textContent  = `FB ${fbDates.size} · GG ${ggDates.size} days`;
+}
+
+// ── Platform Cards ────────────────────────────────────
+function ovUpdatePlatformCards(fb, gg){
+  const fbSpend = fb.reduce((s,r) => s+(r.spend||0), 0);
+  const fbRev   = fb.reduce((s,r) => s+(r.revenue||0), 0);
+  const fbPur   = fb.reduce((s,r) => s+(r.purchases||0), 0);
+  const fbImp   = fb.reduce((s,r) => s+(r.impressions||0), 0);
+  const fbClk   = fb.reduce((s,r) => s+(r.clicks||0), 0);
+  const fbRoas  = fbSpend > 0 ? fbRev / fbSpend : 0;
+  const fbCpp   = fbPur > 0 ? fbSpend / fbPur : 0;
+  const fbCpm   = fbImp > 0 ? fbSpend / fbImp * 1000 : 0;
+  const fbCpc   = fbClk > 0 ? fbSpend / fbClk : 0;
+
+  const ggSpend = gg.reduce((s,r) => s+(r.cost||0), 0);
+  const ggRev   = gg.reduce((s,r) => s+(r.convValue||0), 0);
+  const ggConv  = gg.reduce((s,r) => s+(r.conversions||0), 0);
+  const ggImp   = gg.reduce((s,r) => s+(r.impressions||0), 0);
+  const ggClk   = gg.reduce((s,r) => s+(r.clicks||0), 0);
+  const ggRoas  = ggSpend > 0 ? ggRev / ggSpend : 0;
+  const ggCpp   = ggConv > 0 ? ggSpend / ggConv : 0;
+  const ggCtr   = ggImp > 0 ? ggClk / ggImp * 100 : 0;
+  const ggCpc   = ggClk > 0 ? ggSpend / ggClk : 0;
+
+  document.getElementById('ov-fb-rows').textContent  = fb.length + ' rows';
+  document.getElementById('ov-fb-spend').textContent = ovFk(fbSpend);
+  document.getElementById('ov-fb-rev').textContent   = ovFk(fbRev);
+  const fbRoasEl = document.getElementById('ov-fb-roas');
+  fbRoasEl.textContent = fbRoas.toFixed(2) + 'x';
+  fbRoasEl.className = 'ov-pk-val ' + ovRoasCls(fbRoas);
+  document.getElementById('ov-fb-pur').textContent   = ovFn(fbPur);
+  document.getElementById('ov-fb-cpp').textContent   = fbCpp > 0 ? ovFk(fbCpp) : '—';
+  document.getElementById('ov-fb-cpm').textContent   = fbCpm > 0 ? ovFk2(fbCpm) : '—';
+  document.getElementById('ov-fb-cpc').textContent   = fbCpc > 0 ? ovFk2(fbCpc) : '—';
+  document.getElementById('ov-fb-imp').textContent   = fbImp >= 1000 ? (fbImp/1000).toFixed(0)+'K' : ovFn(fbImp);
+
+  document.getElementById('ov-gg-rows').textContent  = gg.length + ' rows';
+  document.getElementById('ov-gg-spend').textContent = ovFk(ggSpend);
+  document.getElementById('ov-gg-rev').textContent   = ovFk(ggRev);
+  const ggRoasEl = document.getElementById('ov-gg-roas');
+  ggRoasEl.textContent = ggRoas.toFixed(2) + 'x';
+  ggRoasEl.className = 'ov-pk-val ' + ovRoasCls(ggRoas);
+  document.getElementById('ov-gg-conv').textContent  = ggConv.toFixed(1);
+  document.getElementById('ov-gg-cpp').textContent   = ggCpp > 0 ? ovFk(ggCpp) : '—';
+  document.getElementById('ov-gg-ctr').textContent   = ggCtr > 0 ? ggCtr.toFixed(2)+'%' : '—';
+  document.getElementById('ov-gg-cpc').textContent   = ggCpc > 0 ? ovFk2(ggCpc) : '—';
+  document.getElementById('ov-gg-imp').textContent   = ggImp >= 1000 ? (ggImp/1000).toFixed(0)+'K' : ovFn(ggImp);
+}
+
+// ── Trend Chart ───────────────────────────────────────
+function ovUpdateTrendChart(fb, gg){
+  const fbByDate = {}, ggByDate = {};
+  fb.forEach(r => {
+    if(!r.date) return;
+    if(!fbByDate[r.date]) fbByDate[r.date] = {spend:0, rev:0};
+    fbByDate[r.date].spend += r.spend||0;
+    fbByDate[r.date].rev   += r.revenue||0;
+  });
+  gg.forEach(r => {
+    if(!r.date) return;
+    if(!ggByDate[r.date]) ggByDate[r.date] = {cost:0, rev:0};
+    ggByDate[r.date].cost += r.cost||0;
+    ggByDate[r.date].rev  += r.convValue||0;
+  });
+  const allDates = [...new Set([...Object.keys(fbByDate), ...Object.keys(ggByDate)])].sort();
+  const fbSpends = allDates.map(d => +(fbByDate[d]?.spend||0).toFixed(2));
+  const ggCosts  = allDates.map(d => +(ggByDate[d]?.cost||0).toFixed(2));
+  const totRevs  = allDates.map(d => +((fbByDate[d]?.rev||0)+(ggByDate[d]?.rev||0)).toFixed(2));
+  const fmt = v => '$' + (Math.abs(v) >= 1000 ? (v/1000).toFixed(1)+'K' : v.toFixed(0));
+
+  if(ovTrendChart){
+    ovTrendChart.data.labels = allDates;
+    ovTrendChart.data.datasets[0].data = fbSpends;
+    ovTrendChart.data.datasets[1].data = ggCosts;
+    ovTrendChart.data.datasets[2].data = totRevs;
+    ovTrendChart.update('none'); return;
+  }
+  const ctx = document.getElementById('ov-trend-chart').getContext('2d');
+  ovTrendChart = new Chart(ctx, {type:'line', data:{labels:allDates, datasets:[
+    {label:'FB Spend', data:fbSpends, borderColor:'#f5922d', backgroundColor:'#f5922d18', tension:0.3, pointRadius:0, borderWidth:2, fill:true},
+    {label:'GG Cost',  data:ggCosts,  borderColor:'#4d8ef5', backgroundColor:'#4d8ef518', tension:0.3, pointRadius:0, borderWidth:2, fill:true},
+    {label:'Revenue',  data:totRevs,  borderColor:'#22d07a', backgroundColor:'transparent', tension:0.3, pointRadius:0, borderWidth:2.5, borderDash:[5,3]},
+  ]}, options:{responsive:true, maintainAspectRatio:false, animation:{duration:150},
+    interaction:{mode:'index', intersect:false},
+    plugins:{legend:{display:true, position:'top', labels:{color:'#94afd4', font:{size:10}, boxWidth:12, padding:12}},
+      tooltip:{backgroundColor:'#0c1a2e', borderColor:'#1d3354', borderWidth:1, titleColor:'#94afd4', bodyColor:'#e8f0fe', padding:10,
+        callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
+    scales:{x:{grid:{color:'#1d335430'}, ticks:{color:'#4a6d94', font:{size:9}, maxTicksLimit:20, maxRotation:45}},
+      y:{grid:{color:'#1d335430'}, ticks:{color:'#4a6d94', font:{size:10}, callback:fmt}, grace:'5%'}}}});
+}
+
+// ── Niche Chart ───────────────────────────────────────
+function ovSetChartMode(m){
+  ovChartMode = m;
+  ['roas','rev','spend'].forEach(x => document.getElementById('ov-chart-'+x).classList.toggle('act', x===m));
+  const fb = ovGetFb(), gg = ovGetGg();
+  ovRenderNicheChart(fb, gg);
+}
+
+function ovRenderNicheChart(fb, gg){
+  // Aggregate by niche
+  const byNiche = {};
+  fb.forEach(r => {
+    const k = r.niche || 'Unknown';
+    if(!byNiche[k]) byNiche[k] = {fb_spend:0, fb_rev:0, fb_pur:0, gg_spend:0, gg_rev:0, gg_conv:0};
+    byNiche[k].fb_spend += r.spend||0;
+    byNiche[k].fb_rev   += r.revenue||0;
+    byNiche[k].fb_pur   += r.purchases||0;
+  });
+  gg.forEach(r => {
+    const k = r.niche || 'Unknown';
+    if(!byNiche[k]) byNiche[k] = {fb_spend:0, fb_rev:0, fb_pur:0, gg_spend:0, gg_rev:0, gg_conv:0};
+    byNiche[k].gg_spend += r.cost||0;
+    byNiche[k].gg_rev   += r.convValue||0;
+    byNiche[k].gg_conv  += r.conversions||0;
+  });
+
+  const niches = Object.keys(byNiche).sort();
+  let fbVals, ggVals;
+  if(ovChartMode === 'roas'){
+    fbVals = niches.map(n => byNiche[n].fb_spend > 0 ? +(byNiche[n].fb_rev/byNiche[n].fb_spend).toFixed(2) : 0);
+    ggVals = niches.map(n => byNiche[n].gg_spend > 0 ? +(byNiche[n].gg_rev/byNiche[n].gg_spend).toFixed(2) : 0);
+  } else if(ovChartMode === 'rev'){
+    fbVals = niches.map(n => +byNiche[n].fb_rev.toFixed(0));
+    ggVals = niches.map(n => +byNiche[n].gg_rev.toFixed(0));
+  } else {
+    fbVals = niches.map(n => +byNiche[n].fb_spend.toFixed(0));
+    ggVals = niches.map(n => +byNiche[n].gg_spend.toFixed(0));
+  }
+
+  const fmtTip = v => ovChartMode === 'roas' ? v.toFixed(2)+'x' : '$'+Math.round(v).toLocaleString();
+
+  if(ovNicheChart){
+    ovNicheChart.data.labels = niches;
+    ovNicheChart.data.datasets[0].data = fbVals;
+    ovNicheChart.data.datasets[1].data = ggVals;
+    ovNicheChart.options.plugins.tooltip.callbacks.label = c => `${c.dataset.label}: ${fmtTip(c.parsed.x)}`;
+    ovNicheChart.update('none'); return;
+  }
+  const ctx = document.getElementById('ov-niche-chart').getContext('2d');
+  ovNicheChart = new Chart(ctx, {type:'bar', data:{labels:niches, datasets:[
+    {label:'FB', data:fbVals, backgroundColor:'#f5922d88', borderColor:'#f5922d', borderWidth:1, borderRadius:3},
+    {label:'GG', data:ggVals, backgroundColor:'#4d8ef588', borderColor:'#4d8ef5', borderWidth:1, borderRadius:3},
+  ]}, options:{responsive:true, maintainAspectRatio:false, animation:{duration:150},
+    indexAxis:'y',
+    interaction:{mode:'index', intersect:false},
+    plugins:{legend:{display:true, position:'top', labels:{color:'#94afd4', font:{size:10}, boxWidth:12, padding:12}},
+      tooltip:{backgroundColor:'#0c1a2e', borderColor:'#1d3354', borderWidth:1, titleColor:'#94afd4', bodyColor:'#e8f0fe', padding:10,
+        callbacks:{label:c=>`${c.dataset.label}: ${fmtTip(c.parsed.x)}`}}},
+    scales:{x:{grid:{color:'#1d335430'}, ticks:{color:'#4a6d94', font:{size:9}}},
+      y:{grid:{display:false}, ticks:{color:'#94afd4', font:{size:10}}}}}});
+}
+
+// ── Breakdown Table ───────────────────────────────────
+function ovSort(col){
+  if(ovSortCol === col) ovSortDir = ovSortDir === 'desc' ? 'asc' : 'desc';
+  else { ovSortCol = col; ovSortDir = 'desc'; }
+  ovRenderTable(ovGetFb(), ovGetGg());
+}
+
+function ovRenderTable(fb, gg){
+  // Determine grouping: by event if all-events, else by niche
+  const groupBy = ovEvFilter === 'all' ? 'event' : 'niche';
+  document.getElementById('ov-tbl-title').textContent =
+    groupBy === 'event' ? '📊 Breakdown by Event' : `📊 Breakdown by Niche — ${ovEvFilter}`;
+
+  const map = {};
+  const mk = key => {
+    if(!map[key]) map[key] = {name:key, fb_spend:0, fb_rev:0, fb_pur:0, gg_spend:0, gg_rev:0, gg_conv:0};
+  };
+  fb.forEach(r => {
+    const k = r[groupBy] || 'Unknown';
+    mk(k);
+    map[k].fb_spend += r.spend||0;
+    map[k].fb_rev   += r.revenue||0;
+    map[k].fb_pur   += r.purchases||0;
+  });
+  gg.forEach(r => {
+    const k = r[groupBy] || 'Unknown';
+    mk(k);
+    map[k].gg_spend += r.cost||0;
+    map[k].gg_rev   += r.convValue||0;
+    map[k].gg_conv  += r.conversions||0;
+  });
+
+  let rows = Object.values(map).map(v => ({
+    ...v,
+    fb_roas:  v.fb_spend > 0 ? v.fb_rev / v.fb_spend : 0,
+    gg_roas:  v.gg_spend > 0 ? v.gg_rev / v.gg_spend : 0,
+    tot_spend: v.fb_spend + v.gg_spend,
+    tot_rev:   v.fb_rev + v.gg_rev,
+    get tot_roas(){ return this.tot_spend > 0 ? this.tot_rev / this.tot_spend : 0; },
+  }));
+
+  // Sort
+  rows.sort((a, b) => {
+    let va = a[ovSortCol], vb = b[ovSortCol];
+    if(typeof va === 'string') return ovSortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+    va = va||0; vb = vb||0;
+    return ovSortDir === 'desc' ? (vb > va ? 1 : -1) : (va > vb ? 1 : -1);
+  });
+
+  // Update sort header arrows
+  document.querySelectorAll('.ov-tw thead th').forEach(th => th.classList.remove('asc','desc'));
+  const sortTh = document.getElementById('ovth-' + ovSortCol);
+  if(sortTh) sortTh.classList.add(ovSortDir);
+
+  document.getElementById('ov-tbl-count').textContent = rows.length + ' ' + (groupBy === 'event' ? 'events' : 'niches');
+
+  const maxTotSpend = Math.max(...rows.map(r => r.tot_spend), 1);
+  document.getElementById('ov-tbody').innerHTML = rows.map(r => {
+    const fbRoasCls = ovRoasCls(r.fb_roas);
+    const ggRoasCls = ovRoasCls(r.gg_roas);
+    const totRoasCls = ovRoasCls(r.tot_roas);
+    const barW = Math.round(r.tot_spend / maxTotSpend * 100);
+    const fbShare = r.tot_spend > 0 ? r.fb_spend / r.tot_spend * 100 : 50;
+    const ggShare = 100 - fbShare;
+    return `<tr>
+      <td>
+        <div style="font-size:11px;font-weight:700;color:var(--t1)">${r.name}</div>
+        <div class="ov-share-bar" style="margin-top:4px;width:${Math.min(barW,100)}%">
+          <div class="ov-share-fb" style="width:${fbShare}%;min-width:${r.fb_spend>0?2:0}px"></div>
+          <div class="ov-share-gg" style="width:${ggShare}%;min-width:${r.gg_spend>0?2:0}px"></div>
+        </div>
+      </td>
+      <td style="text-align:right;font-family:var(--mono);font-size:11px;color:#f5922d">${ovFk(r.fb_spend)}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:11px;color:#25d4e7">${ovFk(r.fb_rev)}</td>
+      <td style="text-align:right"><span class="${fbRoasCls}" style="font-size:11px">${r.fb_roas > 0 ? r.fb_roas.toFixed(2)+'x' : '—'}</span></td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:#fcd34d">${r.fb_pur > 0 ? ovFn(r.fb_pur) : '—'}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:11px;color:#60a5fa">${ovFk(r.gg_spend)}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:11px;color:#22d07a">${ovFk(r.gg_rev)}</td>
+      <td style="text-align:right"><span class="${ggRoasCls}" style="font-size:11px">${r.gg_roas > 0 ? r.gg_roas.toFixed(2)+'x' : '—'}</span></td>
+      <td style="text-align:right;font-family:var(--mono);font-size:10px;color:#fdba74">${r.gg_conv > 0 ? r.gg_conv.toFixed(1) : '—'}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--t1)">${ovFk(r.tot_spend)}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--cyan)">${ovFk(r.tot_rev)}</td>
+      <td style="text-align:right"><span class="${totRoasCls}" style="font-size:13px;font-weight:800">${r.tot_roas > 0 ? r.tot_roas.toFixed(2)+'x' : '—'}</span></td>
+    </tr>`;
+  }).join('');
+
+  // Summary row
+  const totFbSpend = rows.reduce((s,r) => s+r.fb_spend, 0);
+  const totFbRev   = rows.reduce((s,r) => s+r.fb_rev, 0);
+  const totFbPur   = rows.reduce((s,r) => s+r.fb_pur, 0);
+  const totGgSpend = rows.reduce((s,r) => s+r.gg_spend, 0);
+  const totGgRev   = rows.reduce((s,r) => s+r.gg_rev, 0);
+  const totGgConv  = rows.reduce((s,r) => s+r.gg_conv, 0);
+  const totSpendAll = totFbSpend + totGgSpend;
+  const totRevAll   = totFbRev + totGgRev;
+  const totRoasAll  = totSpendAll > 0 ? totRevAll / totSpendAll : 0;
+  const sumRoasCls  = ovRoasCls(totRoasAll);
+
+  document.getElementById('ov-sum-row').innerHTML = `
+    <td style="padding:6px 8px;font-size:10px;color:var(--t3);font-family:var(--font)">TOTAL (${rows.length})</td>
+    <td style="text-align:right;color:#f5922d">${ovFk(totFbSpend)}</td>
+    <td style="text-align:right;color:#25d4e7">${ovFk(totFbRev)}</td>
+    <td style="text-align:right"><span class="${ovRoasCls(totFbSpend>0?totFbRev/totFbSpend:0)}">${totFbSpend>0?(totFbRev/totFbSpend).toFixed(2)+'x':'—'}</span></td>
+    <td style="text-align:right;color:#fcd34d">${ovFn(totFbPur)}</td>
+    <td style="text-align:right;color:#60a5fa">${ovFk(totGgSpend)}</td>
+    <td style="text-align:right;color:#22d07a">${ovFk(totGgRev)}</td>
+    <td style="text-align:right"><span class="${ovRoasCls(totGgSpend>0?totGgRev/totGgSpend:0)}">${totGgSpend>0?(totGgRev/totGgSpend).toFixed(2)+'x':'—'}</span></td>
+    <td style="text-align:right;color:#fdba74">${totGgConv.toFixed(1)}</td>
+    <td style="text-align:right;color:var(--t1);font-size:12px">${ovFk(totSpendAll)}</td>
+    <td style="text-align:right;color:var(--cyan);font-size:12px">${ovFk(totRevAll)}</td>
+    <td style="text-align:right"><span class="${sumRoasCls}" style="font-size:14px;font-weight:800">${totRoasAll > 0 ? totRoasAll.toFixed(2)+'x' : '—'}</span></td>
+  `;
+}
+
+// ── Init ──────────────────────────────────────────────
+function ovInit(){
+  ovInited = true;
+  ovLoad();
 }
 </script>
 </body>
