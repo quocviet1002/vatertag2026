@@ -335,6 +335,37 @@ tr:hover td{background:rgba(255,255,255,.013)}
 .ov-fpill.act-ev{background:#9b72f520;border-color:var(--purple);color:var(--purple)}
 .ov-fpill.act-ni{background:#25d4e720;border-color:var(--cyan);color:var(--cyan)}
 
+
+/* ── Date range filter (Page 6) ── */
+.ov-fpill.act-dt{background:#f5c84220;border-color:var(--yellow);color:var(--yellow)}
+.ov-date-sep{display:flex;align-items:center;font-size:10px;color:var(--t3);padding:0 2px}
+.ov-date-input{
+  background:var(--s2);border:1px solid var(--bd);border-radius:6px;
+  color:var(--t1);font-size:11px;font-weight:600;padding:3px 8px;
+  font-family:var(--mono);outline:none;cursor:pointer;
+  transition:border-color .15s;
+  color-scheme:dark;
+}
+.ov-date-input:focus{border-color:var(--yellow)}
+.ov-date-apply{
+  padding:3px 12px;border-radius:20px;border:1px solid var(--yellow);
+  background:#f5c84220;color:var(--yellow);font-size:11px;font-weight:700;
+  cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap;
+}
+.ov-date-apply:hover{background:#f5c84235}
+.ov-date-clear{
+  padding:3px 10px;border-radius:20px;border:1px solid var(--bd);
+  background:transparent;color:var(--t3);font-size:11px;font-weight:600;
+  cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap;
+}
+.ov-date-clear:hover{border-color:var(--t2);color:var(--t2)}
+#ov-date-range-row{display:none;align-items:center;gap:6px;flex-wrap:wrap;margin-top:2px}
+#ov-date-range-row.show{display:flex}
+.ov-date-active-badge{
+  font-size:9px;padding:2px 8px;border-radius:4px;
+  background:#f5c84220;border:1px solid #f5c84244;
+  color:var(--yellow);font-weight:700;white-space:nowrap;
+}
 /* kpi strip */
 .ov-kpi-strip{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
 .ov-kpi{background:var(--s1);padding:10px 13px;position:relative;overflow:hidden}
@@ -1315,6 +1346,29 @@ tr:hover td{background:rgba(255,255,255,.013)}
       <button class="ov-fpill act-ni" data-ni="all" onclick="ovSetNiche(this)">Tất cả</button>
     </div>
     <span id="ov-filter-ni-info" style="font-size:9px;color:var(--t4);margin-left:4px"></span>
+  </div>
+  <!-- DATE ROW -->
+  <div class="ov-filter-row" style="border-top:1px solid var(--bd);padding-top:6px;margin-top:2px">
+    <span class="ov-flbl">📅 Date</span>
+    <button class="ov-fpill act-dt" id="ov-dt-all"  onclick="ovSetDatePreset('all')">Tất cả</button>
+    <button class="ov-fpill" id="ov-dt-7d"   onclick="ovSetDatePreset('7d')">7 ngày</button>
+    <button class="ov-fpill" id="ov-dt-14d"  onclick="ovSetDatePreset('14d')">14 ngày</button>
+    <button class="ov-fpill" id="ov-dt-30d"  onclick="ovSetDatePreset('30d')">30 ngày</button>
+    <button class="ov-fpill" id="ov-dt-90d"  onclick="ovSetDatePreset('90d')">90 ngày</button>
+    <button class="ov-fpill" id="ov-dt-mtd"  onclick="ovSetDatePreset('mtd')">Tháng này</button>
+    <button class="ov-fpill" id="ov-dt-lm"   onclick="ovSetDatePreset('lm')">Tháng trước</button>
+    <button class="ov-fpill" id="ov-dt-custom" onclick="ovToggleDateCustom()">✏️ Custom</button>
+    <span id="ov-date-active-info" style="font-size:9px;color:var(--yellow);margin-left:4px;font-weight:700"></span>
+  </div>
+  <!-- CUSTOM DATE RANGE (hidden by default) -->
+  <div id="ov-date-range-row">
+    <span style="font-size:10px;color:var(--t3);white-space:nowrap">Từ</span>
+    <input type="date" class="ov-date-input" id="ov-date-from" onchange="ovApplyCustomDate()">
+    <span class="ov-date-sep">→</span>
+    <input type="date" class="ov-date-input" id="ov-date-to" onchange="ovApplyCustomDate()">
+    <button class="ov-date-apply" onclick="ovApplyCustomDate()">✅ Áp dụng</button>
+    <button class="ov-date-clear" onclick="ovSetDatePreset('all')">✕ Xóa</button>
+    <span id="ov-date-row-count" style="font-size:10px;color:var(--t3);margin-left:6px"></span>
   </div>
 </div>
 
@@ -3861,6 +3915,9 @@ let ovFbData     = [];   // raw FB rows
 let ovGgData     = [];   // raw GG rows
 let ovEvFilter   = 'all';
 let ovNiFilter   = 'all';
+let ovDateMode   = 'all';   // 'all' | '7d' | '14d' | '30d' | '90d' | 'mtd' | 'lm' | 'custom'
+let ovDateFrom   = '';       // YYYY-MM-DD (custom from)
+let ovDateTo     = '';       // YYYY-MM-DD (custom to)
 let ovTrendChart = null;
 let ovNicheChart = null;
 let ovSortCol    = 'tot_roas';
@@ -4004,6 +4061,84 @@ function ovPopulateFilters(){
     `(FB: ${[...new Set(fbNi)].length} · GG: ${[...new Set(ggNi)].length})`;
 }
 
+
+// ── Date filter controls ──────────────────────────────
+function ovSetDatePreset(mode){
+  ovDateMode = mode;
+  // Update pills
+  ['all','7d','14d','30d','90d','mtd','lm','custom'].forEach(m => {
+    const el = document.getElementById('ov-dt-'+m);
+    if(el) el.classList.toggle('act-dt', m === mode);
+  });
+  // Hide custom row unless custom
+  const row = document.getElementById('ov-date-range-row');
+  if(row) row.classList.toggle('show', mode === 'custom');
+  // Update active info badge
+  ovUpdateDateBadge();
+  ovApply();
+}
+
+function ovToggleDateCustom(){
+  const row = document.getElementById('ov-date-range-row');
+  const isShowing = row && row.classList.contains('show');
+  if(isShowing){
+    // If dates are set, apply them; else reset
+    if(ovDateFrom || ovDateTo){ ovDateMode='custom'; ovApply(); }
+    else { ovSetDatePreset('all'); return; }
+  } else {
+    // Show the custom row, pre-fill with inferred range if available
+    if(!ovDateFrom){
+      const allDates = [...ovFbData.map(r=>r.date), ...ovGgData.map(r=>r.date)]
+        .filter(Boolean).sort();
+      if(allDates.length){
+        document.getElementById('ov-date-from').value = allDates[0];
+        document.getElementById('ov-date-to').value   = allDates[allDates.length-1];
+        ovDateFrom = allDates[0];
+        ovDateTo   = allDates[allDates.length-1];
+      }
+    }
+    row.classList.add('show');
+    ['all','7d','14d','30d','90d','mtd','lm'].forEach(m => {
+      const el = document.getElementById('ov-dt-'+m);
+      if(el) el.classList.remove('act-dt');
+    });
+    const custBtn = document.getElementById('ov-dt-custom');
+    if(custBtn) custBtn.classList.add('act-dt');
+  }
+}
+
+function ovApplyCustomDate(){
+  ovDateFrom = document.getElementById('ov-date-from')?.value || '';
+  ovDateTo   = document.getElementById('ov-date-to')?.value   || '';
+  ovDateMode = 'custom';
+  // Update pills
+  ['all','7d','14d','30d','90d','mtd','lm'].forEach(m => {
+    const el = document.getElementById('ov-dt-'+m);
+    if(el) el.classList.remove('act-dt');
+  });
+  const custBtn = document.getElementById('ov-dt-custom');
+  if(custBtn) custBtn.classList.add('act-dt');
+  ovUpdateDateBadge();
+  ovApply();
+}
+
+function ovUpdateDateBadge(){
+  const el = document.getElementById('ov-date-active-info');
+  if(!el) return;
+  const labels = {all:'Tất cả thời gian','7d':'7 ngày gần nhất','14d':'14 ngày','30d':'30 ngày','90d':'90 ngày','mtd':'Tháng này','lm':'Tháng trước'};
+  if(ovDateMode === 'all'){ el.textContent = ''; return; }
+  if(ovDateMode === 'custom'){
+    el.textContent = ovDateFrom&&ovDateTo ? `📅 ${ovDateFrom} → ${ovDateTo}` : '';
+  } else {
+    el.textContent = labels[ovDateMode] ? '📅 ' + labels[ovDateMode] : '';
+  }
+  // Count rows
+  const fb = ovFilterByDate(ovFbData).length;
+  const gg = ovFilterByDate(ovGgData).length;
+  const countEl = document.getElementById('ov-date-row-count');
+  if(countEl) countEl.textContent = `FB ${fb.toLocaleString()} · GG ${gg.toLocaleString()} rows`;
+}
+
 function ovSetEvent(btn){
   ovEvFilter = btn.dataset.ev;
   document.querySelectorAll('#ov-event-pills .ov-fpill').forEach(b => b.classList.remove('act-ev'));
@@ -4018,14 +4153,45 @@ function ovSetNiche(btn){
 }
 
 // ── Filter helpers ────────────────────────────────────
+// ── Compute date range based on current mode ─────────
+function ovGetDateRange(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const iso = d => d.toISOString().slice(0,10);
+  if(ovDateMode === 'all') return {from:'', to:''};
+  if(ovDateMode === 'custom') return {from:ovDateFrom, to:ovDateTo};
+  const from = new Date(today);
+  if(ovDateMode === '7d')  { from.setDate(today.getDate()-6);   return {from:iso(from), to:iso(today)}; }
+  if(ovDateMode === '14d') { from.setDate(today.getDate()-13);  return {from:iso(from), to:iso(today)}; }
+  if(ovDateMode === '30d') { from.setDate(today.getDate()-29);  return {from:iso(from), to:iso(today)}; }
+  if(ovDateMode === '90d') { from.setDate(today.getDate()-89);  return {from:iso(from), to:iso(today)}; }
+  if(ovDateMode === 'mtd') { from.setDate(1);                   return {from:iso(from), to:iso(today)}; }
+  if(ovDateMode === 'lm')  {
+    const lm = new Date(today.getFullYear(), today.getMonth()-1, 1);
+    const le = new Date(today.getFullYear(), today.getMonth(), 0);
+    return {from:iso(lm), to:iso(le)};
+  }
+  return {from:'', to:''};
+}
+
+function ovFilterByDate(rows){
+  const {from, to} = ovGetDateRange();
+  if(!from && !to) return rows;
+  return rows.filter(r => {
+    const d = r.date || '';
+    if(from && d < from) return false;
+    if(to   && d > to)   return false;
+    return true;
+  });
+}
+
 function ovGetFb(){
-  let d = ovFbData;
+  let d = ovFilterByDate(ovFbData);
   if(ovEvFilter !== 'all') d = d.filter(r => r.event === ovEvFilter);
   if(ovNiFilter !== 'all') d = d.filter(r => r.niche === ovNiFilter);
   return d;
 }
 function ovGetGg(){
-  let d = ovGgData;
+  let d = ovFilterByDate(ovGgData);
   if(ovEvFilter !== 'all') d = d.filter(r => r.event === ovEvFilter);
   if(ovNiFilter !== 'all') d = d.filter(r => r.niche === ovNiFilter);
   return d;
