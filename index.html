@@ -424,266 +424,16 @@ tr:hover td{background:rgba(255,255,255,.013)}
 <!-- ══ NAV ══ -->
 <div class="nav">
   <div class="nav-brand">🚀 Hamyso</div>
-  <div class="nav-tab active" id="tab1" onclick="switchTab(1)">📋 Campaign Forecast</div>
-  <div class="nav-tab" id="tab2" onclick="switchTab(2)">📊 Store Performance</div>
-  <div class="nav-tab" id="tab3" onclick="switchTab(3)">📣 Facebook Ads</div>
-  <div class="nav-tab" id="tab4" onclick="switchTab(4)">🛍 Google Ads</div>
-  <div class="nav-tab" id="tab5" onclick="switchTab(5)">🎵 TikTok Ads</div>
-  <div class="nav-tab" id="tab6" onclick="switchTab(6)">🔭 Ad Overview</div>
+  <div class="nav-tab active" id="tab2" onclick="switchTab(1)">📊 Store Performance</div>
+  <div class="nav-tab" id="tab3" onclick="switchTab(2)">📣 Facebook Ads</div>
+  <div class="nav-tab" id="tab4" onclick="switchTab(3)">🛍 Google Ads</div>
+  <div class="nav-tab" id="tab5" onclick="switchTab(4)">🎵 TikTok Ads</div>
+  <div class="nav-tab" id="tab6" onclick="switchTab(5)">🔭 Ad Overview</div>
+  <div class="nav-tab" id="tab1" onclick="switchTab(6)">📋 Campaign Forecast</div>
 </div>
 
 <!-- ══ PAGE 1 — CAMPAIGN FORECAST ══ -->
-<div id="page1" class="page active">
-<!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
-<div class="hdr">
-  <div class="hdr-title">
-    <h1>🃏 Vatertag 2026 — Campaign Command Center</h1>
-    <p>06 Mar → 14 May 2026 · USD · Actual tự động từ Google Sheets ☁️</p>
-  </div>
-  <div class="hdr-right">
-    <div id="tbadge" class="tbadge tmiss">❌ BELOW $30K</div>
-    <div class="ibox accent">
-      <label>💰 Tổng Spent Ads</label>
-      <div class="ir"><span class="u">$</span>
-        <input type="number" id="i-total" value="200000" min="5000" max="400000" step="1000" oninput="onTotalChange()">
-      </div>
-    </div>
-    <div class="ibox">
-      <label>AOV</label>
-      <div class="ir"><span class="u">$</span>
-        <input type="number" id="i-aov" value="43.5" min="10" max="100" step="0.5" oninput="recalc()">
-      </div>
-    </div>
-    <div class="ibox">
-      <label>Gross Margin</label>
-      <div class="ir">
-        <input type="number" id="i-gm" value="70" min="10" max="95" step="1" oninput="recalc()">
-        <span class="u">%</span>
-      </div>
-    </div>
-    <div class="ibox">
-      <label>Biến phí khác</label>
-      <div class="ir">
-        <input type="number" id="i-var" value="5" min="0" max="30" step="0.5" oninput="recalc()">
-        <span class="u">%</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ ROAS PER PHASE ══════════════════════════════════════════════════ -->
-<div class="roas-panel">
-  <span class="rp-lbl">ROAS theo phase →</span>
-  <div class="ri" style="border-color:#3b82f644">
-    <span class="ri-ph" style="color:#3b82f6">🌱 Warm-up</span>
-    <input type="number" id="r-warm"   value="1.8"  min="0.5" max="8" step="0.05" oninput="recalc()">
-    <span class="u">x</span>
-  </div>
-  <div class="ri" style="border-color:#f9731644">
-    <span class="ri-ph" style="color:#f97316">🔥 Accel</span>
-    <input type="number" id="r-accel"  value="2.0"  min="0.5" max="8" step="0.05" oninput="recalc()">
-    <span class="u">x</span>
-  </div>
-  <div class="ri" style="border-color:#a855f744">
-    <span class="ri-ph" style="color:#a855f7">⚡ Peak</span>
-    <input type="number" id="r-peak"   value="2.2"  min="0.5" max="8" step="0.05" oninput="recalc()">
-    <span class="u">x</span>
-  </div>
-  <div class="ri" style="border-color:#ef444444">
-    <span class="ri-ph" style="color:#ef4444">🚨 Sprint</span>
-    <input type="number" id="r-sprint" value="2.4"  min="0.5" max="8" step="0.05" oninput="recalc()">
-    <span class="u">x</span>
-  </div>
-  <div class="ri" style="border-color:#f59e0b44">
-    <span class="ri-ph" style="color:#f59e0b">📦 Post-CO</span>
-    <input type="number" id="r-post"   value="2.0"  min="0.5" max="8" step="0.05" oninput="recalc()">
-    <span class="u">x</span>
-  </div>
-</div>
-
-<!-- ══ KPI STRIP ════════════════════════════════════════════════════════ -->
-<div class="kpi-strip">
-  <div class="kpi kb">
-    <div class="kpi-lbl">💰 Tổng chi Ads</div>
-    <div class="kpi-val" id="k-spend" style="color:#60a5fa">€0</div>
-    <div class="kpi-sub" id="k-spend-s">Forecast · — ngày có spend</div>
-  </div>
-  <div class="kpi kc">
-    <div class="kpi-lbl">📈 Tổng doanh thu</div>
-    <div class="kpi-val" id="k-rev" style="color:#67e8f9">€0</div>
-    <div class="kpi-sub" id="k-rev-s">— orders dự kiến</div>
-  </div>
-  <div class="kpi kg">
-    <div class="kpi-lbl">✅ Net Profit</div>
-    <div class="kpi-val" id="k-profit">€0</div>
-    <div class="kpi-sub" id="k-profit-s">Net margin: 0%</div>
-  </div>
-  <div class="kpi ky">
-    <div class="kpi-lbl">📊 % Ads trung bình</div>
-    <div class="kpi-val" id="k-adpct" style="color:#fcd34d">0%</div>
-    <div class="kpi-sub" id="k-roas-s">ROAS tb: 0x</div>
-  </div>
-  <div class="kpi kp">
-    <div class="kpi-lbl">🤖 API Cost</div>
-    <div class="kpi-val" id="k-api" style="color:#c4b5fd">€0</div>
-    <div class="kpi-sub" id="k-api-s">—</div>
-  </div>
-  <div class="kpi ko">
-    <div class="kpi-lbl">📈 ROAS</div>
-    <div class="kpi-val" id="k-roas" style="color:#fdba74">0x</div>
-    <div class="kpi-sub" id="k-roas2-s">Revenue / Ads Spend</div>
-  </div>
-</div>
-
-<!-- ══ MAIN ══════════════════════════════════════════════════════════════ -->
-<div class="main">
-
-  <!-- CHART -->
-  <div class="card">
-    <div class="ch">
-      <div class="ct">📊 Biểu đồ Daily — Spend / Revenue / Net Profit (nét đứt)</div>
-      <div class="ld-row">
-        <div class="ld"><div class="ld-ln" style="color:#f97316"></div>Spend</div>
-        <div class="ld"><div class="ld-ln" style="color:#4d8ef5"></div>Revenue</div>
-        <div class="ld"><div class="ld-ln" style="color:#22d07a"></div>Net Profit</div>
-      </div>
-    </div>
-    <div class="chart-wrap"><canvas id="main-chart"></canvas></div>
-  </div>
-
-  <!-- RULES ROW -->
-  <div class="rules-row">
-    <div class="card">
-      <div class="ch"><div class="ct">⚙️ Rule tăng giảm Budget theo Phase</div></div>
-      <div class="rule-grid">
-        <div class="rc">
-          <div class="rc-ph" style="color:#64748b">🔧 Prep<small>06/03–24/03</small></div>
-          <div class="rc-rule">Budget = <b>€0</b><br>Không chạy ads<br>Chuẩn bị creative</div>
-        </div>
-        <div class="rc">
-          <div class="rc-ph" style="color:#3b82f6">🌱 Warm-up<small>25/03–15/04</small></div>
-          <div class="rc-rule">Start <b>€200</b><br>Pixel học dần</div>
-          <div class="rc-inp-row">
-            <span class="rc-inp-lbl">Tăng</span>
-            <input type="number" id="rate-warm" class="rc-inp" value="5" min="1" max="30" step="0.5" oninput="onRateChange()">
-            <span class="rc-inp-lbl">%/ngày</span>
-          </div>
-        </div>
-        <div class="rc">
-          <div class="rc-ph" style="color:#f97316">🔥 Accel<small>16/04–28/04</small></div>
-          <div class="rc-rule">Nối Warm-up</div>
-          <div class="rc-inp-row">
-            <span class="rc-inp-lbl">Tăng</span>
-            <input type="number" id="rate-accel" class="rc-inp" value="12" min="1" max="30" step="0.5" oninput="onRateChange()">
-            <span class="rc-inp-lbl">%/ngày</span>
-          </div>
-        </div>
-        <div class="rc">
-          <div class="rc-ph" style="color:#a855f7">⚡ Peak<small>29/04–02/05</small></div>
-          <div class="rc-rule">Nối Accel</div>
-          <div class="rc-inp-row">
-            <span class="rc-inp-lbl">Tăng</span>
-            <input type="number" id="rate-peak" class="rc-inp" value="15" min="1" max="30" step="0.5" oninput="onRateChange()">
-            <span class="rc-inp-lbl">%/ngày</span>
-          </div>
-        </div>
-        <div class="rc">
-          <div class="rc-ph" style="color:#ef4444">🚨 Sprint<small>03/05–08/05</small></div>
-          <div class="rc-rule">2 ngày <b>Giữ</b><br>3 ngày <b>−15%</b><br>Ngày 6: <b>−50%</b></div>
-        </div>
-        <div class="rc">
-          <div class="rc-ph" style="color:#f59e0b">📦 Post-CO<small>09/05–14/05</small></div>
-          <div class="rc-rule">Nối Sprint<br>Giảm <b>−15%/ngày</b><br>⚠️ Fulfill only</div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="ch"><div class="ct">📏 Smart Scale Reference</div></div>
-      <div class="scale-grid">
-        <div class="sr">
-          <div class="sr-pct" style="color:var(--green)">% Ads ≤ 35%</div>
-          <div class="sr-desc">ROAS &gt; 2.86x<br><span style="color:var(--t2)">Hiệu quả cao</span></div>
-        </div>
-        <div class="sr">
-          <div class="sr-pct" style="color:var(--blue)">% Ads 35–42%</div>
-          <div class="sr-desc">ROAS 2.38–2.86x<br><span style="color:var(--t2)">Ổn định, tốt</span></div>
-        </div>
-        <div class="sr">
-          <div class="sr-pct" style="color:var(--yellow)">% Ads 42–50%</div>
-          <div class="sr-desc">ROAS 2.0–2.38x<br><span style="color:var(--t2)">Chấp nhận được</span></div>
-        </div>
-        <div class="sr">
-          <div class="sr-pct" style="color:var(--red)">% Ads &gt; 50%</div>
-          <div class="sr-desc">ROAS &lt; 2.0x<br><span style="color:var(--t2)">Cần kiểm tra</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DATA TABLE -->
-  <div class="card">
-    <div class="ch">
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <div class="ct">📋 Dữ liệu từng ngày</div>
-        <div class="actual-legend">☁️ Actual tự động từ Google Sheets · USD</div>
-        <div id="sync-badge" class="sync-badge sync-load">⏳ Đang tải...</div>
-      </div>
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <div class="ptabs" id="ptabs">
-          <div class="ptab act" onclick="filterPhase('ALL',this)">Tất cả</div>
-          <div class="ptab" onclick="filterPhase('WARM',this)">🌱 Warm-up</div>
-          <div class="ptab" onclick="filterPhase('ACCEL',this)">🔥 Accel</div>
-          <div class="ptab" onclick="filterPhase('PEAK',this)">⚡ Peak</div>
-          <div class="ptab" onclick="filterPhase('SPRINT',this)">🚨 Sprint</div>
-          <div class="ptab" onclick="filterPhase('POST',this)">📦 Post-CO</div>
-        </div>
-        <button class="rbtn" onclick="resetForecast()">↺ Reset Forecast</button>
-        <button class="rbtn danger" onclick="clearActual()">🗑 Xóa Actual</button>
-      </div>
-    </div>
-    <div class="tw">
-      <table>
-        <thead>
-          <tr>
-            <th>Ngày</th>
-            <th>Revenue<br>Forecast</th>
-            <th class="ah">Revenue<br>Actual ✏️</th>
-            <th>Budget<br>Forecast</th>
-            <th class="ah">Budget<br>Actual ✏️</th>
-            <th>API Cost<br>Forecast</th>
-            <th class="ah">API Cost<br>Actual ✏️</th>
-            <th>Orders<br>(tự tính)</th>
-            <th style="min-width:82px">% Spent Ads</th>
-            <th>POAS (€)<br>Rev−Bud−API</th>
-            <th>Net Profit<br>% Margin</th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-        <tfoot>
-          <tr class="sum-row">
-            <td>📊 TỔNG/TB</td>
-            <td id="s-revf">—</td>
-            <td id="s-reva">—</td>
-            <td id="s-budf">—</td>
-            <td id="s-buda">—</td>
-            <td id="s-apif">—</td>
-            <td id="s-apia">—</td>
-            <td id="s-ord">—</td>
-            <td id="s-pct">—</td>
-            <td id="s-poas">—</td>
-            <td id="s-np">—</td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </div>
-
-</div>
-
-</div><!-- /page1 -->
-
-<!-- ══ PAGE 2 — STORE PERFORMANCE ══ -->
-<div id="page2" class="page">
+<div id="page2" class="page active">
 
 <!-- SP HEADER -->
 <div class="sp-hdr">
@@ -846,8 +596,6 @@ tr:hover td{background:rgba(255,255,255,.013)}
 </div><!-- /sp-main 2 cột -->
 
 </div><!-- /page2 -->
-
-<!-- ══ PAGE 3 — FACEBOOK ADS ══ -->
 <div id="page3" class="page">
 
 <div class="fb-hdr">
@@ -1048,8 +796,6 @@ tr:hover td{background:rgba(255,255,255,.013)}
 </div>
 
 </div><!-- /page3 -->
-
-<!-- ══ PAGE 4 — GOOGLE ADS ══ -->
 <div id="page4" class="page">
 
 <!-- HEADER -->
@@ -1210,8 +956,6 @@ tr:hover td{background:rgba(255,255,255,.013)}
 
 </div><!-- /gg-main -->
 </div><!-- /page4 -->
-
-<!-- ══ PAGE 5 — TIKTOK ADS ══ -->
 <div id="page5" class="page">
 
 <div class="tk-hdr">
@@ -1315,8 +1059,6 @@ tr:hover td{background:rgba(255,255,255,.013)}
 
 </div><!-- /tk-main -->
 </div><!-- /page5 -->
-
-<!-- ══ PAGE 6 — AD OVERVIEW ══ -->
 <div id="page6" class="page">
 
 <!-- HEADER -->
@@ -1570,6 +1312,254 @@ tr:hover td{background:rgba(255,255,255,.013)}
 
 </div><!-- /ov-main -->
 </div><!-- /page6 -->
+<div id="page1" class="page">
+<!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
+<div class="hdr">
+  <div class="hdr-title">
+    <h1>🃏 Vatertag 2026 — Campaign Command Center</h1>
+    <p>06 Mar → 14 May 2026 · USD · Actual tự động từ Google Sheets ☁️</p>
+  </div>
+  <div class="hdr-right">
+    <div id="tbadge" class="tbadge tmiss">❌ BELOW $30K</div>
+    <div class="ibox accent">
+      <label>💰 Tổng Spent Ads</label>
+      <div class="ir"><span class="u">$</span>
+        <input type="number" id="i-total" value="200000" min="5000" max="400000" step="1000" oninput="onTotalChange()">
+      </div>
+    </div>
+    <div class="ibox">
+      <label>AOV</label>
+      <div class="ir"><span class="u">$</span>
+        <input type="number" id="i-aov" value="43.5" min="10" max="100" step="0.5" oninput="recalc()">
+      </div>
+    </div>
+    <div class="ibox">
+      <label>Gross Margin</label>
+      <div class="ir">
+        <input type="number" id="i-gm" value="70" min="10" max="95" step="1" oninput="recalc()">
+        <span class="u">%</span>
+      </div>
+    </div>
+    <div class="ibox">
+      <label>Biến phí khác</label>
+      <div class="ir">
+        <input type="number" id="i-var" value="5" min="0" max="30" step="0.5" oninput="recalc()">
+        <span class="u">%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ROAS PER PHASE ══════════════════════════════════════════════════ -->
+<div class="roas-panel">
+  <span class="rp-lbl">ROAS theo phase →</span>
+  <div class="ri" style="border-color:#3b82f644">
+    <span class="ri-ph" style="color:#3b82f6">🌱 Warm-up</span>
+    <input type="number" id="r-warm"   value="1.8"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <span class="u">x</span>
+  </div>
+  <div class="ri" style="border-color:#f9731644">
+    <span class="ri-ph" style="color:#f97316">🔥 Accel</span>
+    <input type="number" id="r-accel"  value="2.0"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <span class="u">x</span>
+  </div>
+  <div class="ri" style="border-color:#a855f744">
+    <span class="ri-ph" style="color:#a855f7">⚡ Peak</span>
+    <input type="number" id="r-peak"   value="2.2"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <span class="u">x</span>
+  </div>
+  <div class="ri" style="border-color:#ef444444">
+    <span class="ri-ph" style="color:#ef4444">🚨 Sprint</span>
+    <input type="number" id="r-sprint" value="2.4"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <span class="u">x</span>
+  </div>
+  <div class="ri" style="border-color:#f59e0b44">
+    <span class="ri-ph" style="color:#f59e0b">📦 Post-CO</span>
+    <input type="number" id="r-post"   value="2.0"  min="0.5" max="8" step="0.05" oninput="recalc()">
+    <span class="u">x</span>
+  </div>
+</div>
+
+<!-- ══ KPI STRIP ════════════════════════════════════════════════════════ -->
+<div class="kpi-strip">
+  <div class="kpi kb">
+    <div class="kpi-lbl">💰 Tổng chi Ads</div>
+    <div class="kpi-val" id="k-spend" style="color:#60a5fa">€0</div>
+    <div class="kpi-sub" id="k-spend-s">Forecast · — ngày có spend</div>
+  </div>
+  <div class="kpi kc">
+    <div class="kpi-lbl">📈 Tổng doanh thu</div>
+    <div class="kpi-val" id="k-rev" style="color:#67e8f9">€0</div>
+    <div class="kpi-sub" id="k-rev-s">— orders dự kiến</div>
+  </div>
+  <div class="kpi kg">
+    <div class="kpi-lbl">✅ Net Profit</div>
+    <div class="kpi-val" id="k-profit">€0</div>
+    <div class="kpi-sub" id="k-profit-s">Net margin: 0%</div>
+  </div>
+  <div class="kpi ky">
+    <div class="kpi-lbl">📊 % Ads trung bình</div>
+    <div class="kpi-val" id="k-adpct" style="color:#fcd34d">0%</div>
+    <div class="kpi-sub" id="k-roas-s">ROAS tb: 0x</div>
+  </div>
+  <div class="kpi kp">
+    <div class="kpi-lbl">🤖 API Cost</div>
+    <div class="kpi-val" id="k-api" style="color:#c4b5fd">€0</div>
+    <div class="kpi-sub" id="k-api-s">—</div>
+  </div>
+  <div class="kpi ko">
+    <div class="kpi-lbl">📈 ROAS</div>
+    <div class="kpi-val" id="k-roas" style="color:#fdba74">0x</div>
+    <div class="kpi-sub" id="k-roas2-s">Revenue / Ads Spend</div>
+  </div>
+</div>
+
+<!-- ══ MAIN ══════════════════════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- CHART -->
+  <div class="card">
+    <div class="ch">
+      <div class="ct">📊 Biểu đồ Daily — Spend / Revenue / Net Profit (nét đứt)</div>
+      <div class="ld-row">
+        <div class="ld"><div class="ld-ln" style="color:#f97316"></div>Spend</div>
+        <div class="ld"><div class="ld-ln" style="color:#4d8ef5"></div>Revenue</div>
+        <div class="ld"><div class="ld-ln" style="color:#22d07a"></div>Net Profit</div>
+      </div>
+    </div>
+    <div class="chart-wrap"><canvas id="main-chart"></canvas></div>
+  </div>
+
+  <!-- RULES ROW -->
+  <div class="rules-row">
+    <div class="card">
+      <div class="ch"><div class="ct">⚙️ Rule tăng giảm Budget theo Phase</div></div>
+      <div class="rule-grid">
+        <div class="rc">
+          <div class="rc-ph" style="color:#64748b">🔧 Prep<small>06/03–24/03</small></div>
+          <div class="rc-rule">Budget = <b>€0</b><br>Không chạy ads<br>Chuẩn bị creative</div>
+        </div>
+        <div class="rc">
+          <div class="rc-ph" style="color:#3b82f6">🌱 Warm-up<small>25/03–15/04</small></div>
+          <div class="rc-rule">Start <b>€200</b><br>Pixel học dần</div>
+          <div class="rc-inp-row">
+            <span class="rc-inp-lbl">Tăng</span>
+            <input type="number" id="rate-warm" class="rc-inp" value="5" min="1" max="30" step="0.5" oninput="onRateChange()">
+            <span class="rc-inp-lbl">%/ngày</span>
+          </div>
+        </div>
+        <div class="rc">
+          <div class="rc-ph" style="color:#f97316">🔥 Accel<small>16/04–28/04</small></div>
+          <div class="rc-rule">Nối Warm-up</div>
+          <div class="rc-inp-row">
+            <span class="rc-inp-lbl">Tăng</span>
+            <input type="number" id="rate-accel" class="rc-inp" value="12" min="1" max="30" step="0.5" oninput="onRateChange()">
+            <span class="rc-inp-lbl">%/ngày</span>
+          </div>
+        </div>
+        <div class="rc">
+          <div class="rc-ph" style="color:#a855f7">⚡ Peak<small>29/04–02/05</small></div>
+          <div class="rc-rule">Nối Accel</div>
+          <div class="rc-inp-row">
+            <span class="rc-inp-lbl">Tăng</span>
+            <input type="number" id="rate-peak" class="rc-inp" value="15" min="1" max="30" step="0.5" oninput="onRateChange()">
+            <span class="rc-inp-lbl">%/ngày</span>
+          </div>
+        </div>
+        <div class="rc">
+          <div class="rc-ph" style="color:#ef4444">🚨 Sprint<small>03/05–08/05</small></div>
+          <div class="rc-rule">2 ngày <b>Giữ</b><br>3 ngày <b>−15%</b><br>Ngày 6: <b>−50%</b></div>
+        </div>
+        <div class="rc">
+          <div class="rc-ph" style="color:#f59e0b">📦 Post-CO<small>09/05–14/05</small></div>
+          <div class="rc-rule">Nối Sprint<br>Giảm <b>−15%/ngày</b><br>⚠️ Fulfill only</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">📏 Smart Scale Reference</div></div>
+      <div class="scale-grid">
+        <div class="sr">
+          <div class="sr-pct" style="color:var(--green)">% Ads ≤ 35%</div>
+          <div class="sr-desc">ROAS &gt; 2.86x<br><span style="color:var(--t2)">Hiệu quả cao</span></div>
+        </div>
+        <div class="sr">
+          <div class="sr-pct" style="color:var(--blue)">% Ads 35–42%</div>
+          <div class="sr-desc">ROAS 2.38–2.86x<br><span style="color:var(--t2)">Ổn định, tốt</span></div>
+        </div>
+        <div class="sr">
+          <div class="sr-pct" style="color:var(--yellow)">% Ads 42–50%</div>
+          <div class="sr-desc">ROAS 2.0–2.38x<br><span style="color:var(--t2)">Chấp nhận được</span></div>
+        </div>
+        <div class="sr">
+          <div class="sr-pct" style="color:var(--red)">% Ads &gt; 50%</div>
+          <div class="sr-desc">ROAS &lt; 2.0x<br><span style="color:var(--t2)">Cần kiểm tra</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA TABLE -->
+  <div class="card">
+    <div class="ch">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="ct">📋 Dữ liệu từng ngày</div>
+        <div class="actual-legend">☁️ Actual tự động từ Google Sheets · USD</div>
+        <div id="sync-badge" class="sync-badge sync-load">⏳ Đang tải...</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <div class="ptabs" id="ptabs">
+          <div class="ptab act" onclick="filterPhase('ALL',this)">Tất cả</div>
+          <div class="ptab" onclick="filterPhase('WARM',this)">🌱 Warm-up</div>
+          <div class="ptab" onclick="filterPhase('ACCEL',this)">🔥 Accel</div>
+          <div class="ptab" onclick="filterPhase('PEAK',this)">⚡ Peak</div>
+          <div class="ptab" onclick="filterPhase('SPRINT',this)">🚨 Sprint</div>
+          <div class="ptab" onclick="filterPhase('POST',this)">📦 Post-CO</div>
+        </div>
+        <button class="rbtn" onclick="resetForecast()">↺ Reset Forecast</button>
+        <button class="rbtn danger" onclick="clearActual()">🗑 Xóa Actual</button>
+      </div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Ngày</th>
+            <th>Revenue<br>Forecast</th>
+            <th class="ah">Revenue<br>Actual ✏️</th>
+            <th>Budget<br>Forecast</th>
+            <th class="ah">Budget<br>Actual ✏️</th>
+            <th>API Cost<br>Forecast</th>
+            <th class="ah">API Cost<br>Actual ✏️</th>
+            <th>Orders<br>(tự tính)</th>
+            <th style="min-width:82px">% Spent Ads</th>
+            <th>POAS (€)<br>Rev−Bud−API</th>
+            <th>Net Profit<br>% Margin</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+        <tfoot>
+          <tr class="sum-row">
+            <td>📊 TỔNG/TB</td>
+            <td id="s-revf">—</td>
+            <td id="s-reva">—</td>
+            <td id="s-budf">—</td>
+            <td id="s-buda">—</td>
+            <td id="s-apif">—</td>
+            <td id="s-apia">—</td>
+            <td id="s-ord">—</td>
+            <td id="s-pct">—</td>
+            <td id="s-poas">—</td>
+            <td id="s-np">—</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- /page1 -->
 
 
 <script>
@@ -2098,10 +2088,20 @@ function clearActual(){
 // ══════════════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════════════
-recalc();
-loadActualFromSheets();
-// Khởi động Page 2 ngầm ngay khi load → sync data vào Page 1
-setTimeout(()=>spInit(), 500);
+// Store Performance giờ là tab mặc định (đầu tiên) → load ngay lúc mở trang.
+// spInit() đã tự cache-first: render từ localStorage tức thì, rồi mới đồng bộ
+// Google Sheets ngầm phía sau (không chặn UI) → cảm giác mở app nhanh hơn hẳn.
+spInit();
+
+// Campaign Forecast giờ nằm cuối cùng → chỉ tải khi người dùng thực sự bấm vào
+// tab đó (giống Facebook/Google/TikTok/Overview), tránh tốn 1 lượt gọi Apps
+// Script + render không cần thiết ngay khi mở dashboard.
+let fcInited = false;
+function fcInit(){
+  fcInited = true;
+  recalc();               // render tức thì bằng cache local (initActualFromStorage đã nạp sẵn)
+  loadActualFromSheets(); // rồi đồng bộ ngầm với Google Sheets
+}
 
 // ══════════════════════════════════════════════════════
 //  TAB SWITCH
@@ -2109,12 +2109,15 @@ setTimeout(()=>spInit(), 500);
 function switchTab(n){
   document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('active',i===n-1));
   document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',i===n-1));
-  if(n===2&&!spInited){spInit();}
-  if(n===1&&spInited){spSyncToPage1();}
-  if(n===3&&!fbInited){fbInit();}
-  if(n===4&&!ggInited){ggInit();}
-  if(n===5&&!tkInited){tkInit();}
-  if(n===6&&!ovInited){ovInit();}
+  if(n===1&&!spInited){spInit();}
+  if(n===2&&!fbInited){fbInit();}
+  if(n===3&&!ggInited){ggInit();}
+  if(n===4&&!tkInited){tkInit();}
+  if(n===5&&!ovInited){ovInit();}
+  if(n===6){
+    if(!fcInited){fcInit();}
+    if(spInited){spSyncToPage1();} // đồng bộ số liệu Store mới nhất vào Forecast mỗi lần xem tab này
+  }
 }
 
 // ══════════════════════════════════════════════════════
@@ -2255,6 +2258,9 @@ async function spLoadFromSheets(){
 //  PRODUCT SALES TABLE — Page 2
 // ══════════════════════════════════════════════
 let psRawData  = [];
+const PS_LS_KEY = 'hamyso_product_sales_2026';
+function psLoadLS(){ try{ psRawData = JSON.parse(localStorage.getItem(PS_LS_KEY)||'[]'); }catch(e){ psRawData=[]; } }
+function psSaveLS(){ try{ localStorage.setItem(PS_LS_KEY, JSON.stringify(psRawData)); }catch(e){} }
 let psSortCol  = 'qty';
 let psSortDir  = 'desc';
 
@@ -2266,15 +2272,19 @@ function psBadge(state,msg){
 }
 
 async function psLoad(){
-  psBadge('load','Đang tải...');
+  // Cache-first: hiện ngay dữ liệu lần tải trước (nếu có) trong lúc chờ mạng
+  psLoadLS();
+  if(psRawData.length>0){ psBadge('load','Đang cập nhật...'); psRender(); }
+  else{ psBadge('load','Đang tải...'); }
   try{
     const res =await fetch(SP_GS_URL+'?action=read_product_sales');
     const json=await res.json();
     if(!json.ok) throw new Error(json.error||'API error');
     psRawData=json.data||[];
+    psSaveLS();
     psBadge('ok','OK · '+psRawData.length+' rows');
   }catch(e){
-    psBadge('err','Lỗi API');
+    psBadge(psRawData.length>0?'ok':'err', psRawData.length>0?'Dùng cache local':'Lỗi API');
     console.error('PS load error',e);
   }
   psRender();
