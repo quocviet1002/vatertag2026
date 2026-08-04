@@ -2091,7 +2091,10 @@ function clearActual(){
 // Store Performance giờ là tab mặc định (đầu tiên) → load ngay lúc mở trang.
 // spInit() đã tự cache-first: render từ localStorage tức thì, rồi mới đồng bộ
 // Google Sheets ngầm phía sau (không chặn UI) → cảm giác mở app nhanh hơn hẳn.
-spInit();
+// Lưu ý: KHÔNG gọi spInit() ngay ở đây — các biến const/let của Store (SP_GS_URL,
+// spInited, v.v.) được khai báo ở phần code phía dưới nên chưa tồn tại vào lúc
+// này (temporal dead zone). Việc gọi thực sự được đặt ở cuối file, sau khi toàn
+// bộ script đã chạy xong 1 lượt (xem "spInit();" ngay trước </script>).
 
 // Campaign Forecast giờ nằm cuối cùng → chỉ tải khi người dùng thực sự bấm vào
 // tab đó (giống Facebook/Google/TikTok/Overview), tránh tốn 1 lượt gọi Apps
@@ -4534,6 +4537,11 @@ function ovInit(){
   ovInited = true;
   ovLoad();
 }
+
+// ══════════════════════════════════════════════════════
+//  APP INIT (chạy sau cùng, khi mọi hàm/biến đã sẵn sàng)
+// ══════════════════════════════════════════════════════
+spInit(); // Store Performance là tab mặc định → load ngay
 </script>
 </body>
 </html>
