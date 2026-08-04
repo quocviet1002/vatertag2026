@@ -2094,7 +2094,7 @@ function clearActual(){
 // Lưu ý: KHÔNG gọi spInit() ngay ở đây — các biến const/let của Store (SP_GS_URL,
 // spInited, v.v.) được khai báo ở phần code phía dưới nên chưa tồn tại vào lúc
 // này (temporal dead zone). Việc gọi thực sự được đặt ở cuối file, sau khi toàn
-// bộ script đã chạy xong 1 lượt (xem "spInit();" ngay trước </script>).
+// bộ script đã chạy xong 1 lượt (xem lệnh "spInit();" ở cuối cùng của file).
 
 // Campaign Forecast giờ nằm cuối cùng → chỉ tải khi người dùng thực sự bấm vào
 // tab đó (giống Facebook/Google/TikTok/Overview), tránh tốn 1 lượt gọi Apps
